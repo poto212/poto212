@@ -43,112 +43,28 @@
 
         <section id="inicio" class="tab-content active">
           <div class="kpi-grid">
-            <article class="card kpi">
-              <h3>Ventas creadas</h3>
-              <p class="value" id="ventasCreadas">$ 0</p>
-              <p class="delta positive" id="ventasDelta">+0% vs mes anterior</p>
-            </article>
-            <article class="card kpi">
-              <h3>Venta promedio</h3>
-              <p class="value" id="ventaPromedio">$ 0</p>
-              <p class="delta positive" id="promedioDelta">+0% vs mes anterior</p>
-            </article>
-            <article class="card kpi">
-              <h3>Cantidad de ventas</h3>
-              <p class="value" id="cantidadVentas">0</p>
-              <p class="delta" id="cantidadDelta">0% vs mes anterior</p>
-            </article>
+            <article class="card kpi"><h3>Ventas creadas</h3><p class="value" id="ventasCreadas">$ 0</p><p class="delta" id="ventasDelta">0%</p></article>
+            <article class="card kpi"><h3>Venta promedio</h3><p class="value" id="ventaPromedio">$ 0</p><p class="delta" id="promedioDelta">0%</p></article>
+            <article class="card kpi"><h3>Cantidad de ventas</h3><p class="value" id="cantidadVentas">0</p><p class="delta" id="cantidadDelta">0%</p></article>
           </div>
 
           <div class="grid two-col">
-            <article class="card">
-              <h3>Composición del mes</h3>
-              <div class="mini-charts">
-                <canvas id="ingresosComposicion"></canvas>
-                <canvas id="egresosComposicion"></canvas>
-              </div>
-            </article>
-            <article class="card">
-              <h3>Evolución mensual</h3>
-              <canvas id="mensualChart"></canvas>
-            </article>
+            <article class="card"><h3>Composición del mes</h3><div class="mini-charts"><canvas id="ingresosComposicion"></canvas><canvas id="egresosComposicion"></canvas></div></article>
+            <article class="card"><h3>Evolución mensual</h3><canvas id="mensualChart"></canvas></article>
           </div>
 
           <div class="grid two-col">
-            <article class="card">
-              <h3>Cuentas por cobrar (aging)</h3>
-              <canvas id="cobrarAging"></canvas>
-            </article>
-            <article class="card">
-              <h3>Cuentas por pagar (aging)</h3>
-              <canvas id="pagarAging"></canvas>
-            </article>
-          </div>
-
-          <div class="grid two-col">
-            <article class="card">
-              <h3>Detalle diario</h3>
-              <canvas id="diarioChart"></canvas>
-            </article>
-            <article class="card">
-              <h3>Mix de ventas</h3>
-              <canvas id="categoriaChart"></canvas>
-              <h4>Ranking de productos (Top 5)</h4>
-              <ol id="ranking"></ol>
-            </article>
+            <article class="card"><h3>Cuentas por cobrar (aging)</h3><canvas id="cobrarAging"></canvas></article>
+            <article class="card"><h3>Cuentas por pagar (aging)</h3><canvas id="pagarAging"></canvas></article>
           </div>
         </section>
 
         <section id="ingresos" class="tab-content">
-          <div class="grid three-col">
-            <article class="card module">
-              <h3>Presupuestos</h3>
-              <p>Crear presupuestos, enviar al cliente y convertir a venta.</p>
-              <div class="badge-row">
-                <span class="badge">Borrador</span>
-                <span class="badge">Enviado</span>
-                <span class="badge">Aprobado</span>
-                <span class="badge">Rechazado</span>
-              </div>
-              <button class="action-btn">+ Nuevo presupuesto</button>
-            </article>
-            <article class="card module">
-              <h3>Ventas</h3>
-              <ul>
-                <li>Cliente, ítems, impuestos y total.</li>
-                <li>Condición: contado / cuenta corriente.</li>
-                <li>Registrar cobro directo en Tesorería.</li>
-              </ul>
-              <button class="action-btn">+ Nueva venta</button>
-            </article>
-            <article class="card module">
-              <h3>Otros ingresos</h3>
-              <ul>
-                <li>Concepto y categoría opcional.</li>
-                <li>Fecha, referencia y medio.</li>
-                <li>Impacto inmediato en caja/banco.</li>
-              </ul>
-              <button class="action-btn">+ Nuevo ingreso</button>
-            </article>
-          </div>
-
           <article class="card">
-            <div class="section-head">
-              <h3>Últimos movimientos de ingresos</h3>
-              <input type="search" placeholder="Buscar por cliente o concepto" />
-            </div>
+            <h3>Últimos movimientos de ingresos</h3>
             <div class="table-wrapper">
               <table>
-                <thead>
-                  <tr>
-                    <th>Tipo</th>
-                    <th>Referencia</th>
-                    <th>Cliente</th>
-                    <th>Fecha</th>
-                    <th>Estado</th>
-                    <th>Total</th>
-                  </tr>
-                </thead>
+                <thead><tr><th>Tipo</th><th>Referencia</th><th>Cliente</th><th>Fecha</th><th>Estado</th><th>Total</th></tr></thead>
                 <tbody id="ingresosRows"></tbody>
               </table>
             </div>
@@ -157,43 +73,34 @@
 
         <section id="egresos" class="tab-content">
           <div class="grid two-col">
-            <article class="card module">
-              <h3>Compras</h3>
-              <ul>
-                <li>Proveedor + ítems con IVA compras.</li>
-                <li>Vencimiento y condición de pago.</li>
-                <li>Registrar pago y anular comprobante.</li>
-              </ul>
-              <button class="action-btn">+ Nueva compra</button>
+            <article class="card">
+              <h3>Nuevo egreso</h3>
+              <form id="egresoForm" class="form-grid">
+                <label>Tipo<select name="tipo" required><option value="Compra">Compra</option><option value="Gasto">Gasto</option></select></label>
+                <label>Proveedor<select name="proveedor" id="egresoProveedor" required></select></label>
+                <label>Categoría<input name="categoria" placeholder="Insumos / Servicios" required /></label>
+                <label>Fecha<input type="date" name="fecha" required /></label>
+                <label>Vencimiento<input type="date" name="vencimiento" required /></label>
+                <label>Estado<select name="estado" required><option>Pendiente</option><option>Pagado</option></select></label>
+                <label>Monto<input type="number" name="monto" min="1" required /></label>
+                <label class="full">Notas<input name="nota" placeholder="Detalle del egreso" /></label>
+                <button class="action-btn full" type="submit">Guardar egreso</button>
+              </form>
             </article>
-            <article class="card module">
-              <h3>Gastos</h3>
-              <ul>
-                <li>Clasificación por categoría de gasto.</li>
-                <li>Comprobante, medio y notas.</li>
-                <li>Se integra con pagos de tesorería.</li>
-              </ul>
-              <button class="action-btn">+ Nuevo gasto</button>
+            <article class="card">
+              <h3>Resumen egresos</h3>
+              <div class="summary-grid" id="egresosResumen"></div>
             </article>
           </div>
 
           <article class="card">
             <div class="section-head">
-              <h3>Últimos egresos</h3>
-              <input type="search" placeholder="Buscar proveedor o concepto" />
+              <h3>Historial de egresos</h3>
+              <input id="egresosSearch" type="search" placeholder="Buscar proveedor o categoría" />
             </div>
             <div class="table-wrapper">
               <table>
-                <thead>
-                  <tr>
-                    <th>Tipo</th>
-                    <th>Proveedor</th>
-                    <th>Fecha</th>
-                    <th>Vencimiento</th>
-                    <th>Estado</th>
-                    <th>Total</th>
-                  </tr>
-                </thead>
+                <thead><tr><th>Tipo</th><th>Proveedor</th><th>Categoría</th><th>Fecha</th><th>Vencimiento</th><th>Estado</th><th>Monto</th></tr></thead>
                 <tbody id="egresosRows"></tbody>
               </table>
             </div>
@@ -201,103 +108,54 @@
         </section>
 
         <section id="base-datos" class="tab-content">
-          <div class="grid three-col">
-            <article class="card module">
-              <h3>Clientes</h3>
-              <p>ABM con baja lógica, CUIT, condición de IVA y datos de contacto.</p>
+          <article class="card">
+            <div class="section-head">
+              <h3>Base de datos de prueba (localStorage)</h3>
               <div class="inline-actions">
-                <button class="action-btn">Importar Excel</button>
-                <button class="action-btn ghost">Exportar Excel</button>
+                <button id="dbExport" class="action-btn ghost">Exportar JSON</button>
+                <button id="dbReset" class="action-btn danger">Restaurar demo</button>
               </div>
-            </article>
-            <article class="card module">
-              <h3>Proveedores</h3>
-              <p>ABM con campos fiscales, contacto y validaciones mínimas.</p>
-              <div class="inline-actions">
-                <button class="action-btn">Importar Excel</button>
-                <button class="action-btn ghost">Exportar Excel</button>
-              </div>
-            </article>
-            <article class="card module">
-              <h3>Productos</h3>
-              <p>Producto/servicio, stock, costos, precios, IVA y categoría.</p>
-              <div class="inline-actions">
-                <button class="action-btn">Importar Excel</button>
-                <button class="action-btn ghost">Exportar Excel</button>
-              </div>
-            </article>
-          </div>
+            </div>
+            <div class="entity-tabs">
+              <button class="entity-tab active" data-entity="clientes">Clientes</button>
+              <button class="entity-tab" data-entity="proveedores">Proveedores</button>
+              <button class="entity-tab" data-entity="productos">Productos</button>
+            </div>
 
-          <div class="grid two-col">
-            <article class="card">
-              <h3>Clientes recientes</h3>
-              <ul id="clientesList" class="plain-list"></ul>
-            </article>
-            <article class="card">
-              <h3>Productos críticos de stock</h3>
-              <ul id="stockList" class="plain-list"></ul>
-            </article>
-          </div>
+            <form id="entityForm" class="form-grid compact"></form>
+
+            <div class="section-head">
+              <input id="entitySearch" type="search" placeholder="Buscar en la entidad activa" />
+              <small id="entityHint"></small>
+            </div>
+            <div class="table-wrapper">
+              <table>
+                <thead id="entityHead"></thead>
+                <tbody id="entityRows"></tbody>
+              </table>
+            </div>
+          </article>
         </section>
 
         <section id="informes" class="tab-content">
-          <div class="grid three-col">
-            <article class="card module">
-              <h3>Ventas</h3>
-              <p>Por período, cliente, categoría y producto.</p>
-            </article>
-            <article class="card module">
-              <h3>Cuenta corriente</h3>
-              <p>Saldos, aging y movimientos de clientes/proveedores.</p>
-            </article>
-            <article class="card module">
-              <h3>Stock y ranking</h3>
-              <p>Existencias, faltantes, valorización y top clientes/productos.</p>
-            </article>
+          <div class="kpi-grid">
+            <article class="card kpi"><h3>Total Ingresos</h3><p class="value" id="repIngresos">$ 0</p></article>
+            <article class="card kpi"><h3>Total Egresos</h3><p class="value" id="repEgresos">$ 0</p></article>
+            <article class="card kpi"><h3>Utilidad Neta</h3><p class="value" id="repUtilidad">$ 0</p></article>
+            <article class="card kpi"><h3>Margen</h3><p class="value" id="repMargen">0%</p></article>
           </div>
-
-          <article class="card">
-            <div class="section-head">
-              <h3>Reporte final (resumen)</h3>
-              <button class="action-btn">Exportar PDF</button>
-            </div>
-            <div class="summary-grid">
-              <div><strong>Ingresos totales:</strong> <span id="repIngresos"></span></div>
-              <div><strong>Egresos totales:</strong> <span id="repEgresos"></span></div>
-              <div><strong>Utilidad neta:</strong> <span id="repUtilidad"></span></div>
-              <div><strong>Margen:</strong> <span id="repMargen"></span></div>
-            </div>
-          </article>
+          <div class="grid two-col">
+            <article class="card"><h3>Egresos por categoría</h3><canvas id="reportesCategoriaChart"></canvas></article>
+            <article class="card"><h3>Datos para prueba</h3><ul id="informeNotas" class="plain-list"></ul></article>
+          </div>
         </section>
 
         <section id="tesoreria" class="tab-content">
           <div class="kpi-grid">
             <article class="card kpi"><h3>A cobrar</h3><p class="value">$ 2.580.000</p></article>
-            <article class="card kpi"><h3>A pagar</h3><p class="value">$ 1.640.000</p></article>
-            <article class="card kpi"><h3>Disponible</h3><p class="value">$ 940.000</p></article>
-            <article class="card kpi"><h3>Bancos</h3><p class="value">$ 2.310.000</p></article>
+            <article class="card kpi"><h3>A pagar</h3><p class="value" id="tesoreriaPagar">$ 0</p></article>
+            <article class="card kpi"><h3>Disponible</h3><p class="value" id="tesoreriaDisponible">$ 0</p></article>
           </div>
-
-          <div class="grid two-col">
-            <article class="card module">
-              <h3>Cobros</h3>
-              <p>Ventas, cobranzas CC y otros ingresos.</p>
-              <ul id="cobrosList" class="plain-list"></ul>
-            </article>
-            <article class="card module">
-              <h3>Pagos</h3>
-              <p>Compras, gastos y pagos de cuenta corriente.</p>
-              <ul id="pagosList" class="plain-list"></ul>
-            </article>
-          </div>
-
-          <article class="card module">
-            <div class="section-head">
-              <h3>Movimientos (Gestoría)</h3>
-              <button class="action-btn ghost">Exportar Excel</button>
-            </div>
-            <p>Filtros por fecha, medio, cliente/proveedor y conciliación básica en próximas fases.</p>
-          </article>
         </section>
       </main>
     </div>

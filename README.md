@@ -1,10 +1,13 @@
 # Demo MVP - Sistema de Gestión Comercial
 
-Prototipo front-end de un sistema administrativo/comercial con:
+Prototipo front-end de gestión comercial/administrativa con pestañas de Inicio, Ingresos, Egresos, Base de Datos, Informes y Tesorería.
 
-- Dashboard con KPIs, composición y gráficos de evolución.
-- Pestañas completas para Ingresos, Egresos, Base de Datos, Informes y Tesorería.
-- Tablas/listados demo para visualizar flujos operativos del MVP.
+## Incluye
+
+- Dashboard con KPIs y gráficos.
+- Egresos completo con alta + listado + búsqueda.
+- Base de datos de prueba funcional en `localStorage` para Clientes/Proveedores/Productos (ABM, edición, borrado, export JSON y reset demo).
+- Informes con resumen financiero dinámico y gráfico por categoría de egresos.
 
 ## Ejecutar
 

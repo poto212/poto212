@@ -1,12 +1,10 @@
+const STORAGE_KEY = "poto212-demo-db-v1";
+
 const monthlyData = {
   labels: ["Ene", "Feb", "Mar", "Abr", "May", "Jun", "Jul", "Ago", "Sep", "Oct", "Nov", "Dic"],
   ventas: [900000, 1100000, 980000, 1240000, 1180000, 1320000, 1270000, 1360000, 1490000, 1430000, 1570000, 1660000],
-  otrosIngresos: [140000, 160000, 130000, 180000, 175000, 190000, 205000, 188000, 197000, 210000, 220000, 240000],
-  compras: [420000, 510000, 490000, 560000, 540000, 580000, 570000, 600000, 620000, 640000, 665000, 690000],
-  gastos: [220000, 235000, 240000, 250000, 260000, 275000, 282000, 290000, 310000, 305000, 320000, 340000]
+  otrosIngresos: [140000, 160000, 130000, 180000, 175000, 190000, 205000, 188000, 197000, 210000, 220000, 240000]
 };
-
-const current = { ventas: 1660000, ventasPrev: 1570000, cantidad: 148, cantidadPrev: 139 };
 
 const ingresosRows = [
   ["Venta", "FAC-000231", "Ferretería Sur", "04/03/2026", "Confirmada", 128000],
@@ -15,178 +13,301 @@ const ingresosRows = [
   ["Venta", "FAC-000230", "Electro Norte", "03/03/2026", "Pendiente", 214000]
 ];
 
-const egresosRows = [
-  ["Compra", "Acero SA", "04/03/2026", "15/03/2026", "Pendiente", 198000],
-  ["Gasto", "Internet Fibra", "03/03/2026", "03/03/2026", "Pagado", 32000],
-  ["Compra", "Insumos Delta", "02/03/2026", "12/03/2026", "Pendiente", 146000],
-  ["Gasto", "Sueldos", "01/03/2026", "01/03/2026", "Pagado", 410000]
-];
+const seedDb = {
+  clientes: [
+    { id: "C001", nombre: "ArgenTech SRL", cuit: "30-71234567-8", telefono: "11-4444-1111", localidad: "CABA" },
+    { id: "C002", nombre: "Comercial Nexo", cuit: "30-71999888-0", telefono: "341-555-1212", localidad: "Rosario" }
+  ],
+  proveedores: [
+    { id: "P001", nombre: "Acero SA", cuit: "30-70123456-1", telefono: "11-4333-9988", localidad: "CABA" },
+    { id: "P002", nombre: "Insumos Delta", cuit: "30-66555111-4", telefono: "351-499-8877", localidad: "Córdoba" }
+  ],
+  productos: [
+    { id: "PR001", nombre: "Cable USB-C", codigo: "USB-C-01", stock: 3, costo: 2500, precio: 5200, categoria: "Accesorios" },
+    { id: "PR002", nombre: "Router Mesh X1", codigo: "RT-MX1", stock: 2, costo: 55000, precio: 82000, categoria: "Redes" }
+  ],
+  egresos: [
+    { tipo: "Compra", proveedor: "Acero SA", categoria: "Insumos", fecha: "2026-03-04", vencimiento: "2026-03-15", estado: "Pendiente", monto: 198000, nota: "" },
+    { tipo: "Gasto", proveedor: "Insumos Delta", categoria: "Servicios", fecha: "2026-03-03", vencimiento: "2026-03-03", estado: "Pagado", monto: 32000, nota: "Internet" }
+  ]
+};
 
-const clientes = ["ArgenTech SRL · CUIT 30-71234567-8", "Distribuidora Sur · CUIT 30-70111222-3", "Comercial Nexo · CUIT 30-71999888-0"];
-const stockCritico = ["Cable USB-C (Stock: 3)", "Router Mesh X1 (Stock: 2)", "Tóner HP 12A (Stock: 4)"];
-const cobros = ["FAC-000231 · Transferencia · $128.000", "CC Cliente Delta · Efectivo · $64.500", "Servicio técnico · MP · $35.000"];
-const pagos = ["Compra Acero SA · Banco Río · $198.000", "Gasto Internet · Débito · $32.000", "Pago CC Insumos Delta · Cheque · $75.000"];
+let db = loadDb();
+let activeEntity = "clientes";
+let editingId = null;
+let reportesChart;
+let egresosEventsBound = false;
 
-const formatMoney = (n) => `$ ${n.toLocaleString("es-AR")}`;
-const percentDiff = (curr, prev) => ((curr - prev) / prev) * 100;
+function loadDb() {
+  const raw = localStorage.getItem(STORAGE_KEY);
+  if (!raw) {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(seedDb));
+    return structuredClone(seedDb);
+  }
+  return JSON.parse(raw);
+}
+
+function persistDb() {
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(db));
+}
+
+const formatMoney = (n) => `$ ${Number(n).toLocaleString("es-AR")}`;
+const toDisplayDate = (d) => (d ? new Date(`${d}T00:00:00`).toLocaleDateString("es-AR") : "-");
 
 function setKPIs() {
-  const promedio = current.ventas / current.cantidad;
-  const promedioPrev = current.ventasPrev / current.cantidadPrev;
+  const ventas = 1660000;
+  const ventasPrev = 1570000;
+  const cantidad = 148;
+  const cantidadPrev = 139;
+  const promedio = ventas / cantidad;
+  const promedioPrev = ventasPrev / cantidadPrev;
 
-  document.getElementById("ventasCreadas").textContent = formatMoney(current.ventas);
-  document.getElementById("ventaPromedio").textContent = formatMoney(Math.round(promedio));
-  document.getElementById("cantidadVentas").textContent = current.cantidad;
+  const set = (id, val) => (document.getElementById(id).textContent = val);
+  const delta = (a, b) => (((a - b) / b) * 100).toFixed(1);
 
-  renderDelta("ventasDelta", percentDiff(current.ventas, current.ventasPrev));
-  renderDelta("promedioDelta", percentDiff(promedio, promedioPrev));
-  renderDelta("cantidadDelta", percentDiff(current.cantidad, current.cantidadPrev));
+  set("ventasCreadas", formatMoney(ventas));
+  set("ventaPromedio", formatMoney(Math.round(promedio)));
+  set("cantidadVentas", cantidad);
+  set("ventasDelta", `${delta(ventas, ventasPrev)}% vs mes anterior`);
+  set("promedioDelta", `${delta(promedio, promedioPrev)}% vs mes anterior`);
+  set("cantidadDelta", `${delta(cantidad, cantidadPrev)}% vs mes anterior`);
 }
 
-function renderDelta(id, value) {
-  const el = document.getElementById(id);
-  el.textContent = `${value >= 0 ? "+" : ""}${value.toFixed(1)}% vs mes anterior`;
-  el.classList.toggle("positive", value >= 0);
-}
-
-function createCharts() {
-  const egresosTotal = 690000 + 340000;
-
+function createDashboardCharts() {
   new Chart(document.getElementById("ingresosComposicion"), {
     type: "doughnut",
-    data: {
-      labels: ["Ventas", "Otros ingresos"],
-      datasets: [{ data: [current.ventas, 240000], backgroundColor: ["#2f7ef7", "#60a5fa"] }]
-    }
+    data: { labels: ["Ventas", "Otros ingresos"], datasets: [{ data: [1660000, 240000], backgroundColor: ["#2f7ef7", "#60a5fa"] }] }
   });
-
   new Chart(document.getElementById("egresosComposicion"), {
     type: "doughnut",
-    data: {
-      labels: ["Compras", "Gastos"],
-      datasets: [{ data: [690000, 340000], backgroundColor: ["#ef4444", "#f59e0b"] }]
-    },
-    options: {
-      plugins: {
-        tooltip: {
-          callbacks: {
-            label: (ctx) => `${ctx.label}: ${((ctx.raw / egresosTotal) * 100).toFixed(1)}%`
-          }
-        }
-      }
-    }
+    data: { labels: ["Compras", "Gastos"], datasets: [{ data: [690000, 340000], backgroundColor: ["#ef4444", "#f59e0b"] }] }
   });
-
   new Chart(document.getElementById("mensualChart"), {
     type: "line",
     data: {
       labels: monthlyData.labels,
       datasets: [
-        { label: "Ventas", data: monthlyData.ventas, borderColor: "#2f7ef7", tension: 0.25 },
-        { label: "Otros ingresos", data: monthlyData.otrosIngresos, borderColor: "#60a5fa", tension: 0.25 },
-        { label: "Compras", data: monthlyData.compras, borderColor: "#ef4444", tension: 0.25 },
-        { label: "Gastos", data: monthlyData.gastos, borderColor: "#f59e0b", tension: 0.25 }
+        { label: "Ventas", data: monthlyData.ventas, borderColor: "#2f7ef7" },
+        { label: "Otros ingresos", data: monthlyData.otrosIngresos, borderColor: "#60a5fa" }
       ]
     }
   });
-
-  const agingLabels = ["A vencer", "Vencido", "0-30", "31-60", "+90"];
-
   new Chart(document.getElementById("cobrarAging"), {
     type: "bar",
-    data: {
-      labels: agingLabels,
-      datasets: [{ label: "$", data: [520000, 210000, 390000, 240000, 140000], backgroundColor: "#3b82f6" }]
-    }
+    data: { labels: ["A vencer", "Vencido", "0-30", "31-60", "+90"], datasets: [{ data: [520000, 210000, 390000, 240000, 140000], backgroundColor: "#3b82f6" }] }
   });
-
   new Chart(document.getElementById("pagarAging"), {
     type: "bar",
-    data: {
-      labels: agingLabels,
-      datasets: [{ label: "$", data: [360000, 180000, 290000, 210000, 110000], backgroundColor: "#ef4444" }]
-    }
+    data: { labels: ["A vencer", "Vencido", "0-30", "31-60", "+90"], datasets: [{ data: [360000, 180000, 290000, 210000, 110000], backgroundColor: "#ef4444" }] }
   });
-
-  new Chart(document.getElementById("diarioChart"), {
-    type: "bar",
-    data: {
-      labels: ["Lun", "Mar", "Mié", "Jue", "Vie", "Sáb"],
-      datasets: [
-        { label: "Total ventas", data: [260000, 310000, 280000, 350000, 420000, 190000], backgroundColor: "#2f7ef7" },
-        { label: "Venta promedio", data: [19000, 21000, 20000, 23000, 24000, 16000], backgroundColor: "#93c5fd" },
-        { label: "Cantidad", data: [14, 16, 15, 17, 21, 10], backgroundColor: "#1d4ed8" },
-        { label: "Productos vendidos", data: [41, 48, 44, 52, 63, 30], backgroundColor: "#bfdbfe" }
-      ]
-    }
-  });
-
-  new Chart(document.getElementById("categoriaChart"), {
-    type: "pie",
-    data: {
-      labels: ["Electrónica", "Hogar", "Servicios", "Accesorios"],
-      datasets: [{ data: [38, 27, 19, 16], backgroundColor: ["#2563eb", "#4f46e5", "#06b6d4", "#0ea5e9"] }]
-    }
-  });
-
-  const ranking = [
-    "Cable HDMI 2m - 97 uds",
-    "Mouse inalámbrico - 85 uds",
-    "Kit domótica básico - 72 uds",
-    "Servicio instalación - 48 servicios",
-    "Router dual band - 45 uds"
-  ];
-
-  document.getElementById("ranking").innerHTML = ranking.map((item) => `<li>${item}</li>`).join("");
 }
 
-function fillRows(tableId, rows) {
-  document.getElementById(tableId).innerHTML = rows
-    .map((row) => `<tr>${row.map((col, i) => `<td>${i === row.length - 1 ? formatMoney(col) : col}</td>`).join("")}</tr>`)
+function fillIngresos() {
+  const html = ingresosRows
+    .map((row) => `<tr>${row.map((c, i) => `<td>${i === row.length - 1 ? formatMoney(c) : c}</td>`).join("")}</tr>`)
+    .join("");
+  document.getElementById("ingresosRows").innerHTML = html;
+}
+
+function renderEgresos(search = "") {
+  const rows = db.egresos.filter((e) => `${e.proveedor} ${e.categoria}`.toLowerCase().includes(search.toLowerCase()));
+  document.getElementById("egresosRows").innerHTML = rows
+    .map(
+      (e) => `<tr><td>${e.tipo}</td><td>${e.proveedor}</td><td>${e.categoria}</td><td>${toDisplayDate(e.fecha)}</td><td>${toDisplayDate(
+        e.vencimiento
+      )}</td><td>${e.estado}</td><td>${formatMoney(e.monto)}</td></tr>`
+    )
+    .join("");
+
+  const total = rows.reduce((acc, e) => acc + Number(e.monto), 0);
+  const pend = rows.filter((e) => e.estado === "Pendiente").reduce((acc, e) => acc + Number(e.monto), 0);
+  document.getElementById("egresosResumen").innerHTML = `
+    <div><strong>Total:</strong> ${formatMoney(total)}</div>
+    <div><strong>Pendiente:</strong> ${formatMoney(pend)}</div>
+    <div><strong>Registros:</strong> ${rows.length}</div>
+  `;
+
+  renderInformes();
+}
+
+function refreshProveedorOptions() {
+  const providerSelect = document.getElementById("egresoProveedor");
+  providerSelect.innerHTML = db.proveedores.map((p) => `<option>${p.nombre}</option>`).join("");
+}
+
+function setupEgresos() {
+  refreshProveedorOptions();
+  if (egresosEventsBound) return;
+
+  document.getElementById("egresoForm").addEventListener("submit", (e) => {
+    e.preventDefault();
+    const data = Object.fromEntries(new FormData(e.target).entries());
+    data.monto = Number(data.monto);
+    db.egresos.unshift(data);
+    persistDb();
+    e.target.reset();
+    renderEgresos(document.getElementById("egresosSearch").value);
+  });
+
+  document.getElementById("egresosSearch").addEventListener("input", (e) => renderEgresos(e.target.value));
+  egresosEventsBound = true;
+}
+
+const entityConfig = {
+  clientes: ["id", "nombre", "cuit", "telefono", "localidad"],
+  proveedores: ["id", "nombre", "cuit", "telefono", "localidad"],
+  productos: ["id", "nombre", "codigo", "stock", "costo", "precio", "categoria"]
+};
+
+function renderEntityUi() {
+  const fields = entityConfig[activeEntity];
+  document.getElementById("entityHint").textContent = `${db[activeEntity].length} registros cargados`;
+  document.getElementById("entityHead").innerHTML = `<tr>${fields.map((f) => `<th>${f.toUpperCase()}</th>`).join("")}<th>Acciones</th></tr>`;
+  document.getElementById("entityForm").innerHTML = fields
+    .map((f) => `<label>${f}<input name="${f}" ${f === "id" && editingId ? "readonly" : "required"} /></label>`)
+    .join("") + `<button class="action-btn full" type="submit">${editingId ? "Guardar cambios" : "Agregar"}</button>`;
+  renderEntityRows();
+}
+
+function renderEntityRows(search = "") {
+  const fields = entityConfig[activeEntity];
+  const items = db[activeEntity].filter((item) => JSON.stringify(item).toLowerCase().includes(search.toLowerCase()));
+  document.getElementById("entityRows").innerHTML = items
+    .map((item) => {
+      const cells = fields.map((f) => `<td>${item[f]}</td>`).join("");
+      return `<tr>${cells}<td><button class="mini-btn" data-edit="${item.id}">Editar</button> <button class="mini-btn danger" data-del="${item.id}">Borrar</button></td></tr>`;
+    })
     .join("");
 }
 
-function fillList(id, data) {
-  document.getElementById(id).innerHTML = data.map((item) => `<li>${item}</li>`).join("");
+function setupDbModule() {
+  document.querySelectorAll(".entity-tab").forEach((btn) => {
+    btn.addEventListener("click", () => {
+      document.querySelectorAll(".entity-tab").forEach((b) => b.classList.remove("active"));
+      btn.classList.add("active");
+      activeEntity = btn.dataset.entity;
+      editingId = null;
+      renderEntityUi();
+    });
+  });
+
+  document.getElementById("entityForm").addEventListener("submit", (e) => {
+    e.preventDefault();
+    const form = Object.fromEntries(new FormData(e.target).entries());
+    if (activeEntity === "productos") {
+      form.stock = Number(form.stock);
+      form.costo = Number(form.costo);
+      form.precio = Number(form.precio);
+    }
+
+    if (editingId) {
+      const idx = db[activeEntity].findIndex((x) => x.id === editingId);
+      db[activeEntity][idx] = form;
+    } else {
+      db[activeEntity].push(form);
+    }
+
+    editingId = null;
+    persistDb();
+    renderEntityUi();
+    refreshProveedorOptions();
+  });
+
+  document.getElementById("entityRows").addEventListener("click", (e) => {
+    const editId = e.target.dataset.edit;
+    const delId = e.target.dataset.del;
+    if (editId) {
+      const row = db[activeEntity].find((x) => x.id === editId);
+      editingId = editId;
+      renderEntityUi();
+      const form = document.getElementById("entityForm");
+      Object.entries(row).forEach(([k, v]) => form.elements[k] && (form.elements[k].value = v));
+    }
+    if (delId) {
+      db[activeEntity] = db[activeEntity].filter((x) => x.id !== delId);
+      persistDb();
+      renderEntityUi();
+      refreshProveedorOptions();
+    }
+  });
+
+  document.getElementById("entitySearch").addEventListener("input", (e) => renderEntityRows(e.target.value));
+
+  document.getElementById("dbReset").addEventListener("click", () => {
+    db = structuredClone(seedDb);
+    persistDb();
+    editingId = null;
+    renderEntityUi();
+    refreshProveedorOptions();
+    renderEgresos();
+  });
+
+  document.getElementById("dbExport").addEventListener("click", () => {
+    const blob = new Blob([JSON.stringify(db, null, 2)], { type: "application/json" });
+    const a = document.createElement("a");
+    a.href = URL.createObjectURL(blob);
+    a.download = "base-demo.json";
+    a.click();
+  });
+
+  renderEntityUi();
 }
 
-function setReportsSummary() {
-  const ingresos = current.ventas + 240000;
-  const egresos = 690000 + 340000;
+function renderInformes() {
+  const ingresos = ingresosRows.reduce((a, i) => a + i[5], 0);
+  const egresos = db.egresos.reduce((a, e) => a + Number(e.monto), 0);
   const utilidad = ingresos - egresos;
-  const margen = (utilidad / ingresos) * 100;
+  const margen = ingresos ? (utilidad / ingresos) * 100 : 0;
 
   document.getElementById("repIngresos").textContent = formatMoney(ingresos);
   document.getElementById("repEgresos").textContent = formatMoney(egresos);
   document.getElementById("repUtilidad").textContent = formatMoney(utilidad);
   document.getElementById("repMargen").textContent = `${margen.toFixed(1)}%`;
+  document.getElementById("tesoreriaPagar").textContent = formatMoney(db.egresos.filter((e) => e.estado === "Pendiente").reduce((a, e) => a + Number(e.monto), 0));
+  document.getElementById("tesoreriaDisponible").textContent = formatMoney(ingresos - egresos);
+
+  const byCategory = db.egresos.reduce((acc, e) => {
+    acc[e.categoria] = (acc[e.categoria] || 0) + Number(e.monto);
+    return acc;
+  }, {});
+  const labels = Object.keys(byCategory);
+  const values = Object.values(byCategory);
+
+  if (reportesChart) reportesChart.destroy();
+  reportesChart = new Chart(document.getElementById("reportesCategoriaChart"), {
+    type: "bar",
+    data: { labels, datasets: [{ label: "Egresos", data: values, backgroundColor: "#ef4444" }] }
+  });
+
+  const notas = [
+    `Clientes cargados: ${db.clientes.length}`,
+    `Proveedores cargados: ${db.proveedores.length}`,
+    `Productos cargados: ${db.productos.length}`,
+    `Egresos pendientes: ${db.egresos.filter((e) => e.estado === "Pendiente").length}`
+  ];
+  document.getElementById("informeNotas").innerHTML = notas.map((n) => `<li>${n}</li>`).join("");
 }
 
 function setupTabs() {
   const tabs = document.querySelectorAll(".tab");
   const sections = document.querySelectorAll(".tab-content");
   const title = document.getElementById("section-title");
-
   tabs.forEach((tab) => {
     tab.addEventListener("click", () => {
       tabs.forEach((t) => t.classList.remove("active"));
       tab.classList.add("active");
-
-      sections.forEach((section) => section.classList.remove("active"));
+      sections.forEach((s) => s.classList.remove("active"));
       document.getElementById(tab.dataset.tab).classList.add("active");
-
       title.textContent = tab.dataset.tab === "inicio" ? "Dashboard de Inicio" : tab.textContent;
     });
   });
 }
 
 setKPIs();
-createCharts();
-fillRows("ingresosRows", ingresosRows);
-fillRows("egresosRows", egresosRows);
-fillList("clientesList", clientes);
-fillList("stockList", stockCritico);
-fillList("cobrosList", cobros);
-fillList("pagosList", pagos);
-setReportsSummary();
+createDashboardCharts();
+fillIngresos();
+setupEgresos();
+setupDbModule();
+renderEgresos();
+renderInformes();
 setupTabs();
