@@ -45,4 +45,7 @@ th,td { text-align:left; border-bottom:1px solid var(--border); padding:.55rem; 
 .mini-btn { padding:.3rem .5rem; font-size:.75rem; cursor:pointer; }
 .summary-grid { display:grid; gap:.5rem; }
 .plain-list { margin:0; padding-left:1rem; }
+
+.report-tools { display:grid; grid-template-columns: repeat(auto-fit,minmax(160px,1fr)); gap:.6rem; margin-bottom:.8rem; align-items:end; }
+.report-tools label { display:flex; flex-direction:column; gap:.25rem; font-size:.85rem; }
 @media (max-width: 900px) { .app-shell { grid-template-columns:1fr; } nav { flex-direction:row; flex-wrap:wrap; } .section-head{ flex-direction:column; align-items:stretch; } }

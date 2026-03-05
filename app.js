@@ -37,6 +37,7 @@ let activeEntity = "clientes";
 let editingId = null;
 let reportesChart;
 let egresosEventsBound = false;
+let informeRows = [];
 
 function loadDb() {
   const raw = localStorage.getItem(STORAGE_KEY);
@@ -288,6 +289,62 @@ function renderInformes() {
   document.getElementById("informeNotas").innerHTML = notas.map((n) => `<li>${n}</li>`).join("");
 }
 
+
+function inDateRange(dateStr, desde, hasta) {
+  if (!dateStr) return true;
+  if (desde && dateStr < desde) return false;
+  if (hasta && dateStr > hasta) return false;
+  return true;
+}
+
+function generarInforme(tipo, desde = "", hasta = "") {
+  if (tipo === "ventas") {
+    informeRows = ingresosRows
+      .filter((r) => inDateRange(r[3].split("/").reverse().join("-"), desde, hasta))
+      .map((r) => ({ tipo: r[0], detalle: `${r[1]} - ${r[2]}`, fecha: r[3], estado: r[4], monto: r[5] }));
+  } else if (tipo === "egresos") {
+    informeRows = db.egresos
+      .filter((e) => inDateRange(e.fecha, desde, hasta))
+      .map((e) => ({ tipo: e.tipo, detalle: `${e.proveedor} - ${e.categoria}`, fecha: toDisplayDate(e.fecha), estado: e.estado, monto: Number(e.monto) }));
+  } else if (tipo === "stock") {
+    informeRows = db.productos.map((p) => ({ tipo: "Stock", detalle: `${p.codigo} - ${p.nombre}`, fecha: "-", estado: `Stock: ${p.stock}`, monto: Number(p.stock) * Number(p.costo) }));
+  } else {
+    const ingresos = ingresosRows.reduce((a, i) => a + i[5], 0);
+    const egresos = db.egresos.filter((e) => inDateRange(e.fecha, desde, hasta)).reduce((a, e) => a + Number(e.monto), 0);
+    informeRows = [
+      { tipo: "Utilidad", detalle: "Ingresos del período", fecha: "-", estado: "Calculado", monto: ingresos },
+      { tipo: "Utilidad", detalle: "Egresos del período", fecha: "-", estado: "Calculado", monto: -egresos },
+      { tipo: "Utilidad", detalle: "Resultado neto", fecha: "-", estado: "Final", monto: ingresos - egresos }
+    ];
+  }
+
+  document.getElementById("informeRows").innerHTML = informeRows
+    .map((r) => `<tr><td>${r.tipo}</td><td>${r.detalle}</td><td>${r.fecha}</td><td>${r.estado}</td><td>${formatMoney(r.monto)}</td></tr>`)
+    .join("");
+}
+
+function setupInformesGenerator() {
+  document.getElementById("informeForm").addEventListener("submit", (e) => {
+    e.preventDefault();
+    const data = Object.fromEntries(new FormData(e.target).entries());
+    generarInforme(data.tipo, data.desde, data.hasta);
+  });
+
+  document.getElementById("exportInforme").addEventListener("click", () => {
+    const csvHeader = "Tipo,Detalle,Fecha,Estado,Monto\n";
+    const csvBody = informeRows
+      .map((r) => [r.tipo, r.detalle, r.fecha, r.estado, r.monto].map((v) => `"${String(v).replaceAll('"', '""')}"`).join(","))
+      .join("\n");
+    const blob = new Blob([csvHeader + csvBody], { type: "text/csv;charset=utf-8;" });
+    const a = document.createElement("a");
+    a.href = URL.createObjectURL(blob);
+    a.download = "informe-generado.csv";
+    a.click();
+  });
+
+  generarInforme("ventas");
+}
+
 function setupTabs() {
   const tabs = document.querySelectorAll(".tab");
   const sections = document.querySelectorAll(".tab-content");
@@ -310,4 +367,5 @@ setupEgresos();
 setupDbModule();
 renderEgresos();
 renderInformes();
+setupInformesGenerator();
 setupTabs();

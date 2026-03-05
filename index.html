@@ -148,6 +148,31 @@
             <article class="card"><h3>Egresos por categoría</h3><canvas id="reportesCategoriaChart"></canvas></article>
             <article class="card"><h3>Datos para prueba</h3><ul id="informeNotas" class="plain-list"></ul></article>
           </div>
+          <article class="card">
+            <div class="section-head">
+              <h3>Generador de informes</h3>
+              <button id="exportInforme" class="action-btn ghost">Exportar CSV</button>
+            </div>
+            <form id="informeForm" class="report-tools">
+              <label>Tipo
+                <select name="tipo" id="informeTipo">
+                  <option value="ventas">Ventas</option>
+                  <option value="egresos">Egresos</option>
+                  <option value="utilidad">Utilidad</option>
+                  <option value="stock">Stock</option>
+                </select>
+              </label>
+              <label>Desde <input type="date" name="desde" id="informeDesde" /></label>
+              <label>Hasta <input type="date" name="hasta" id="informeHasta" /></label>
+              <button class="action-btn" type="submit">Generar informe</button>
+            </form>
+            <div class="table-wrapper">
+              <table>
+                <thead><tr><th>Tipo</th><th>Detalle</th><th>Fecha</th><th>Estado</th><th>Monto</th></tr></thead>
+                <tbody id="informeRows"></tbody>
+              </table>
+            </div>
+          </article>
         </section>
 
         <section id="tesoreria" class="tab-content">
