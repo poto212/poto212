@@ -1,0 +1,163 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Gestión Comercial | Demo MVP</title>
+    <link rel="stylesheet" href="styles.css" />
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  </head>
+  <body>
+    <div class="app-shell">
+      <aside class="sidebar">
+        <div class="brand">
+          <div class="brand-logo">PC</div>
+          <div>
+            <h1>PotoCorp</h1>
+            <small>Gestión Comercial</small>
+          </div>
+        </div>
+
+        <nav>
+          <button class="tab active" data-tab="inicio">Inicio</button>
+          <button class="tab" data-tab="ingresos">Ingresos</button>
+          <button class="tab" data-tab="egresos">Egresos</button>
+          <button class="tab" data-tab="base-datos">Base de Datos</button>
+          <button class="tab" data-tab="informes">Informes</button>
+          <button class="tab" data-tab="tesoreria">Tesorería</button>
+        </nav>
+      </aside>
+
+      <main class="main-content">
+        <header class="topbar">
+          <h2 id="section-title">Dashboard de Inicio</h2>
+          <div class="filters">
+            <label for="periodo">Período:</label>
+            <select id="periodo">
+              <option>Últimos 12 meses</option>
+              <option selected>Año actual</option>
+              <option>Personalizado</option>
+            </select>
+          </div>
+        </header>
+
+        <section id="inicio" class="tab-content active">
+          <div class="kpi-grid">
+            <article class="card kpi">
+              <h3>Ventas creadas</h3>
+              <p class="value" id="ventasCreadas">$ 0</p>
+              <p class="delta positive" id="ventasDelta">+0% vs mes anterior</p>
+            </article>
+            <article class="card kpi">
+              <h3>Venta promedio</h3>
+              <p class="value" id="ventaPromedio">$ 0</p>
+              <p class="delta positive" id="promedioDelta">+0% vs mes anterior</p>
+            </article>
+            <article class="card kpi">
+              <h3>Cantidad de ventas</h3>
+              <p class="value" id="cantidadVentas">0</p>
+              <p class="delta" id="cantidadDelta">0% vs mes anterior</p>
+            </article>
+          </div>
+
+          <div class="grid two-col">
+            <article class="card">
+              <h3>Composición del mes</h3>
+              <div class="mini-charts">
+                <canvas id="ingresosComposicion"></canvas>
+                <canvas id="egresosComposicion"></canvas>
+              </div>
+            </article>
+            <article class="card">
+              <h3>Evolución mensual</h3>
+              <canvas id="mensualChart"></canvas>
+            </article>
+          </div>
+
+          <div class="grid two-col">
+            <article class="card">
+              <h3>Cuentas por cobrar (aging)</h3>
+              <canvas id="cobrarAging"></canvas>
+            </article>
+            <article class="card">
+              <h3>Cuentas por pagar (aging)</h3>
+              <canvas id="pagarAging"></canvas>
+            </article>
+          </div>
+
+          <div class="grid two-col">
+            <article class="card">
+              <h3>Detalle diario</h3>
+              <canvas id="diarioChart"></canvas>
+            </article>
+            <article class="card">
+              <h3>Mix de ventas</h3>
+              <canvas id="categoriaChart"></canvas>
+              <h4>Ranking de productos (Top 5)</h4>
+              <ol id="ranking"></ol>
+            </article>
+          </div>
+        </section>
+
+        <section id="ingresos" class="tab-content">
+          <div class="card module">
+            <h3>Ingresos</h3>
+            <ul>
+              <li><strong>Presupuestos:</strong> crear, cambiar estado y convertir a venta.</li>
+              <li><strong>Ventas:</strong> cliente, ítems, impuestos, condición de pago y cobro.</li>
+              <li><strong>Otros ingresos:</strong> registro por concepto con categoría, medio y referencia.</li>
+            </ul>
+          </div>
+        </section>
+
+        <section id="egresos" class="tab-content">
+          <div class="card module">
+            <h3>Egresos</h3>
+            <ul>
+              <li><strong>Compras:</strong> proveedor, ítems, IVA, vencimiento y registrar pago.</li>
+              <li><strong>Gastos:</strong> categoría, comprobante, medio de pago y notas.</li>
+            </ul>
+          </div>
+        </section>
+
+        <section id="base-datos" class="tab-content">
+          <div class="card module">
+            <h3>Base de Datos (ABM + Excel)</h3>
+            <div class="badge-row">
+              <span class="badge">Clientes</span>
+              <span class="badge">Proveedores</span>
+              <span class="badge">Productos</span>
+            </div>
+            <p>Búsqueda, alta/edición/baja lógica, importación/exportación Excel y validaciones de datos.</p>
+          </div>
+        </section>
+
+        <section id="informes" class="tab-content">
+          <div class="card module">
+            <h3>Informes</h3>
+            <ul>
+              <li>Ventas, compras, gastos y stock por período.</li>
+              <li>Cuenta corriente de clientes/proveedores con aging.</li>
+              <li>Ranking de productos/clientes y reporte final de utilidad.</li>
+              <li>Exportables para contador (IVA ventas y compras).</li>
+            </ul>
+          </div>
+        </section>
+
+        <section id="tesoreria" class="tab-content">
+          <div class="kpi-grid">
+            <article class="card kpi"><h3>A cobrar</h3><p class="value">$ 2.580.000</p></article>
+            <article class="card kpi"><h3>A pagar</h3><p class="value">$ 1.640.000</p></article>
+            <article class="card kpi"><h3>Disponible</h3><p class="value">$ 940.000</p></article>
+          </div>
+          <div class="card module">
+            <h3>Movimientos (Gestoría)</h3>
+            <p>Cobros y pagos con filtros por fecha, medio, cliente/proveedor y exportación Excel/PDF.</p>
+          </div>
+        </section>
+      </main>
+    </div>
+
+    <script src="app.js"></script>
+  </body>
+</html>
