@@ -3,8 +3,8 @@
 Prototipo front-end de un sistema administrativo/comercial con:
 
 - Dashboard con KPIs, composición y gráficos de evolución.
-- Navegación por pestañas para Ingresos, Egresos, Base de Datos, Informes y Tesorería.
-- Definiciones funcionales principales orientadas a un MVP.
+- Pestañas completas para Ingresos, Egresos, Base de Datos, Informes y Tesorería.
+- Tablas/listados demo para visualizar flujos operativos del MVP.
 
 ## Ejecutar
 

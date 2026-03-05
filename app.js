@@ -6,12 +6,26 @@ const monthlyData = {
   gastos: [220000, 235000, 240000, 250000, 260000, 275000, 282000, 290000, 310000, 305000, 320000, 340000]
 };
 
-const current = {
-  ventas: 1660000,
-  ventasPrev: 1570000,
-  cantidad: 148,
-  cantidadPrev: 139
-};
+const current = { ventas: 1660000, ventasPrev: 1570000, cantidad: 148, cantidadPrev: 139 };
+
+const ingresosRows = [
+  ["Venta", "FAC-000231", "Ferretería Sur", "04/03/2026", "Confirmada", 128000],
+  ["Presupuesto", "PRE-000119", "Casa Delta", "04/03/2026", "Enviado", 79000],
+  ["Otro ingreso", "ING-000088", "Servicio técnico", "03/03/2026", "Cobrado", 35000],
+  ["Venta", "FAC-000230", "Electro Norte", "03/03/2026", "Pendiente", 214000]
+];
+
+const egresosRows = [
+  ["Compra", "Acero SA", "04/03/2026", "15/03/2026", "Pendiente", 198000],
+  ["Gasto", "Internet Fibra", "03/03/2026", "03/03/2026", "Pagado", 32000],
+  ["Compra", "Insumos Delta", "02/03/2026", "12/03/2026", "Pendiente", 146000],
+  ["Gasto", "Sueldos", "01/03/2026", "01/03/2026", "Pagado", 410000]
+];
+
+const clientes = ["ArgenTech SRL · CUIT 30-71234567-8", "Distribuidora Sur · CUIT 30-70111222-3", "Comercial Nexo · CUIT 30-71999888-0"];
+const stockCritico = ["Cable USB-C (Stock: 3)", "Router Mesh X1 (Stock: 2)", "Tóner HP 12A (Stock: 4)"];
+const cobros = ["FAC-000231 · Transferencia · $128.000", "CC Cliente Delta · Efectivo · $64.500", "Servicio técnico · MP · $35.000"];
+const pagos = ["Compra Acero SA · Banco Río · $198.000", "Gasto Internet · Débito · $32.000", "Pago CC Insumos Delta · Cheque · $75.000"];
 
 const formatMoney = (n) => `$ ${n.toLocaleString("es-AR")}`;
 const percentDiff = (curr, prev) => ((curr - prev) / prev) * 100;
@@ -24,13 +38,9 @@ function setKPIs() {
   document.getElementById("ventaPromedio").textContent = formatMoney(Math.round(promedio));
   document.getElementById("cantidadVentas").textContent = current.cantidad;
 
-  const vd = percentDiff(current.ventas, current.ventasPrev);
-  const pd = percentDiff(promedio, promedioPrev);
-  const cd = percentDiff(current.cantidad, current.cantidadPrev);
-
-  renderDelta("ventasDelta", vd);
-  renderDelta("promedioDelta", pd);
-  renderDelta("cantidadDelta", cd);
+  renderDelta("ventasDelta", percentDiff(current.ventas, current.ventasPrev));
+  renderDelta("promedioDelta", percentDiff(promedio, promedioPrev));
+  renderDelta("cantidadDelta", percentDiff(current.cantidad, current.cantidadPrev));
 }
 
 function renderDelta(id, value) {
@@ -40,7 +50,6 @@ function renderDelta(id, value) {
 }
 
 function createCharts() {
-  const ingresosTotal = current.ventas + 240000;
   const egresosTotal = 690000 + 340000;
 
   new Chart(document.getElementById("ingresosComposicion"), {
@@ -131,6 +140,28 @@ function createCharts() {
   document.getElementById("ranking").innerHTML = ranking.map((item) => `<li>${item}</li>`).join("");
 }
 
+function fillRows(tableId, rows) {
+  document.getElementById(tableId).innerHTML = rows
+    .map((row) => `<tr>${row.map((col, i) => `<td>${i === row.length - 1 ? formatMoney(col) : col}</td>`).join("")}</tr>`)
+    .join("");
+}
+
+function fillList(id, data) {
+  document.getElementById(id).innerHTML = data.map((item) => `<li>${item}</li>`).join("");
+}
+
+function setReportsSummary() {
+  const ingresos = current.ventas + 240000;
+  const egresos = 690000 + 340000;
+  const utilidad = ingresos - egresos;
+  const margen = (utilidad / ingresos) * 100;
+
+  document.getElementById("repIngresos").textContent = formatMoney(ingresos);
+  document.getElementById("repEgresos").textContent = formatMoney(egresos);
+  document.getElementById("repUtilidad").textContent = formatMoney(utilidad);
+  document.getElementById("repMargen").textContent = `${margen.toFixed(1)}%`;
+}
+
 function setupTabs() {
   const tabs = document.querySelectorAll(".tab");
   const sections = document.querySelectorAll(".tab-content");
@@ -142,8 +173,7 @@ function setupTabs() {
       tab.classList.add("active");
 
       sections.forEach((section) => section.classList.remove("active"));
-      const target = document.getElementById(tab.dataset.tab);
-      target.classList.add("active");
+      document.getElementById(tab.dataset.tab).classList.add("active");
 
       title.textContent = tab.dataset.tab === "inicio" ? "Dashboard de Inicio" : tab.textContent;
     });
@@ -152,4 +182,11 @@ function setupTabs() {
 
 setKPIs();
 createCharts();
+fillRows("ingresosRows", ingresosRows);
+fillRows("egresosRows", egresosRows);
+fillList("clientesList", clientes);
+fillList("stockList", stockCritico);
+fillList("cobrosList", cobros);
+fillList("pagosList", pagos);
+setReportsSummary();
 setupTabs();
