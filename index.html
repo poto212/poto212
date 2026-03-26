@@ -6,6 +6,7 @@
     <title>Sistema de Gestion | Demo MVP</title>
     <link rel="stylesheet" href="styles.css" />
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/jspdf@2.5.1/dist/jspdf.umd.min.js"></script>
   </head>
   <body>
     <div class="app-shell">
@@ -60,6 +61,60 @@
         </section>
 
         <section id="ingresos" class="tab-content">
+          <div class="grid two-col">
+            <article class="card">
+              <h3>Facturación electrónica (AFIP/CAE)</h3>
+              <form id="facturaForm" class="form-grid">
+                <label>Cliente<select id="facturaCliente" name="cliente" required></select></label>
+                <label>Condición IVA<select id="facturaCondicion" name="condicion" required>
+                  <option>Responsable Inscripto</option>
+                  <option>Monotributista</option>
+                  <option>Consumidor Final</option>
+                </select></label>
+                <label>Tipo comprobante<select id="facturaTipo" name="tipo" required>
+                  <option>Factura A</option><option>Factura B</option><option>Factura C</option>
+                </select></label>
+                <label>Concepto<input name="concepto" required placeholder="Venta de producto/servicio" /></label>
+                <label>Importe neto<input type="number" min="1" name="neto" id="facturaNeto" required /></label>
+                <label>IVA (%)<input type="number" min="0" name="alicuota" id="facturaIvaRate" value="21" required /></label>
+                <label>CAE<input id="facturaCAE" readonly placeholder="Se genera con AFIP" /></label>
+                <label>Venc. CAE<input id="facturaCAEVto" readonly /></label>
+                <div class="inline-actions full">
+                  <button class="action-btn" type="button" id="btnSolicitarCAE">Solicitar CAE (demo)</button>
+                  <button class="action-btn ghost" type="submit">Generar factura</button>
+                </div>
+              </form>
+              <div id="facturaTotales" class="summary-grid"></div>
+            </article>
+
+            <article class="card">
+              <h3>Emisión, PDF y correo</h3>
+              <div class="summary-grid">
+                <div><strong>SMTP enlazado:</strong> <span id="smtpStatus">No configurado</span></div>
+                <label>Correo remitente <input id="smtpFrom" type="email" placeholder="facturacion@tuempresa.com" /></label>
+                <label>Servidor SMTP <input id="smtpHost" placeholder="smtp.tuempresa.com" /></label>
+                <button class="action-btn" id="btnLinkMail" type="button">Enlazar correo</button>
+              </div>
+              <hr />
+              <div class="inline-actions">
+                <button class="action-btn" id="btnImprimirFactura" type="button">Imprimir factura</button>
+                <button class="action-btn ghost" id="btnPdfFactura" type="button">Descargar PDF</button>
+                <button class="action-btn ghost" id="btnMailFactura" type="button">Enviar por email</button>
+              </div>
+              <p class="hint">Nota: conexión AFIP real requiere backend (WSAA/WSFEv1, certificado y clave privada). Esta demo deja el flujo completo listo para integrar.</p>
+            </article>
+          </div>
+
+          <article class="card">
+            <h3>Últimas facturas emitidas</h3>
+            <div class="table-wrapper">
+              <table>
+                <thead><tr><th>Fecha</th><th>Cliente</th><th>Condición IVA</th><th>Comprobante</th><th>CAE</th><th>Neto</th><th>IVA</th><th>Total</th></tr></thead>
+                <tbody id="facturasRows"></tbody>
+              </table>
+            </div>
+          </article>
+
           <article class="card">
             <h3>Últimos movimientos de ingresos</h3>
             <div class="table-wrapper">

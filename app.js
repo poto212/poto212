@@ -15,8 +15,8 @@ const ingresosRows = [
 
 const seedDb = {
   clientes: [
-    { id: "C001", nombre: "ArgenTech SRL", cuit: "30-71234567-8", telefono: "11-4444-1111", localidad: "CABA" },
-    { id: "C002", nombre: "Comercial Nexo", cuit: "30-71999888-0", telefono: "341-555-1212", localidad: "Rosario" }
+    { id: "C001", nombre: "ArgenTech SRL", cuit: "30-71234567-8", telefono: "11-4444-1111", localidad: "CABA", condicionIVA: "Responsable Inscripto", email: "compras@argentech.com" },
+    { id: "C002", nombre: "Comercial Nexo", cuit: "30-71999888-0", telefono: "341-555-1212", localidad: "Rosario", condicionIVA: "Consumidor Final", email: "admin@comercialnexo.com" }
   ],
   proveedores: [
     { id: "P001", nombre: "Acero SA", cuit: "30-70123456-1", telefono: "11-4333-9988", localidad: "CABA" },
@@ -38,6 +38,10 @@ let editingId = null;
 let reportesChart;
 let egresosEventsBound = false;
 let informeRows = [];
+let facturas = [];
+let afipConfig = { puntoVenta: 1, cuit: "30-99999999-7", modo: "demo" };
+let smtpConfig = { linked: false, from: "", host: "" };
+let facturaActual = null;
 
 function loadDb() {
   const raw = localStorage.getItem(STORAGE_KEY);
@@ -155,7 +159,7 @@ function setupEgresos() {
 }
 
 const entityConfig = {
-  clientes: ["id", "nombre", "cuit", "telefono", "localidad"],
+  clientes: ["id", "nombre", "cuit", "telefono", "localidad", "condicionIVA", "email"],
   proveedores: ["id", "nombre", "cuit", "telefono", "localidad"],
   productos: ["id", "nombre", "codigo", "stock", "costo", "precio", "categoria"]
 };
@@ -345,6 +349,128 @@ function setupInformesGenerator() {
   generarInforme("ventas");
 }
 
+
+
+function ajustaIvaPorCondicion(condicion) {
+  if (condicion === "Responsable Inscripto") return { tipo: "Factura A", alicuota: 21, discrimina: true };
+  if (condicion === "Monotributista") return { tipo: "Factura C", alicuota: 0, discrimina: false };
+  return { tipo: "Factura B", alicuota: 21, discrimina: false };
+}
+
+function calcularFactura(neto, alicuota, condicion) {
+  const cfg = ajustaIvaPorCondicion(condicion);
+  const rate = cfg.discrimina ? Number(alicuota) : 0;
+  const iva = neto * (rate / 100);
+  return { iva, total: neto + iva, discrimina: cfg.discrimina };
+}
+
+function renderFacturas() {
+  document.getElementById("facturasRows").innerHTML = facturas
+    .map(
+      (f) => `<tr><td>${f.fecha}</td><td>${f.cliente}</td><td>${f.condicion}</td><td>${f.tipo}</td><td>${f.cae || "-"}</td><td>${formatMoney(f.neto)}</td><td>${formatMoney(
+        f.iva
+      )}</td><td>${formatMoney(f.total)}</td></tr>`
+    )
+    .join("");
+}
+
+function setupFacturacion() {
+  const clienteSel = document.getElementById("facturaCliente");
+  clienteSel.innerHTML = db.clientes.map((c) => `<option value="${c.id}">${c.nombre}</option>`).join("");
+  const condSel = document.getElementById("facturaCondicion");
+  const tipoSel = document.getElementById("facturaTipo");
+  const ivaInput = document.getElementById("facturaIvaRate");
+
+  function syncClienteCondicion() {
+    const c = db.clientes.find((x) => x.id === clienteSel.value);
+    if (!c) return;
+    const condicion = c.condicionIVA || "Consumidor Final";
+    condSel.value = condicion;
+    const cfg = ajustaIvaPorCondicion(condicion);
+    tipoSel.value = cfg.tipo;
+    ivaInput.value = cfg.alicuota;
+  }
+
+  clienteSel.addEventListener("change", syncClienteCondicion);
+  condSel.addEventListener("change", () => {
+    const cfg = ajustaIvaPorCondicion(condSel.value);
+    tipoSel.value = cfg.tipo;
+    ivaInput.value = cfg.alicuota;
+  });
+
+  document.getElementById("btnSolicitarCAE").addEventListener("click", () => {
+    const cae = `${Math.floor(10 ** 13 + Math.random() * 9 * 10 ** 13)}`;
+    const vto = new Date();
+    vto.setDate(vto.getDate() + 10);
+    document.getElementById("facturaCAE").value = cae;
+    document.getElementById("facturaCAEVto").value = vto.toISOString().slice(0, 10);
+  });
+
+  document.getElementById("facturaForm").addEventListener("submit", (e) => {
+    e.preventDefault();
+    const data = Object.fromEntries(new FormData(e.target).entries());
+    const neto = Number(data.neto);
+    const calc = calcularFactura(neto, Number(data.alicuota), data.condicion);
+    const cli = db.clientes.find((x) => x.id === data.cliente);
+    facturaActual = {
+      fecha: new Date().toLocaleDateString("es-AR"),
+      cliente: cli?.nombre || data.cliente,
+      clienteEmail: cli?.email || "",
+      condicion: data.condicion,
+      tipo: data.tipo,
+      concepto: data.concepto,
+      neto,
+      iva: calc.iva,
+      total: calc.total,
+      cae: document.getElementById("facturaCAE").value,
+      caeVto: document.getElementById("facturaCAEVto").value
+    };
+    facturas.unshift(facturaActual);
+    renderFacturas();
+    document.getElementById("facturaTotales").innerHTML = `
+      <div><strong>Neto:</strong> ${formatMoney(facturaActual.neto)}</div>
+      <div><strong>IVA:</strong> ${formatMoney(facturaActual.iva)}</div>
+      <div><strong>Total:</strong> ${formatMoney(facturaActual.total)}</div>
+      <div><strong>CAE:</strong> ${facturaActual.cae || "Sin CAE"}</div>
+    `;
+  });
+
+  document.getElementById("btnLinkMail").addEventListener("click", () => {
+    smtpConfig.from = document.getElementById("smtpFrom").value;
+    smtpConfig.host = document.getElementById("smtpHost").value;
+    smtpConfig.linked = Boolean(smtpConfig.from && smtpConfig.host);
+    document.getElementById("smtpStatus").textContent = smtpConfig.linked ? `Conectado (${smtpConfig.host})` : "No configurado";
+  });
+
+  document.getElementById("btnImprimirFactura").addEventListener("click", () => {
+    if (!facturaActual) return alert("Primero generá una factura");
+    window.print();
+  });
+
+  document.getElementById("btnPdfFactura").addEventListener("click", () => {
+    if (!facturaActual) return alert("Primero generá una factura");
+    const { jsPDF } = window.jspdf;
+    const doc = new jsPDF();
+    doc.text(`Factura ${facturaActual.tipo}`, 15, 20);
+    doc.text(`Cliente: ${facturaActual.cliente}`, 15, 30);
+    doc.text(`Condición IVA: ${facturaActual.condicion}`, 15, 40);
+    doc.text(`Neto: ${formatMoney(facturaActual.neto)}`, 15, 55);
+    doc.text(`IVA: ${formatMoney(facturaActual.iva)}`, 15, 65);
+    doc.text(`Total: ${formatMoney(facturaActual.total)}`, 15, 75);
+    doc.text(`CAE: ${facturaActual.cae || "N/D"} Vto: ${facturaActual.caeVto || "N/D"}`, 15, 90);
+    doc.save(`factura-${Date.now()}.pdf`);
+  });
+
+  document.getElementById("btnMailFactura").addEventListener("click", () => {
+    if (!facturaActual) return alert("Primero generá una factura");
+    const to = facturaActual.clienteEmail || "";
+    const subject = encodeURIComponent(`Factura ${facturaActual.tipo} - ${facturaActual.cliente}`);
+    const body = encodeURIComponent(`Adjuntamos factura en PDF. Total: ${formatMoney(facturaActual.total)}. CAE: ${facturaActual.cae || "N/D"}`);
+    window.location.href = `mailto:${to}?subject=${subject}&body=${body}`;
+  });
+
+  syncClienteCondicion();
+}
 function setupTabs() {
   const tabs = document.querySelectorAll(".tab");
   const sections = document.querySelectorAll(".tab-content");
@@ -365,6 +491,7 @@ createDashboardCharts();
 fillIngresos();
 setupEgresos();
 setupDbModule();
+setupFacturacion();
 renderEgresos();
 renderInformes();
 setupInformesGenerator();
