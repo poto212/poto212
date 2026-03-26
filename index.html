@@ -20,12 +20,12 @@
         </div>
 
         <nav>
-          <button class="tab active" data-tab="inicio">Inicio</button>
-          <button class="tab" data-tab="ingresos">Ingresos</button>
-          <button class="tab" data-tab="egresos">Egresos</button>
-          <button class="tab" data-tab="base-datos">Base de Datos</button>
-          <button class="tab" data-tab="informes">Informes</button>
-          <button class="tab" data-tab="tesoreria">Tesorería</button>
+          <button class="tab active" data-tab="inicio" data-module="inicio">Inicio</button>
+          <button class="tab" data-tab="ingresos" data-module="ingresos">Ingresos</button>
+          <button class="tab" data-tab="egresos" data-module="egresos">Egresos</button>
+          <button class="tab" data-tab="base-datos" data-module="base_datos">Base de Datos</button>
+          <button class="tab" data-tab="informes" data-module="informes">Informes</button>
+          <button class="tab" data-tab="tesoreria" data-module="tesoreria">Tesorería</button>
         </nav>
       </aside>
 
@@ -39,6 +39,10 @@
               <option selected>Año actual</option>
               <option>Personalizado</option>
             </select>
+          </div>
+          <div class="userbox">
+            <span id="currentUserLabel">Invitado</span>
+            <button id="logoutBtn" class="action-btn ghost" type="button">Cerrar sesión</button>
           </div>
         </header>
 
@@ -190,6 +194,34 @@
               </table>
             </div>
           </article>
+          
+          <article class="card" id="usuariosPanel">
+            <div class="section-head">
+              <h3>Usuarios y roles</h3>
+              <small>Permisos por módulo/acción</small>
+            </div>
+            <form id="usuarioForm" class="form-grid compact">
+              <label>Usuario <input name="username" required /></label>
+              <label>Nombre <input name="nombre" required /></label>
+              <label>Rol
+                <select name="rol" required>
+                  <option>admin</option>
+                  <option>vendedor</option>
+                  <option>tesoreria</option>
+                  <option>contador</option>
+                </select>
+              </label>
+              <label>Password <input name="password" required /></label>
+              <button class="action-btn" type="submit">Crear usuario</button>
+            </form>
+            <div class="table-wrapper">
+              <table>
+                <thead><tr><th>Usuario</th><th>Nombre</th><th>Rol</th><th>Estado</th></tr></thead>
+                <tbody id="usuariosRows"></tbody>
+              </table>
+            </div>
+          </article>
+
         </section>
 
         <section id="informes" class="tab-content">
@@ -238,6 +270,20 @@
           </div>
         </section>
       </main>
+    </div>
+
+
+    <div id="loginModal" class="modal-overlay">
+      <div class="modal-card">
+        <h3>Ingreso al sistema</h3>
+        <p>Usuarios demo: admin/admin123, vendedor/vendedor123, tesoreria/tesoreria123, contador/contador123.</p>
+        <form id="loginForm" class="form-grid">
+          <label>Usuario <input name="username" required /></label>
+          <label>Contraseña <input name="password" type="password" required /></label>
+          <button class="action-btn" type="submit">Iniciar sesión</button>
+        </form>
+        <p id="loginError" class="hint"></p>
+      </div>
     </div>
 
     <script src="app.js"></script>

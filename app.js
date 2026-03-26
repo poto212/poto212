@@ -1,4 +1,32 @@
 const STORAGE_KEY = "poto212-demo-db-v1";
+const USERS_KEY = "poto212-users-v1";
+const SESSION_KEY = "poto212-session-v1";
+
+const seedUsers = [
+  { username: "admin", nombre: "Administrador", rol: "admin", password: "admin123", activo: true },
+  { username: "vendedor", nombre: "Usuario Ventas", rol: "vendedor", password: "vendedor123", activo: true },
+  { username: "tesoreria", nombre: "Usuario Tesorería", rol: "tesoreria", password: "tesoreria123", activo: true },
+  { username: "contador", nombre: "Usuario Contador", rol: "contador", password: "contador123", activo: true }
+];
+
+const rolePermissions = {
+  admin: {
+    modules: ["inicio", "ingresos", "egresos", "base_datos", "informes", "tesoreria"],
+    actions: ["*"]
+  },
+  vendedor: {
+    modules: ["inicio", "ingresos", "informes"],
+    actions: ["ingresos:create_factura", "ingresos:solicitar_cae", "ingresos:imprimir", "ingresos:emitir_pdf", "ingresos:enviar_email", "informes:generar", "informes:export"]
+  },
+  tesoreria: {
+    modules: ["inicio", "egresos", "tesoreria", "informes"],
+    actions: ["egresos:create", "tesoreria:view", "informes:generar", "informes:export"]
+  },
+  contador: {
+    modules: ["inicio", "informes", "base_datos"],
+    actions: ["informes:generar", "informes:export", "base_datos:view"]
+  }
+};
 
 const monthlyData = {
   labels: ["Ene", "Feb", "Mar", "Abr", "May", "Jun", "Jul", "Ago", "Sep", "Oct", "Nov", "Dic"],
@@ -33,6 +61,8 @@ const seedDb = {
 };
 
 let db = loadDb();
+let users = loadUsers();
+let currentSession = getSession();
 let activeEntity = "clientes";
 let editingId = null;
 let reportesChart;
@@ -42,6 +72,121 @@ let facturas = [];
 let afipConfig = { puntoVenta: 1, cuit: "30-99999999-7", modo: "demo" };
 let smtpConfig = { linked: false, from: "", host: "" };
 let facturaActual = null;
+
+
+function loadUsers() {
+  const raw = localStorage.getItem(USERS_KEY);
+  if (!raw) {
+    localStorage.setItem(USERS_KEY, JSON.stringify(seedUsers));
+    return structuredClone(seedUsers);
+  }
+  return JSON.parse(raw);
+}
+
+function persistUsers() {
+  localStorage.setItem(USERS_KEY, JSON.stringify(users));
+}
+
+function getSession() {
+  const raw = localStorage.getItem(SESSION_KEY);
+  return raw ? JSON.parse(raw) : null;
+}
+
+function setSession(user) {
+  localStorage.setItem(SESSION_KEY, JSON.stringify({ username: user.username, rol: user.rol, nombre: user.nombre }));
+}
+
+function clearSession() {
+  localStorage.removeItem(SESSION_KEY);
+}
+
+function hasModuleAccess(module) {
+  if (!currentSession) return false;
+  return (rolePermissions[currentSession.rol]?.modules || []).includes(module);
+}
+
+function hasAction(permission) {
+  if (!currentSession) return false;
+  const actions = rolePermissions[currentSession.rol]?.actions || [];
+  return actions.includes("*") || actions.includes(permission);
+}
+
+function applyPermissionsUi() {
+  document.querySelectorAll('.tab').forEach((btn) => {
+    const allowed = hasModuleAccess(btn.dataset.module);
+    btn.style.display = allowed ? '' : 'none';
+  });
+
+  const gated = [
+    ["btnSolicitarCAE", "ingresos:solicitar_cae"],
+    ["facturaForm", "ingresos:create_factura"],
+    ["btnImprimirFactura", "ingresos:imprimir"],
+    ["btnPdfFactura", "ingresos:emitir_pdf"],
+    ["btnMailFactura", "ingresos:enviar_email"],
+    ["egresoForm", "egresos:create"],
+    ["informeForm", "informes:generar"],
+    ["exportInforme", "informes:export"],
+    ["dbExport", "base_datos:export"],
+    ["dbReset", "base_datos:reset"],
+    ["usuarioForm", "base_datos:manage_users"]
+  ];
+
+  gated.forEach(([id, perm]) => {
+    const el = document.getElementById(id);
+    if (!el) return;
+    const allowed = hasAction(perm) || hasModuleAccess('base_datos') && perm === 'base_datos:view';
+    if ('disabled' in el) el.disabled = !allowed;
+    el.style.opacity = allowed ? '1' : '.55';
+  });
+
+  document.getElementById('usuariosPanel').style.display = hasAction('base_datos:manage_users') ? '' : 'none';
+  document.getElementById('currentUserLabel').textContent = currentSession ? `${currentSession.nombre} (${currentSession.rol})` : 'Invitado';
+}
+
+function renderUsuarios() {
+  document.getElementById('usuariosRows').innerHTML = users
+    .map((u) => `<tr><td>${u.username}</td><td>${u.nombre}</td><td>${u.rol}</td><td>${u.activo ? 'Activo' : 'Inactivo'}</td></tr>`)
+    .join('');
+}
+
+function setupAuth() {
+  const modal = document.getElementById('loginModal');
+  const form = document.getElementById('loginForm');
+  const err = document.getElementById('loginError');
+  const logoutBtn = document.getElementById('logoutBtn');
+
+  const showLogin = () => {
+    modal.style.display = 'flex';
+  };
+
+  const hideLogin = () => {
+    modal.style.display = 'none';
+  };
+
+  form.addEventListener('submit', (e) => {
+    e.preventDefault();
+    const data = Object.fromEntries(new FormData(form).entries());
+    const user = users.find((u) => u.username === data.username && u.password === data.password && u.activo);
+    if (!user) {
+      err.textContent = 'Credenciales inválidas';
+      return;
+    }
+    currentSession = { username: user.username, rol: user.rol, nombre: user.nombre };
+    setSession(user);
+    err.textContent = '';
+    hideLogin();
+    applyPermissionsUi();
+  });
+
+  logoutBtn.addEventListener('click', () => {
+    clearSession();
+    currentSession = null;
+    showLogin();
+    applyPermissionsUi();
+  });
+
+  if (currentSession) hideLogin(); else showLogin();
+}
 
 function loadDb() {
   const raw = localStorage.getItem(STORAGE_KEY);
@@ -471,6 +616,21 @@ function setupFacturacion() {
 
   syncClienteCondicion();
 }
+
+function setupUsuarios() {
+  renderUsuarios();
+  document.getElementById('usuarioForm').addEventListener('submit', (e) => {
+    e.preventDefault();
+    if (!hasAction('base_datos:manage_users')) return;
+    const data = Object.fromEntries(new FormData(e.target).entries());
+    if (users.some((u) => u.username === data.username)) return alert('Usuario ya existe');
+    users.push({ ...data, activo: true });
+    persistUsers();
+    e.target.reset();
+    renderUsuarios();
+  });
+}
+
 function setupTabs() {
   const tabs = document.querySelectorAll(".tab");
   const sections = document.querySelectorAll(".tab-content");
@@ -491,8 +651,11 @@ createDashboardCharts();
 fillIngresos();
 setupEgresos();
 setupDbModule();
+setupUsuarios();
 setupFacturacion();
 renderEgresos();
 renderInformes();
 setupInformesGenerator();
 setupTabs();
+setupAuth();
+applyPermissionsUi();
