@@ -1,4 +1,4 @@
-# Demo MVP - Sistema de Gestión Comercial
+# Demo MVP - Sistema de Gestion
 
 Prototipo front-end de gestión comercial/administrativa con pestañas de Inicio, Ingresos, Egresos, Base de Datos, Informes y Tesorería.
 
