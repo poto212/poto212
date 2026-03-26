@@ -22,3 +22,26 @@ Luego abrir `http://localhost:4173`.
 ## Backend demo por fases
 
 Se agregó un backend de referencia en `backend/` con Fase 1/2/3 (auth+roles, facturación demo, informes y mail demo). Ver `backend/README.md`.
+
+
+## Capturas automáticas de pestañas
+
+1. Levantá el front:
+
+```bash
+python3 -m http.server 4173
+```
+
+2. En otra terminal ejecutá:
+
+```bash
+bash scripts/take-tabs-screenshots.sh
+```
+
+Se generan imágenes en `artifacts/tabs/`:
+- `inicio.png`
+- `ingresos.png`
+- `egresos.png`
+- `base-datos.png`
+- `informes.png`
+- `tesoreria.png`
