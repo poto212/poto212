@@ -1,0 +1,6 @@
+CREATE TABLE IF NOT EXISTS records (
+  entity TEXT NOT NULL,
+  id INTEGER NOT NULL,
+  data JSONB NOT NULL,
+  PRIMARY KEY(entity, id)
+);

@@ -1,0 +1,291 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Sistema de Gestion | Demo MVP</title>
+    <link rel="stylesheet" href="styles.css" />
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/jspdf@2.5.1/dist/jspdf.umd.min.js"></script>
+  </head>
+  <body>
+    <div class="app-shell">
+      <aside class="sidebar">
+        <div class="brand">
+          <div class="brand-logo">PC</div>
+          <div>
+            <h1>Sistema de Gestion</h1>
+            <small>Sistema de Gestion</small>
+          </div>
+        </div>
+
+        <nav>
+          <button class="tab active" data-tab="inicio" data-module="inicio">Inicio</button>
+          <button class="tab" data-tab="ingresos" data-module="ingresos">Ingresos</button>
+          <button class="tab" data-tab="egresos" data-module="egresos">Egresos</button>
+          <button class="tab" data-tab="base-datos" data-module="base_datos">Base de Datos</button>
+          <button class="tab" data-tab="informes" data-module="informes">Informes</button>
+          <button class="tab" data-tab="tesoreria" data-module="tesoreria">Tesorería</button>
+        </nav>
+      </aside>
+
+      <main class="main-content">
+        <header class="topbar">
+          <h2 id="section-title">Dashboard de Inicio</h2>
+          <div class="filters">
+            <label for="periodo">Período:</label>
+            <select id="periodo">
+              <option>Últimos 12 meses</option>
+              <option selected>Año actual</option>
+              <option>Personalizado</option>
+            </select>
+          </div>
+          <div class="userbox">
+            <span id="currentUserLabel">Invitado</span>
+            <button id="logoutBtn" class="action-btn ghost" type="button">Cerrar sesión</button>
+          </div>
+        </header>
+
+        <section id="inicio" class="tab-content active">
+          <div class="kpi-grid">
+            <article class="card kpi"><h3>Ventas creadas</h3><p class="value" id="ventasCreadas">$ 0</p><p class="delta" id="ventasDelta">0%</p></article>
+            <article class="card kpi"><h3>Venta promedio</h3><p class="value" id="ventaPromedio">$ 0</p><p class="delta" id="promedioDelta">0%</p></article>
+            <article class="card kpi"><h3>Cantidad de ventas</h3><p class="value" id="cantidadVentas">0</p><p class="delta" id="cantidadDelta">0%</p></article>
+          </div>
+
+          <div class="grid two-col">
+            <article class="card"><h3>Composición del mes</h3><div class="mini-charts"><canvas id="ingresosComposicion"></canvas><canvas id="egresosComposicion"></canvas></div></article>
+            <article class="card"><h3>Evolución mensual</h3><canvas id="mensualChart"></canvas></article>
+          </div>
+
+          <div class="grid two-col">
+            <article class="card"><h3>Cuentas por cobrar (aging)</h3><canvas id="cobrarAging"></canvas></article>
+            <article class="card"><h3>Cuentas por pagar (aging)</h3><canvas id="pagarAging"></canvas></article>
+          </div>
+        </section>
+
+        <section id="ingresos" class="tab-content">
+          <div class="grid two-col">
+            <article class="card">
+              <h3>Facturación electrónica (AFIP/CAE)</h3>
+              <form id="facturaForm" class="form-grid">
+                <label>Cliente<select id="facturaCliente" name="cliente" required></select></label>
+                <label>Condición IVA<select id="facturaCondicion" name="condicion" required>
+                  <option>Responsable Inscripto</option>
+                  <option>Monotributista</option>
+                  <option>Consumidor Final</option>
+                </select></label>
+                <label>Tipo comprobante<select id="facturaTipo" name="tipo" required>
+                  <option>Factura A</option><option>Factura B</option><option>Factura C</option>
+                </select></label>
+                <label>Concepto<input name="concepto" required placeholder="Venta de producto/servicio" /></label>
+                <label>Importe neto<input type="number" min="1" name="neto" id="facturaNeto" required /></label>
+                <label>IVA (%)<input type="number" min="0" name="alicuota" id="facturaIvaRate" value="21" required /></label>
+                <label>CAE<input id="facturaCAE" readonly placeholder="Se genera con AFIP" /></label>
+                <label>Venc. CAE<input id="facturaCAEVto" readonly /></label>
+                <div class="inline-actions full">
+                  <button class="action-btn" type="button" id="btnSolicitarCAE">Solicitar CAE (demo)</button>
+                  <button class="action-btn ghost" type="submit">Generar factura</button>
+                </div>
+              </form>
+              <div id="facturaTotales" class="summary-grid"></div>
+            </article>
+
+            <article class="card">
+              <h3>Emisión, PDF y correo</h3>
+              <div class="summary-grid">
+                <div><strong>SMTP enlazado:</strong> <span id="smtpStatus">No configurado</span></div>
+                <label>Correo remitente <input id="smtpFrom" type="email" placeholder="facturacion@tuempresa.com" /></label>
+                <label>Servidor SMTP <input id="smtpHost" placeholder="smtp.tuempresa.com" /></label>
+                <button class="action-btn" id="btnLinkMail" type="button">Enlazar correo</button>
+              </div>
+              <hr />
+              <div class="inline-actions">
+                <button class="action-btn" id="btnImprimirFactura" type="button">Imprimir factura</button>
+                <button class="action-btn ghost" id="btnPdfFactura" type="button">Descargar PDF</button>
+                <button class="action-btn ghost" id="btnMailFactura" type="button">Enviar por email</button>
+              </div>
+              <p class="hint">Nota: conexión AFIP real requiere backend (WSAA/WSFEv1, certificado y clave privada). Esta demo deja el flujo completo listo para integrar.</p>
+            </article>
+          </div>
+
+          <article class="card">
+            <h3>Últimas facturas emitidas</h3>
+            <div class="table-wrapper">
+              <table>
+                <thead><tr><th>Fecha</th><th>Cliente</th><th>Condición IVA</th><th>Comprobante</th><th>CAE</th><th>Neto</th><th>IVA</th><th>Total</th></tr></thead>
+                <tbody id="facturasRows"></tbody>
+              </table>
+            </div>
+          </article>
+
+          <article class="card">
+            <h3>Últimos movimientos de ingresos</h3>
+            <div class="table-wrapper">
+              <table>
+                <thead><tr><th>Tipo</th><th>Referencia</th><th>Cliente</th><th>Fecha</th><th>Estado</th><th>Total</th></tr></thead>
+                <tbody id="ingresosRows"></tbody>
+              </table>
+            </div>
+          </article>
+        </section>
+
+        <section id="egresos" class="tab-content">
+          <div class="grid two-col">
+            <article class="card">
+              <h3>Nuevo egreso</h3>
+              <form id="egresoForm" class="form-grid">
+                <label>Tipo<select name="tipo" required><option value="Compra">Compra</option><option value="Gasto">Gasto</option></select></label>
+                <label>Proveedor<select name="proveedor" id="egresoProveedor" required></select></label>
+                <label>Categoría<input name="categoria" placeholder="Insumos / Servicios" required /></label>
+                <label>Fecha<input type="date" name="fecha" required /></label>
+                <label>Vencimiento<input type="date" name="vencimiento" required /></label>
+                <label>Estado<select name="estado" required><option>Pendiente</option><option>Pagado</option></select></label>
+                <label>Monto<input type="number" name="monto" min="1" required /></label>
+                <label class="full">Notas<input name="nota" placeholder="Detalle del egreso" /></label>
+                <button class="action-btn full" type="submit">Guardar egreso</button>
+              </form>
+            </article>
+            <article class="card">
+              <h3>Resumen egresos</h3>
+              <div class="summary-grid" id="egresosResumen"></div>
+            </article>
+          </div>
+
+          <article class="card">
+            <div class="section-head">
+              <h3>Historial de egresos</h3>
+              <input id="egresosSearch" type="search" placeholder="Buscar proveedor o categoría" />
+            </div>
+            <div class="table-wrapper">
+              <table>
+                <thead><tr><th>Tipo</th><th>Proveedor</th><th>Categoría</th><th>Fecha</th><th>Vencimiento</th><th>Estado</th><th>Monto</th></tr></thead>
+                <tbody id="egresosRows"></tbody>
+              </table>
+            </div>
+          </article>
+        </section>
+
+        <section id="base-datos" class="tab-content">
+          <article class="card">
+            <div class="section-head">
+              <h3>Base de datos de prueba (localStorage)</h3>
+              <div class="inline-actions">
+                <button id="dbExport" class="action-btn ghost">Exportar JSON</button>
+                <button id="dbReset" class="action-btn danger">Restaurar demo</button>
+              </div>
+            </div>
+            <div class="entity-tabs">
+              <button class="entity-tab active" data-entity="clientes">Clientes</button>
+              <button class="entity-tab" data-entity="proveedores">Proveedores</button>
+              <button class="entity-tab" data-entity="productos">Productos</button>
+            </div>
+
+            <form id="entityForm" class="form-grid compact"></form>
+
+            <div class="section-head">
+              <input id="entitySearch" type="search" placeholder="Buscar en la entidad activa" />
+              <small id="entityHint"></small>
+            </div>
+            <div class="table-wrapper">
+              <table>
+                <thead id="entityHead"></thead>
+                <tbody id="entityRows"></tbody>
+              </table>
+            </div>
+          </article>
+          
+          <article class="card" id="usuariosPanel">
+            <div class="section-head">
+              <h3>Usuarios y roles</h3>
+              <small>Permisos por módulo/acción</small>
+            </div>
+            <form id="usuarioForm" class="form-grid compact">
+              <label>Usuario <input name="username" required /></label>
+              <label>Nombre <input name="nombre" required /></label>
+              <label>Rol
+                <select name="rol" required>
+                  <option>admin</option>
+                  <option>vendedor</option>
+                  <option>tesoreria</option>
+                  <option>contador</option>
+                </select>
+              </label>
+              <label>Password <input name="password" required /></label>
+              <button class="action-btn" type="submit">Crear usuario</button>
+            </form>
+            <div class="table-wrapper">
+              <table>
+                <thead><tr><th>Usuario</th><th>Nombre</th><th>Rol</th><th>Estado</th></tr></thead>
+                <tbody id="usuariosRows"></tbody>
+              </table>
+            </div>
+          </article>
+
+        </section>
+
+        <section id="informes" class="tab-content">
+          <div class="kpi-grid">
+            <article class="card kpi"><h3>Total Ingresos</h3><p class="value" id="repIngresos">$ 0</p></article>
+            <article class="card kpi"><h3>Total Egresos</h3><p class="value" id="repEgresos">$ 0</p></article>
+            <article class="card kpi"><h3>Utilidad Neta</h3><p class="value" id="repUtilidad">$ 0</p></article>
+            <article class="card kpi"><h3>Margen</h3><p class="value" id="repMargen">0%</p></article>
+          </div>
+          <div class="grid two-col">
+            <article class="card"><h3>Egresos por categoría</h3><canvas id="reportesCategoriaChart"></canvas></article>
+            <article class="card"><h3>Datos para prueba</h3><ul id="informeNotas" class="plain-list"></ul></article>
+          </div>
+          <article class="card">
+            <div class="section-head">
+              <h3>Generador de informes</h3>
+              <button id="exportInforme" class="action-btn ghost">Exportar CSV</button>
+            </div>
+            <form id="informeForm" class="report-tools">
+              <label>Tipo
+                <select name="tipo" id="informeTipo">
+                  <option value="ventas">Ventas</option>
+                  <option value="egresos">Egresos</option>
+                  <option value="utilidad">Utilidad</option>
+                  <option value="stock">Stock</option>
+                </select>
+              </label>
+              <label>Desde <input type="date" name="desde" id="informeDesde" /></label>
+              <label>Hasta <input type="date" name="hasta" id="informeHasta" /></label>
+              <button class="action-btn" type="submit">Generar informe</button>
+            </form>
+            <div class="table-wrapper">
+              <table>
+                <thead><tr><th>Tipo</th><th>Detalle</th><th>Fecha</th><th>Estado</th><th>Monto</th></tr></thead>
+                <tbody id="informeRows"></tbody>
+              </table>
+            </div>
+          </article>
+        </section>
+
+        <section id="tesoreria" class="tab-content">
+          <div class="kpi-grid">
+            <article class="card kpi"><h3>A cobrar</h3><p class="value">$ 2.580.000</p></article>
+            <article class="card kpi"><h3>A pagar</h3><p class="value" id="tesoreriaPagar">$ 0</p></article>
+            <article class="card kpi"><h3>Disponible</h3><p class="value" id="tesoreriaDisponible">$ 0</p></article>
+          </div>
+        </section>
+      </main>
+    </div>
+
+
+    <div id="loginModal" class="modal-overlay">
+      <div class="modal-card">
+        <h3>Ingreso al sistema</h3>
+        <p>Usuarios demo: admin/admin123, vendedor/vendedor123, tesoreria/tesoreria123, contador/contador123.</p>
+        <form id="loginForm" class="form-grid">
+          <label>Usuario <input name="username" required /></label>
+          <label>Contraseña <input name="password" type="password" required /></label>
+          <button class="action-btn" type="submit">Iniciar sesión</button>
+        </form>
+        <p id="loginError" class="hint"></p>
+      </div>
+    </div>
+
+    <script src="app.js"></script>
+  </body>
+</html>
