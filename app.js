@@ -1,6 +1,8 @@
 const STORAGE_KEY = "poto212-demo-db-v1";
 const USERS_KEY = "poto212-users-v1";
 const SESSION_KEY = "poto212-session-v1";
+const MODE_KEY = "poto212-data-mode-v1";
+const API_BASE = window.__API_BASE__ || "http://localhost:4000";
 
 const seedUsers = [
   { username: "admin", nombre: "Administrador", rol: "admin", password: "admin123", activo: true },
@@ -60,6 +62,7 @@ const seedDb = {
   ]
 };
 
+let appMode = loadMode();
 let db = loadDb();
 let users = loadUsers();
 let currentSession = getSession();
@@ -73,8 +76,53 @@ let afipConfig = { puntoVenta: 1, cuit: "30-99999999-7", modo: "demo" };
 let smtpConfig = { linked: false, from: "", host: "" };
 let facturaActual = null;
 
+function isApiMode() {
+  return appMode === "api";
+}
+
+function loadMode() {
+  const urlMode = new URLSearchParams(window.location.search).get("mode");
+  if (urlMode === "api" || urlMode === "demo") {
+    localStorage.setItem(MODE_KEY, urlMode);
+    return urlMode;
+  }
+  return localStorage.getItem(MODE_KEY) || "api";
+}
+
+function setMode(mode) {
+  appMode = mode === "demo" ? "demo" : "api";
+  localStorage.setItem(MODE_KEY, appMode);
+}
+
+async function apiRequest(path, options = {}) {
+  const headers = { "Content-Type": "application/json", ...(options.headers || {}) };
+  if (currentSession?.token) headers.Authorization = `Bearer ${currentSession.token}`;
+  const resp = await fetch(`${API_BASE}${path}`, { ...options, headers });
+  if (!resp.ok) {
+    const err = await resp.json().catch(() => ({}));
+    throw new Error(err.error || `Error ${resp.status}`);
+  }
+  if (resp.status === 204) return null;
+  return resp.json();
+}
+
+async function hydrateFromApi() {
+  const [clientes, proveedores, productos, egresos, usersData, facturasData] = await Promise.all([
+    apiRequest("/api/entities/clientes"),
+    apiRequest("/api/entities/proveedores"),
+    apiRequest("/api/entities/productos"),
+    apiRequest("/api/entities/egresos"),
+    apiRequest("/api/entities/users").catch(() => []),
+    apiRequest("/api/facturas").catch(() => [])
+  ]);
+  db = { clientes, proveedores, productos, egresos };
+  users = usersData;
+  facturas = facturasData.map((f) => ({ ...f, condicion: f.condicionIVA }));
+}
+
 
 function loadUsers() {
+  if (isApiMode()) return [];
   const raw = localStorage.getItem(USERS_KEY);
   if (!raw) {
     localStorage.setItem(USERS_KEY, JSON.stringify(seedUsers));
@@ -84,6 +132,7 @@ function loadUsers() {
 }
 
 function persistUsers() {
+  if (isApiMode()) return;
   localStorage.setItem(USERS_KEY, JSON.stringify(users));
 }
 
@@ -93,7 +142,7 @@ function getSession() {
 }
 
 function setSession(user) {
-  localStorage.setItem(SESSION_KEY, JSON.stringify({ username: user.username, rol: user.rol, nombre: user.nombre }));
+  localStorage.setItem(SESSION_KEY, JSON.stringify({ username: user.username, rol: user.rol, nombre: user.nombre, token: user.token || null }));
 }
 
 function clearSession() {
@@ -163,19 +212,35 @@ function setupAuth() {
     modal.style.display = 'none';
   };
 
-  form.addEventListener('submit', (e) => {
+  form.addEventListener('submit', async (e) => {
     e.preventDefault();
     const data = Object.fromEntries(new FormData(form).entries());
-    const user = users.find((u) => u.username === data.username && u.password === data.password && u.activo);
-    if (!user) {
-      err.textContent = 'Credenciales inválidas';
-      return;
+    try {
+      if (isApiMode()) {
+        const result = await apiRequest("/api/auth/login", {
+          method: "POST",
+          body: JSON.stringify({ username: data.username, password: data.password })
+        });
+        currentSession = { ...result.user, token: result.token };
+        setSession(currentSession);
+        await hydrateFromApi();
+      } else {
+        const user = users.find((u) => u.username === data.username && u.password === data.password && u.activo);
+        if (!user) throw new Error("Credenciales inválidas");
+        currentSession = { username: user.username, rol: user.rol, nombre: user.nombre };
+        setSession(user);
+      }
+      err.textContent = '';
+      hideLogin();
+      renderUsuarios();
+      renderEntityUi();
+      refreshProveedorOptions();
+      renderFacturas();
+      renderEgresos(document.getElementById("egresosSearch")?.value || "");
+      applyPermissionsUi();
+    } catch (error) {
+      err.textContent = error.message || "No se pudo iniciar sesión";
     }
-    currentSession = { username: user.username, rol: user.rol, nombre: user.nombre };
-    setSession(user);
-    err.textContent = '';
-    hideLogin();
-    applyPermissionsUi();
   });
 
   logoutBtn.addEventListener('click', () => {
@@ -189,6 +254,7 @@ function setupAuth() {
 }
 
 function loadDb() {
+  if (isApiMode()) return { clientes: [], proveedores: [], productos: [], egresos: [] };
   const raw = localStorage.getItem(STORAGE_KEY);
   if (!raw) {
     localStorage.setItem(STORAGE_KEY, JSON.stringify(seedDb));
@@ -198,6 +264,7 @@ function loadDb() {
 }
 
 function persistDb() {
+  if (isApiMode()) return;
   localStorage.setItem(STORAGE_KEY, JSON.stringify(db));
 }
 
@@ -289,12 +356,17 @@ function setupEgresos() {
   refreshProveedorOptions();
   if (egresosEventsBound) return;
 
-  document.getElementById("egresoForm").addEventListener("submit", (e) => {
+  document.getElementById("egresoForm").addEventListener("submit", async (e) => {
     e.preventDefault();
     const data = Object.fromEntries(new FormData(e.target).entries());
     data.monto = Number(data.monto);
-    db.egresos.unshift(data);
-    persistDb();
+    if (isApiMode()) {
+      const created = await apiRequest("/api/entities/egresos", { method: "POST", body: JSON.stringify(data) });
+      db.egresos.unshift(created);
+    } else {
+      db.egresos.unshift(data);
+      persistDb();
+    }
     e.target.reset();
     renderEgresos(document.getElementById("egresosSearch").value);
   });
@@ -341,7 +413,7 @@ function setupDbModule() {
     });
   });
 
-  document.getElementById("entityForm").addEventListener("submit", (e) => {
+  document.getElementById("entityForm").addEventListener("submit", async (e) => {
     e.preventDefault();
     const form = Object.fromEntries(new FormData(e.target).entries());
     if (activeEntity === "productos") {
@@ -351,10 +423,21 @@ function setupDbModule() {
     }
 
     if (editingId) {
-      const idx = db[activeEntity].findIndex((x) => x.id === editingId);
-      db[activeEntity][idx] = form;
+      if (isApiMode()) {
+        const updated = await apiRequest(`/api/entities/${activeEntity}/${editingId}`, { method: "PUT", body: JSON.stringify(form) });
+        const idx = db[activeEntity].findIndex((x) => String(x.id) === String(editingId));
+        db[activeEntity][idx] = updated;
+      } else {
+        const idx = db[activeEntity].findIndex((x) => x.id === editingId);
+        db[activeEntity][idx] = form;
+      }
     } else {
-      db[activeEntity].push(form);
+      if (isApiMode()) {
+        const created = await apiRequest(`/api/entities/${activeEntity}`, { method: "POST", body: JSON.stringify(form) });
+        db[activeEntity].push(created);
+      } else {
+        db[activeEntity].push(form);
+      }
     }
 
     editingId = null;
@@ -363,7 +446,7 @@ function setupDbModule() {
     refreshProveedorOptions();
   });
 
-  document.getElementById("entityRows").addEventListener("click", (e) => {
+  document.getElementById("entityRows").addEventListener("click", async (e) => {
     const editId = e.target.dataset.edit;
     const delId = e.target.dataset.del;
     if (editId) {
@@ -374,7 +457,8 @@ function setupDbModule() {
       Object.entries(row).forEach(([k, v]) => form.elements[k] && (form.elements[k].value = v));
     }
     if (delId) {
-      db[activeEntity] = db[activeEntity].filter((x) => x.id !== delId);
+      if (isApiMode()) await apiRequest(`/api/entities/${activeEntity}/${delId}`, { method: "DELETE" });
+      db[activeEntity] = db[activeEntity].filter((x) => String(x.id) !== String(delId));
       persistDb();
       renderEntityUi();
       refreshProveedorOptions();
@@ -383,7 +467,11 @@ function setupDbModule() {
 
   document.getElementById("entitySearch").addEventListener("input", (e) => renderEntityRows(e.target.value));
 
-  document.getElementById("dbReset").addEventListener("click", () => {
+  document.getElementById("dbReset").addEventListener("click", async () => {
+    if (isApiMode()) {
+      alert("En modo API el reset se gestiona desde backend/base de datos.");
+      return;
+    }
     db = structuredClone(seedDb);
     persistDb();
     editingId = null;
@@ -403,11 +491,19 @@ function setupDbModule() {
   renderEntityUi();
 }
 
-function renderInformes() {
-  const ingresos = ingresosRows.reduce((a, i) => a + i[5], 0);
-  const egresos = db.egresos.reduce((a, e) => a + Number(e.monto), 0);
-  const utilidad = ingresos - egresos;
-  const margen = ingresos ? (utilidad / ingresos) * 100 : 0;
+async function renderInformes() {
+  let ingresos = ingresosRows.reduce((a, i) => a + i[5], 0);
+  let egresos = db.egresos.reduce((a, e) => a + Number(e.monto), 0);
+  let utilidad = ingresos - egresos;
+  let margen = ingresos ? (utilidad / ingresos) * 100 : 0;
+
+  if (isApiMode() && currentSession?.token) {
+    const resumen = await apiRequest("/api/informes/resumen");
+    ingresos = Number(resumen.ingresos || 0);
+    egresos = Number(resumen.egresos || 0);
+    utilidad = Number(resumen.utilidad || 0);
+    margen = Number(resumen.margen || 0);
+  }
 
   document.getElementById("repIngresos").textContent = formatMoney(ingresos);
   document.getElementById("repEgresos").textContent = formatMoney(egresos);
@@ -416,10 +512,12 @@ function renderInformes() {
   document.getElementById("tesoreriaPagar").textContent = formatMoney(db.egresos.filter((e) => e.estado === "Pendiente").reduce((a, e) => a + Number(e.monto), 0));
   document.getElementById("tesoreriaDisponible").textContent = formatMoney(ingresos - egresos);
 
-  const byCategory = db.egresos.reduce((acc, e) => {
-    acc[e.categoria] = (acc[e.categoria] || 0) + Number(e.monto);
-    return acc;
-  }, {});
+  const byCategory = isApiMode() && currentSession?.token
+    ? await apiRequest("/api/informes/egresos-por-categoria")
+    : db.egresos.reduce((acc, e) => {
+      acc[e.categoria] = (acc[e.categoria] || 0) + Number(e.monto);
+      return acc;
+    }, {});
   const labels = Object.keys(byCategory);
   const values = Object.values(byCategory);
 
@@ -519,7 +617,7 @@ function renderFacturas() {
     .join("");
 }
 
-function setupFacturacion() {
+async function setupFacturacion() {
   const clienteSel = document.getElementById("facturaCliente");
   clienteSel.innerHTML = db.clientes.map((c) => `<option value="${c.id}">${c.nombre}</option>`).join("");
   const condSel = document.getElementById("facturaCondicion");
@@ -543,7 +641,13 @@ function setupFacturacion() {
     ivaInput.value = cfg.alicuota;
   });
 
-  document.getElementById("btnSolicitarCAE").addEventListener("click", () => {
+  document.getElementById("btnSolicitarCAE").addEventListener("click", async () => {
+    if (isApiMode()) {
+      const caeData = await apiRequest("/api/facturas/simular-cae", { method: "POST", body: JSON.stringify({}) });
+      document.getElementById("facturaCAE").value = caeData.cae;
+      document.getElementById("facturaCAEVto").value = caeData.vencimiento;
+      return;
+    }
     const cae = `${Math.floor(10 ** 13 + Math.random() * 9 * 10 ** 13)}`;
     const vto = new Date();
     vto.setDate(vto.getDate() + 10);
@@ -551,13 +655,13 @@ function setupFacturacion() {
     document.getElementById("facturaCAEVto").value = vto.toISOString().slice(0, 10);
   });
 
-  document.getElementById("facturaForm").addEventListener("submit", (e) => {
+  document.getElementById("facturaForm").addEventListener("submit", async (e) => {
     e.preventDefault();
     const data = Object.fromEntries(new FormData(e.target).entries());
     const neto = Number(data.neto);
     const calc = calcularFactura(neto, Number(data.alicuota), data.condicion);
     const cli = db.clientes.find((x) => x.id === data.cliente);
-    facturaActual = {
+    const draftFactura = {
       fecha: new Date().toLocaleDateString("es-AR"),
       cliente: cli?.nombre || data.cliente,
       clienteEmail: cli?.email || "",
@@ -570,6 +674,23 @@ function setupFacturacion() {
       cae: document.getElementById("facturaCAE").value,
       caeVto: document.getElementById("facturaCAEVto").value
     };
+    if (isApiMode()) {
+      const created = await apiRequest("/api/facturas", {
+        method: "POST",
+        body: JSON.stringify({
+          clienteId: data.cliente,
+          condicionIVA: data.condicion,
+          neto,
+          alicuota: data.alicuota,
+          concepto: data.concepto,
+          cae: draftFactura.cae || null,
+          caeVto: draftFactura.caeVto || null
+        })
+      });
+      facturaActual = { ...created, condicion: created.condicionIVA, clienteEmail: cli?.email || "" };
+    } else {
+      facturaActual = draftFactura;
+    }
     facturas.unshift(facturaActual);
     renderFacturas();
     document.getElementById("facturaTotales").innerHTML = `
@@ -615,16 +736,26 @@ function setupFacturacion() {
   });
 
   syncClienteCondicion();
+  if (isApiMode() && currentSession?.token) {
+    const apiFacturas = await apiRequest("/api/facturas").catch(() => []);
+    facturas = apiFacturas.map((f) => ({ ...f, condicion: f.condicionIVA }));
+    renderFacturas();
+  }
 }
 
 function setupUsuarios() {
   renderUsuarios();
-  document.getElementById('usuarioForm').addEventListener('submit', (e) => {
+  document.getElementById('usuarioForm').addEventListener('submit', async (e) => {
     e.preventDefault();
     if (!hasAction('base_datos:manage_users')) return;
     const data = Object.fromEntries(new FormData(e.target).entries());
     if (users.some((u) => u.username === data.username)) return alert('Usuario ya existe');
-    users.push({ ...data, activo: true });
+    if (isApiMode()) {
+      const created = await apiRequest("/api/entities/users", { method: "POST", body: JSON.stringify({ ...data, activo: true }) });
+      users.push(created);
+    } else {
+      users.push({ ...data, activo: true });
+    }
     persistUsers();
     e.target.reset();
     renderUsuarios();
@@ -646,16 +777,46 @@ function setupTabs() {
   });
 }
 
-setKPIs();
-createDashboardCharts();
-fillIngresos();
-setupEgresos();
-setupDbModule();
-setupUsuarios();
-setupFacturacion();
-renderEgresos();
-renderInformes();
-setupInformesGenerator();
-setupTabs();
-setupAuth();
-applyPermissionsUi();
+function setupModeSelector() {
+  const modeEl = document.getElementById("dataMode");
+  if (!modeEl) return;
+  modeEl.value = appMode;
+  modeEl.addEventListener("change", () => {
+    setMode(modeEl.value);
+    window.location.reload();
+  });
+}
+
+async function bootstrap() {
+  setKPIs();
+  createDashboardCharts();
+  fillIngresos();
+  setupModeSelector();
+  setupEgresos();
+  setupDbModule();
+  setupUsuarios();
+  setupInformesGenerator();
+  setupTabs();
+  setupAuth();
+
+  if (isApiMode() && currentSession?.token) {
+    try {
+      await hydrateFromApi();
+    } catch (error) {
+      console.warn("No se pudo cargar backend API, cambiando a modo demo:", error.message);
+      setMode("demo");
+      appMode = "demo";
+      db = loadDb();
+      users = loadUsers();
+      clearSession();
+      currentSession = null;
+    }
+  }
+
+  await setupFacturacion();
+  renderEgresos();
+  await renderInformes();
+  applyPermissionsUi();
+}
+
+bootstrap();

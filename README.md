@@ -6,18 +6,29 @@ Prototipo front-end de gestión comercial/administrativa con pestañas de Inicio
 
 - Dashboard con KPIs y gráficos.
 - Egresos completo con alta + listado + búsqueda.
-- Base de datos de prueba funcional en `localStorage` para Clientes/Proveedores/Productos (ABM, edición, borrado, export JSON y reset demo).
+- Arquitectura unificada Frontend + Backend: el front usa por defecto la API (`http://localhost:4000`) para auth, entidades, facturas e informes.
+- Modo demo opcional en `localStorage` para ejecutar sin backend (selector "Modo datos" en el header).
 - Informes con resumen financiero dinámico, gráfico por categoría de egresos y generador de informes (ventas/egresos/utilidad/stock) con exportación CSV.
 - Facturación electrónica en modo demo: solicitud CAE (simulada), discriminación de IVA por condición fiscal (RI/Monotributo/Consumidor Final), impresión, PDF y envío por email (mailto).
 - Usuarios, sesiones y roles (admin, vendedor, tesoreria, contador) con permisos por módulo/acción en modo demo.
 
-## Ejecutar
+## Ejecutar (modo API recomendado)
+
+```bash
+cd backend
+npm install
+npm run start
+```
+
+En otra terminal:
 
 ```bash
 python3 -m http.server 4173
 ```
 
 Luego abrir `http://localhost:4173`.
+
+> Si querés probar sin backend, cambiá el selector **Modo datos** a `Demo local`.
 
 ## Backend demo por fases
 
