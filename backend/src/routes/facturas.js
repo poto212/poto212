@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import { readDb, writeDb, nextId } from '../data/db.js';
+import * as storage from '../data/storage.js';
 import { authRequired } from '../middleware/auth.js';
 import { can } from '../services/permissions.js';
 
@@ -25,18 +25,17 @@ router.post('/simular-cae', (req, res) => {
   return res.json({ cae, vencimiento: vence.toISOString().slice(0, 10), provider: 'AFIP_DEMO' });
 });
 
-router.post('/', (req, res) => {
+router.post('/', async (req, res) => {
   if (!can(req.user.rol, 'facturas:create') && req.user.rol !== 'admin') return res.status(403).json({ error: 'Sin permiso' });
 
   const { clienteId, condicionIVA, neto, alicuota, concepto, cae, caeVto } = req.body;
-  const db = readDb();
-  const cliente = db.clientes.find((c) => Number(c.id) === Number(clienteId));
+  const clientes = await storage.list('clientes');
+  const cliente = clientes.find((c) => Number(c.id) === Number(clienteId));
   if (!cliente) return res.status(400).json({ error: 'Cliente no encontrado' });
 
   const calculo = applyIvaRules(condicionIVA || cliente.condicionIVA, Number(neto), Number(alicuota || 21));
 
-  const factura = {
-    id: nextId(db.facturas),
+  const facturaPayload = {
     fecha: new Date().toISOString().slice(0, 10),
     clienteId: cliente.id,
     cliente: cliente.nombre,
@@ -51,21 +50,18 @@ router.post('/', (req, res) => {
     creadoPor: req.user.username
   };
 
-  db.facturas.push(factura);
-  writeDb(db);
+  const factura = await storage.create('facturas', facturaPayload);
   return res.status(201).json(factura);
 });
 
-router.get('/', (req, res) => {
+router.get('/', async (req, res) => {
   if (!can(req.user.rol, 'facturas:read') && req.user.rol !== 'admin') return res.status(403).json({ error: 'Sin permiso' });
-  const db = readDb();
-  return res.json(db.facturas);
+  return res.json(await storage.list('facturas'));
 });
 
-router.get('/:id/pdf', (req, res) => {
+router.get('/:id/pdf', async (req, res) => {
   if (!can(req.user.rol, 'facturas:read') && req.user.rol !== 'admin') return res.status(403).json({ error: 'Sin permiso' });
-  const db = readDb();
-  const factura = db.facturas.find((f) => Number(f.id) === Number(req.params.id));
+  const factura = await storage.getById('facturas', req.params.id);
   if (!factura) return res.status(404).json({ error: 'Factura no encontrada' });
 
   // fase 2 demo: devolver texto plano (hook para reemplazar por PDF real)

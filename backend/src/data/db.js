@@ -17,7 +17,7 @@ function normalizeUsers(users) {
   return { normalized, changed };
 }
 
-const initialData = {
+export const initialData = {
   users: [
     { id: 1, username: 'admin', password: 'admin123', nombre: 'Administrador', rol: 'admin', activo: true },
     { id: 2, username: 'vendedor', password: 'vendedor123', nombre: 'Ventas', rol: 'vendedor', activo: true },

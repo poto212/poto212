@@ -1,15 +1,15 @@
 import { Router } from 'express';
-import { readDb } from '../data/db.js';
+import * as storage from '../data/storage.js';
 import { signSession } from '../middleware/auth.js';
 import { verifyPassword } from '../services/security.js';
 
 const router = Router();
 
-router.post('/login', (req, res) => {
+router.post('/login', async (req, res) => {
   const { username, password } = req.body;
-  const db = readDb();
+  const users = await storage.list('users');
   if (!username || !password) return res.status(400).json({ error: 'Usuario y contraseña requeridos' });
-  const user = db.users.find((u) => u.username === username && u.activo);
+  const user = users.find((u) => u.username === username && u.activo);
   if (!user || !verifyPassword(password, user.password)) return res.status(401).json({ error: 'Credenciales inválidas' });
 
   const token = signSession(user);

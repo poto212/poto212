@@ -1,22 +1,21 @@
 import { Router } from 'express';
-import { readDb, writeDb, nextId } from '../data/db.js';
 import { authRequired } from '../middleware/auth.js';
 import { can } from '../services/permissions.js';
+import * as storage from '../data/storage.js';
 
 const router = Router();
 const collections = ['clientes', 'proveedores', 'productos', 'egresos', 'users'];
 
 router.use(authRequired);
 
-router.get('/:entity', (req, res) => {
+router.get('/:entity', async (req, res) => {
   const { entity } = req.params;
   if (!collections.includes(entity)) return res.status(404).json({ error: 'Entidad no válida' });
   if (!can(req.user.rol, 'entidades:read') && req.user.rol !== 'admin') return res.status(403).json({ error: 'Sin permiso' });
-  const db = readDb();
-  return res.json(db[entity]);
+  return res.json(await storage.list(entity));
 });
 
-router.post('/:entity', (req, res) => {
+router.post('/:entity', async (req, res) => {
   const { entity } = req.params;
   if (!collections.includes(entity)) return res.status(404).json({ error: 'Entidad no válida' });
 
@@ -27,36 +26,26 @@ router.post('/:entity', (req, res) => {
     egresos: 'egresos:create',
     users: 'base_datos:manage_users'
   };
+
   const action = actionMap[entity];
   if (!can(req.user.rol, action) && req.user.rol !== 'admin') return res.status(403).json({ error: `Sin permiso: ${action}` });
 
-  const db = readDb();
-  const item = { id: nextId(db[entity]), ...req.body };
-  db[entity].push(item);
-  writeDb(db);
+  const item = await storage.create(entity, req.body);
   return res.status(201).json(item);
 });
 
-router.put('/:entity/:id', (req, res) => {
+router.put('/:entity/:id', async (req, res) => {
   const { entity, id } = req.params;
   if (!collections.includes(entity)) return res.status(404).json({ error: 'Entidad no válida' });
-
-  const db = readDb();
-  const idx = db[entity].findIndex((i) => Number(i.id) === Number(id));
-  if (idx < 0) return res.status(404).json({ error: 'Registro no encontrado' });
-
-  db[entity][idx] = { ...db[entity][idx], ...req.body, id: Number(id) };
-  writeDb(db);
-  return res.json(db[entity][idx]);
+  const updated = await storage.update(entity, id, req.body);
+  if (!updated) return res.status(404).json({ error: 'Registro no encontrado' });
+  return res.json(updated);
 });
 
-router.delete('/:entity/:id', (req, res) => {
+router.delete('/:entity/:id', async (req, res) => {
   const { entity, id } = req.params;
   if (!collections.includes(entity)) return res.status(404).json({ error: 'Entidad no válida' });
-
-  const db = readDb();
-  db[entity] = db[entity].filter((i) => Number(i.id) !== Number(id));
-  writeDb(db);
+  await storage.remove(entity, id);
   return res.status(204).send();
 });
 
