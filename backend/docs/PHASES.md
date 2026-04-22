@@ -1,8 +1,9 @@
 # Roadmap backend por fases
 
 ## Phase 1 (actual)
-- Login JWT
+- Login JWT (con contraseñas hasheadas en storage demo)
 - Roles/permisos
+- Normalización automática de passwords legacy en texto plano
 - CRUD entidades maestras y egresos
 
 ## Phase 2 (actual demo)

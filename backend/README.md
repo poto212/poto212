@@ -4,7 +4,7 @@ Backend en **fases** para complementar el front actual.
 
 ## Fases implementadas
 
-- **Fase 1:** autenticación, sesiones JWT, usuarios/roles/permisos y CRUD base.
+- **Fase 1:** autenticación, sesiones JWT, usuarios/roles/permisos y CRUD base (con passwords hasheadas en storage demo).
 - **Fase 2:** facturación demo con reglas IVA y simulación CAE + endpoint PDF stub.
 - **Fase 3:** informes de resumen y endpoint demo para envío de factura por mail.
 
@@ -36,3 +36,6 @@ Servidor: `http://localhost:4000`
 - `GET /api/informes/resumen`
 - `GET /api/informes/egresos-por-categoria`
 - `POST /api/informes/enviar-factura-mail-demo`
+
+
+> Nota: si existía `db.json` con passwords legacy en texto plano, se normalizan a hash en el primer arranque.

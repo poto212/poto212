@@ -1,7 +1,21 @@
 import fs from 'fs';
 import path from 'path';
+import { hashPassword, isHashedPassword } from '../services/security.js';
 
 const DB_FILE = path.resolve('backend/src/data/db.json');
+
+
+function normalizeUsers(users) {
+  let changed = false;
+  const normalized = users.map((u) => {
+    if (!isHashedPassword(u.password)) {
+      changed = true;
+      return { ...u, password: hashPassword(u.password) };
+    }
+    return u;
+  });
+  return { normalized, changed };
+}
 
 const initialData = {
   users: [
@@ -27,13 +41,22 @@ const initialData = {
 
 function ensureDb() {
   if (!fs.existsSync(DB_FILE)) {
-    fs.writeFileSync(DB_FILE, JSON.stringify(initialData, null, 2));
+    const seeded = { ...initialData };
+    const { normalized } = normalizeUsers(seeded.users);
+    seeded.users = normalized;
+    fs.writeFileSync(DB_FILE, JSON.stringify(seeded, null, 2));
   }
 }
 
 export function readDb() {
   ensureDb();
-  return JSON.parse(fs.readFileSync(DB_FILE, 'utf-8'));
+  const data = JSON.parse(fs.readFileSync(DB_FILE, 'utf-8'));
+  const { normalized, changed } = normalizeUsers(data.users || []);
+  if (changed) {
+    data.users = normalized;
+    fs.writeFileSync(DB_FILE, JSON.stringify(data, null, 2));
+  }
+  return data;
 }
 
 export function writeDb(data) {
