@@ -99,6 +99,43 @@ export function validateEntity(entity, payload = {}, { partial = false } = {}) {
     data.estado = requireEnum(payload, 'estado', ['Pendiente', 'Pagado'], errors);
     data.monto = requireNumber(payload, 'monto', errors, { min: 1 });
     data.nota = optionalString(payload, 'nota', errors, { max: 500 });
+  } else if (entity === 'tenants') {
+    data.nombre = required(payload, 'nombre', errors, { max: 160 });
+    data.cuit = optionalString(payload, 'cuit', errors, { max: 20 });
+    data.activo = payload.activo !== false;
+  } else if (entity === 'factura_items') {
+    data.facturaId = requireNumber(payload, 'facturaId', errors, { min: 1 });
+    data.productoId = payload.productoId ? requireNumber(payload, 'productoId', errors, { min: 1 }) : null;
+    data.codigo = optionalString(payload, 'codigo', errors, { max: 80 });
+    data.descripcion = required(payload, 'descripcion', errors, { max: 240 });
+    data.cantidad = requireNumber(payload, 'cantidad', errors, { min: 0.01 });
+    data.precioUnitario = requireNumber(payload, 'precioUnitario', errors, { min: 0 });
+    data.total = payload.total === undefined ? data.cantidad * data.precioUnitario : requireNumber(payload, 'total', errors, { min: 0 });
+  } else if (entity === 'pagos') {
+    data.proveedor = required(payload, 'proveedor', errors);
+    data.fecha = required(payload, 'fecha', errors, { max: 10 });
+    data.metodo = required(payload, 'metodo', errors, { max: 80 });
+    data.monto = requireNumber(payload, 'monto', errors, { min: 1 });
+    data.referencia = optionalString(payload, 'referencia', errors);
+    data.estado = optionalString(payload, 'estado', errors, { max: 40 }) || 'Confirmado';
+  } else if (entity === 'cobranzas') {
+    data.cliente = required(payload, 'cliente', errors);
+    data.fecha = required(payload, 'fecha', errors, { max: 10 });
+    data.metodo = required(payload, 'metodo', errors, { max: 80 });
+    data.monto = requireNumber(payload, 'monto', errors, { min: 1 });
+    data.referencia = optionalString(payload, 'referencia', errors);
+    data.estado = optionalString(payload, 'estado', errors, { max: 40 }) || 'Confirmada';
+  } else if (entity === 'depositos') {
+    data.nombre = required(payload, 'nombre', errors);
+    data.ubicacion = optionalString(payload, 'ubicacion', errors);
+    data.activo = payload.activo !== false;
+  } else if (entity === 'stock_movimientos') {
+    data.productoId = requireNumber(payload, 'productoId', errors, { min: 1 });
+    data.depositoId = payload.depositoId ? requireNumber(payload, 'depositoId', errors, { min: 1 }) : null;
+    data.tipo = requireEnum(payload, 'tipo', ['Entrada', 'Salida', 'Ajuste'], errors);
+    data.cantidad = requireNumber(payload, 'cantidad', errors, { min: 0.01 });
+    data.motivo = optionalString(payload, 'motivo', errors);
+    data.referencia = optionalString(payload, 'referencia', errors);
   } else if (entity === 'users') {
     data.username = required(payload, 'username', errors, { min: 3, max: 40 });
     data.nombre = required(payload, 'nombre', errors, { max: 120 });

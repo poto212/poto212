@@ -6,13 +6,19 @@ import { hashPassword } from '../services/security.js';
 import { validateEntity } from '../services/validation.js';
 
 const router = Router();
-const collections = ['clientes', 'proveedores', 'productos', 'egresos', 'users'];
+const collections = ['clientes', 'proveedores', 'productos', 'egresos', 'users', 'tenants', 'factura_items', 'pagos', 'cobranzas', 'depositos', 'stock_movimientos'];
 const actionMap = {
   clientes: 'entidades:create',
   proveedores: 'entidades:create',
   productos: 'entidades:create',
   egresos: 'egresos:create',
-  users: 'base_datos:manage_users'
+  users: 'base_datos:manage_users',
+  tenants: 'base_datos:manage_users',
+  factura_items: 'facturas:create',
+  pagos: 'egresos:create',
+  cobranzas: 'facturas:create',
+  depositos: 'entidades:create',
+  stock_movimientos: 'entidades:create'
 };
 
 function safeList(entity, rows) {
@@ -33,6 +39,14 @@ router.post('/productos/stock-barcode', async (req, res) => {
   if (!producto) return res.status(404).json({ error: 'Producto no encontrado para el código de barras' });
 
   const updated = await storage.update('productos', producto.id, { stock: Number(producto.stock || 0) + cantidad });
+  await storage.create('stock_movimientos', {
+    productoId: producto.id,
+    depositoId: req.body.depositoId || null,
+    tipo: cantidad > 0 ? 'Entrada' : 'Salida',
+    cantidad: Math.abs(cantidad),
+    motivo: 'Carga por código de barras',
+    referencia: codigo
+  });
   return res.json(updated);
 });
 

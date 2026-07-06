@@ -73,6 +73,8 @@ DATABASE_URL=postgresql://user:pass@localhost:5432/sistema_gestion
 - `GET /api/facturas/:id/pdf`
 - `GET /api/informes/resumen`
 - `GET /api/informes/egresos-por-categoria`
+- `GET /api/informes/stock-alertas`
+- `GET /api/informes/caja`
 - `POST /api/informes/enviar-factura-mail-demo`
 
 ## Seguridad, validación y observabilidad
@@ -81,6 +83,7 @@ DATABASE_URL=postgresql://user:pass@localhost:5432/sistema_gestion
 - Headers de seguridad, CORS configurable (`CORS_ORIGIN`) y rate limit (`RATE_LIMIT_*`).
 - `X-Request-Id` por request y logs JSON con método, ruta, estado y duración.
 - Auditoría persistente en `audit_logs` para altas, modificaciones y bajas MySQL.
+- Tablas operativas para items de factura, pagos, cobranzas, depósitos y movimientos de stock.
 
 ## Mail y PDF
 
@@ -93,3 +96,8 @@ DATABASE_URL=postgresql://user:pass@localhost:5432/sistema_gestion
 ```bash
 npm test
 ```
+
+## Docker / CI
+
+- `docker-compose up --build` levanta MySQL, backend y frontend.
+- `.github/workflows/ci.yml` ejecuta tests backend contra MySQL en CI.

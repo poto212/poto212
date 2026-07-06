@@ -4,6 +4,7 @@ function escapePdfText(value) {
 
 export function buildInvoicePdf(factura) {
   const lines = [
+    `${process.env.DEFAULT_TENANT_NAME || 'Empresa Demo'} - Comprobante fiscal/comercial`,
     `Factura ${factura.tipo}`,
     `Fecha: ${factura.fecha}`,
     `Cliente: ${factura.cliente}`,
@@ -13,6 +14,7 @@ export function buildInvoicePdf(factura) {
     `IVA: ${Number(factura.iva).toFixed(2)}`,
     `Total: ${Number(factura.total).toFixed(2)}`,
     `CAE: ${factura.cae || 'N/D'} - Vto: ${factura.caeVto || 'N/D'}`,
+    `QR fiscal: ${factura.qr || 'N/D'}`,
     `Emitido por: ${factura.creadoPor || 'sistema'}`
   ];
   const text = lines.map((line, idx) => `BT /F1 12 Tf 50 ${760 - idx * 24} Td (${escapePdfText(line)}) Tj ET`).join('\n');

@@ -4,6 +4,7 @@ import { authRequired } from '../middleware/auth.js';
 import { can } from '../services/permissions.js';
 import { buildInvoicePdf } from '../services/pdf.js';
 import { validateFactura } from '../services/validation.js';
+import { buildQrPayload, requestCAE } from '../services/afip.js';
 
 const router = Router();
 router.use(authRequired);
@@ -19,12 +20,9 @@ function applyIvaRules(condicionIVA, neto, alicuota) {
   return { tipo: 'Factura B', iva: 0, total: neto };
 }
 
-router.post('/simular-cae', (req, res) => {
+router.post('/simular-cae', async (req, res) => {
   if (!can(req.user.rol, 'facturas:create') && req.user.rol !== 'admin') return res.status(403).json({ error: 'Sin permiso' });
-  const cae = `${Math.floor(10 ** 13 + Math.random() * 9 * 10 ** 13)}`;
-  const vence = new Date();
-  vence.setDate(vence.getDate() + 10);
-  return res.json({ cae, vencimiento: vence.toISOString().slice(0, 10), provider: 'AFIP_DEMO' });
+  return res.json(await requestCAE({ tipo: req.body.tipo || 'Factura B', total: Number(req.body.total || 0) }));
 });
 
 router.post('/', async (req, res) => {
@@ -32,12 +30,13 @@ router.post('/', async (req, res) => {
 
   const parsed = validateFactura(req.body);
   if (!parsed.ok) return res.status(400).json({ error: 'Datos inválidos', fields: parsed.errors });
-  const { clienteId, condicionIVA, neto, alicuota, concepto, cae, caeVto } = parsed.data;
+  const { clienteId, condicionIVA, neto, alicuota, concepto } = parsed.data;
   const clientes = await storage.list('clientes');
   const cliente = clientes.find((c) => String(c.id) === String(clienteId));
   if (!cliente) return res.status(400).json({ error: 'Cliente no encontrado' });
 
   const calculo = applyIvaRules(condicionIVA || cliente.condicionIVA, Number(neto), Number(alicuota || 21));
+  const caeResult = await requestCAE({ tipo: calculo.tipo, total: calculo.total });
 
   const facturaPayload = {
     fecha: new Date().toISOString().slice(0, 10),
@@ -49,12 +48,27 @@ router.post('/', async (req, res) => {
     neto: Number(neto),
     iva: calculo.iva,
     total: calculo.total,
-    cae: cae || null,
-    caeVto: caeVto || null,
+    cae: caeResult.cae || null,
+    caeVto: caeResult.vencimiento || null,
     creadoPor: req.user.username
   };
 
   const factura = await storage.create('facturas', facturaPayload);
+  const qr = buildQrPayload(factura);
+  await storage.update('facturas', factura.id, { qr });
+  const items = Array.isArray(req.body.items) && req.body.items.length ? req.body.items : [{ descripcion: concepto, cantidad: 1, precioUnitario: neto, total: neto }];
+  for (const item of items) {
+    await storage.create('factura_items', {
+      facturaId: factura.id,
+      productoId: item.productoId || null,
+      codigo: item.codigo || null,
+      descripcion: item.descripcion || concepto,
+      cantidad: Number(item.cantidad || 1),
+      precioUnitario: Number(item.precioUnitario || neto),
+      total: Number(item.total || Number(item.cantidad || 1) * Number(item.precioUnitario || neto))
+    });
+  }
+  factura.qr = qr;
   return res.status(201).json(factura);
 });
 

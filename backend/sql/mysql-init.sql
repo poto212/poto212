@@ -1,6 +1,13 @@
 CREATE DATABASE IF NOT EXISTS sistema_gestion CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 USE sistema_gestion;
 
+CREATE TABLE IF NOT EXISTS schema_migrations (
+  version VARCHAR(80) PRIMARY KEY,
+  applied_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+INSERT IGNORE INTO schema_migrations(version) VALUES ('001_initial_relational_schema');
+
 CREATE TABLE IF NOT EXISTS tenants (
   id INT AUTO_INCREMENT PRIMARY KEY,
   nombre VARCHAR(160) NOT NULL,
@@ -100,12 +107,91 @@ CREATE TABLE IF NOT EXISTS facturas (
   total DECIMAL(14,2) NOT NULL,
   cae VARCHAR(32) NULL,
   caeVto DATE NULL,
+  qr TEXT NULL,
   creadoPor VARCHAR(80) NULL,
   created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
   updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   INDEX idx_facturas_fecha (tenant_id, fecha),
   CONSTRAINT fk_facturas_tenant FOREIGN KEY (tenant_id) REFERENCES tenants(id),
   CONSTRAINT fk_facturas_cliente FOREIGN KEY (clienteId) REFERENCES clientes(id)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+
+CREATE TABLE IF NOT EXISTS factura_items (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  tenant_id INT NOT NULL,
+  facturaId INT NOT NULL,
+  productoId INT NULL,
+  codigo VARCHAR(80) NULL,
+  descripcion VARCHAR(240) NOT NULL,
+  cantidad DECIMAL(14,2) NOT NULL,
+  precioUnitario DECIMAL(14,2) NOT NULL,
+  total DECIMAL(14,2) NOT NULL,
+  created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  INDEX idx_factura_items_factura (tenant_id, facturaId),
+  CONSTRAINT fk_factura_items_tenant FOREIGN KEY (tenant_id) REFERENCES tenants(id),
+  CONSTRAINT fk_factura_items_factura FOREIGN KEY (facturaId) REFERENCES facturas(id)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+CREATE TABLE IF NOT EXISTS pagos (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  tenant_id INT NOT NULL,
+  proveedor VARCHAR(160) NOT NULL,
+  fecha DATE NOT NULL,
+  metodo VARCHAR(80) NOT NULL,
+  monto DECIMAL(14,2) NOT NULL,
+  referencia VARCHAR(160) NULL,
+  estado VARCHAR(40) NOT NULL DEFAULT 'Confirmado',
+  created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  INDEX idx_pagos_fecha (tenant_id, fecha),
+  CONSTRAINT fk_pagos_tenant FOREIGN KEY (tenant_id) REFERENCES tenants(id)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+CREATE TABLE IF NOT EXISTS cobranzas (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  tenant_id INT NOT NULL,
+  cliente VARCHAR(160) NOT NULL,
+  fecha DATE NOT NULL,
+  metodo VARCHAR(80) NOT NULL,
+  monto DECIMAL(14,2) NOT NULL,
+  referencia VARCHAR(160) NULL,
+  estado VARCHAR(40) NOT NULL DEFAULT 'Confirmada',
+  created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  INDEX idx_cobranzas_fecha (tenant_id, fecha),
+  CONSTRAINT fk_cobranzas_tenant FOREIGN KEY (tenant_id) REFERENCES tenants(id)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+CREATE TABLE IF NOT EXISTS depositos (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  tenant_id INT NOT NULL,
+  nombre VARCHAR(160) NOT NULL,
+  ubicacion VARCHAR(180) NULL,
+  activo BOOLEAN NOT NULL DEFAULT TRUE,
+  created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  UNIQUE KEY uq_depositos_tenant_nombre (tenant_id, nombre),
+  CONSTRAINT fk_depositos_tenant FOREIGN KEY (tenant_id) REFERENCES tenants(id)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+CREATE TABLE IF NOT EXISTS stock_movimientos (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  tenant_id INT NOT NULL,
+  productoId INT NOT NULL,
+  depositoId INT NULL,
+  tipo VARCHAR(40) NOT NULL,
+  cantidad DECIMAL(14,2) NOT NULL,
+  motivo VARCHAR(180) NULL,
+  referencia VARCHAR(160) NULL,
+  fecha TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  INDEX idx_stock_producto (tenant_id, productoId),
+  CONSTRAINT fk_stock_mov_tenant FOREIGN KEY (tenant_id) REFERENCES tenants(id),
+  CONSTRAINT fk_stock_mov_producto FOREIGN KEY (productoId) REFERENCES productos(id),
+  CONSTRAINT fk_stock_mov_deposito FOREIGN KEY (depositoId) REFERENCES depositos(id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 CREATE TABLE IF NOT EXISTS audit_logs (

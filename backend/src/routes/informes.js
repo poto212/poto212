@@ -30,6 +30,21 @@ router.get('/egresos-por-categoria', async (req, res) => {
   return res.json(grouped);
 });
 
+router.get('/stock-alertas', async (req, res) => {
+  if (!can(req.user.rol, 'informes:read') && req.user.rol !== 'admin') return res.status(403).json({ error: 'Sin permiso' });
+  const minimo = Number(req.query.minimo || process.env.STOCK_MINIMO_ALERTA || 5);
+  const productos = await storage.list('productos');
+  return res.json(productos.filter((p) => Number(p.stock || 0) <= minimo));
+});
+
+router.get('/caja', async (req, res) => {
+  if (!can(req.user.rol, 'informes:read') && req.user.rol !== 'admin') return res.status(403).json({ error: 'Sin permiso' });
+  const [cobranzas, pagos] = await Promise.all([storage.list('cobranzas'), storage.list('pagos')]);
+  const totalCobranzas = cobranzas.reduce((acc, row) => acc + Number(row.monto || 0), 0);
+  const totalPagos = pagos.reduce((acc, row) => acc + Number(row.monto || 0), 0);
+  return res.json({ cobranzas: totalCobranzas, pagos: totalPagos, saldo: totalCobranzas - totalPagos });
+});
+
 router.post('/enviar-factura-mail-demo', async (req, res) => {
   if (!can(req.user.rol, 'facturas:read') && req.user.rol !== 'admin') return res.status(403).json({ error: 'Sin permiso' });
   const parsed = validateMailPayload(req.body);

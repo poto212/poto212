@@ -59,7 +59,10 @@ const seedDb = {
   egresos: [
     { tipo: "Compra", proveedor: "Acero SA", categoria: "Insumos", fecha: "2026-03-04", vencimiento: "2026-03-15", estado: "Pendiente", monto: 198000, nota: "" },
     { tipo: "Gasto", proveedor: "Insumos Delta", categoria: "Servicios", fecha: "2026-03-03", vencimiento: "2026-03-03", estado: "Pagado", monto: 32000, nota: "Internet" }
-  ]
+  ],
+  depositos: [{ id: "D001", nombre: "Depósito Central", ubicacion: "Casa central", activo: true }],
+  pagos: [],
+  cobranzas: []
 };
 
 let appMode = loadMode();
@@ -72,6 +75,7 @@ let reportesChart;
 let egresosEventsBound = false;
 let informeRows = [];
 let facturas = [];
+let tenants = [];
 let afipConfig = { puntoVenta: 1, cuit: "30-99999999-7", modo: "demo" };
 let smtpConfig = { linked: false, from: "", host: "" };
 let facturaActual = null;
@@ -107,17 +111,23 @@ async function apiRequest(path, options = {}) {
 }
 
 async function hydrateFromApi() {
-  const [clientes, proveedores, productos, egresos, usersData, facturasData] = await Promise.all([
+  const [clientes, proveedores, productos, egresos, depositos, pagos, cobranzas, usersData, tenantsData, facturasData] = await Promise.all([
     apiRequest("/api/entities/clientes"),
     apiRequest("/api/entities/proveedores"),
     apiRequest("/api/entities/productos"),
     apiRequest("/api/entities/egresos"),
+    apiRequest("/api/entities/depositos").catch(() => []),
+    apiRequest("/api/entities/pagos").catch(() => []),
+    apiRequest("/api/entities/cobranzas").catch(() => []),
     apiRequest("/api/entities/users").catch(() => []),
+    apiRequest("/api/entities/tenants").catch(() => []),
     apiRequest("/api/facturas").catch(() => [])
   ]);
-  db = { clientes, proveedores, productos, egresos };
+  db = { clientes, proveedores, productos, egresos, depositos, pagos, cobranzas };
   users = usersData;
+  tenants = tenantsData;
   facturas = facturasData.map((f) => ({ ...f, condicion: f.condicionIVA }));
+  renderTenants();
 }
 
 
@@ -196,6 +206,13 @@ function renderUsuarios() {
   document.getElementById('usuariosRows').innerHTML = users
     .map((u) => `<tr><td>${u.username}</td><td>${u.nombre}</td><td>${u.rol}</td><td>${u.activo ? 'Activo' : 'Inactivo'}</td></tr>`)
     .join('');
+}
+
+function renderTenants() {
+  const tenantSelect = document.getElementById("tenantSelect");
+  if (!tenantSelect) return;
+  const rows = tenants.length ? tenants : [{ id: 1, nombre: "Empresa Demo" }];
+  tenantSelect.innerHTML = rows.map((tenant) => `<option value="${tenant.id}">${tenant.nombre}</option>`).join("");
 }
 
 function setupAuth() {
@@ -378,7 +395,10 @@ function setupEgresos() {
 const entityConfig = {
   clientes: ["id", "nombre", "cuit", "telefono", "localidad", "condicionIVA", "email"],
   proveedores: ["id", "nombre", "cuit", "telefono", "localidad"],
-  productos: ["id", "nombre", "codigo", "stock", "costo", "precio", "categoria"]
+  productos: ["id", "nombre", "codigo", "stock", "costo", "precio", "categoria"],
+  depositos: ["id", "nombre", "ubicacion", "activo"],
+  pagos: ["id", "proveedor", "fecha", "metodo", "monto", "referencia", "estado"],
+  cobranzas: ["id", "cliente", "fecha", "metodo", "monto", "referencia", "estado"]
 };
 
 function renderEntityUi() {
@@ -879,6 +899,7 @@ async function bootstrap() {
   createDashboardCharts();
   fillIngresos();
   setupModeSelector();
+  renderTenants();
   setupEgresos();
   setupDbModule();
   setupUsuarios();
