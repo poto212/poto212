@@ -4,6 +4,7 @@ import { hashPassword, isHashedPassword } from '../services/security.js';
 
 let pool = null;
 const DEFAULT_TENANT_ID = Number(process.env.DEFAULT_TENANT_ID || 1);
+const tenantFromOptions = (options = {}) => Number(options.tenantId || DEFAULT_TENANT_ID);
 const ENTITY_TABLES = {
   users: 'users',
   clientes: 'clientes',
@@ -244,26 +245,27 @@ async function ensureTenant() {
   await getPool().execute('INSERT IGNORE INTO tenants(id, nombre, cuit) VALUES (?, ?, ?)', [DEFAULT_TENANT_ID, process.env.DEFAULT_TENANT_NAME || 'Empresa Demo', process.env.DEFAULT_TENANT_CUIT || null]);
 }
 
-async function entityCount(entity) {
+async function entityCount(entity, options = {}) {
   const table = ENTITY_TABLES[entity];
   if (entity === 'tenants') {
     const [rows] = await getPool().execute('SELECT COUNT(*) AS count FROM tenants');
     return Number(rows[0]?.count || 0);
   }
-  const [rows] = await getPool().execute(`SELECT COUNT(*) AS count FROM ${table} WHERE tenant_id = ?`, [DEFAULT_TENANT_ID]);
+  const [rows] = await getPool().execute(`SELECT COUNT(*) AS count FROM ${table} WHERE tenant_id = ?`, [tenantFromOptions(options)]);
   return Number(rows[0]?.count || 0);
 }
 
-async function audit(entity, action, recordId, beforeData, afterData, actor = 'system') {
+async function audit(entity, action, recordId, beforeData, afterData, actor = 'system', tenantId = DEFAULT_TENANT_ID) {
   await getPool().execute(
     'INSERT INTO audit_logs(tenant_id, entity, record_id, action, actor, before_data, after_data) VALUES (?, ?, ?, ?, ?, ?, ?)',
-    [DEFAULT_TENANT_ID, entity, recordId || null, action, actor, beforeData ? JSON.stringify(beforeData) : null, afterData ? JSON.stringify(afterData) : null]
+    [tenantId, entity, recordId || null, action, actor, beforeData ? JSON.stringify(beforeData) : null, afterData ? JSON.stringify(afterData) : null]
   );
 }
 
-function rowToEntity(row) {
+function rowToEntity(row, { includeTenant = false } = {}) {
   if (!row) return null;
   const clean = { ...row };
+  if (includeTenant) clean.tenantId = clean.tenant_id;
   delete clean.tenant_id;
   delete clean.created_at;
   delete clean.updated_at;
@@ -282,67 +284,97 @@ export async function initMysql() {
   if ((await entityCount('depositos')) === 0) await mysqlCreate('depositos', { nombre: 'Depósito Central', ubicacion: 'Casa central', activo: true }, { audit: false });
 }
 
-export async function mysqlList(entity) {
+export async function mysqlList(entity, options = {}) {
   const table = ENTITY_TABLES[entity];
   if (!table) throw new Error(`Entidad MySQL no soportada: ${entity}`);
+  const tenantId = tenantFromOptions(options);
   const [rows] = entity === 'tenants'
     ? await getPool().execute('SELECT * FROM tenants ORDER BY id ASC')
-    : await getPool().execute(`SELECT * FROM ${table} WHERE tenant_id = ? ORDER BY id ASC`, [DEFAULT_TENANT_ID]);
-  return rows.map(rowToEntity);
+    : options.allTenants
+      ? await getPool().execute(`SELECT * FROM ${table} ORDER BY tenant_id ASC, id ASC`)
+      : await getPool().execute(`SELECT * FROM ${table} WHERE tenant_id = ? ORDER BY id ASC`, [tenantId]);
+  return rows.map((row) => rowToEntity(row, { includeTenant: options.includeTenant || options.allTenants }));
 }
 
-export async function mysqlGetById(entity, id) {
+export async function mysqlGetById(entity, id, options = {}) {
   const table = ENTITY_TABLES[entity];
   if (!table) throw new Error(`Entidad MySQL no soportada: ${entity}`);
+  const tenantId = tenantFromOptions(options);
   const [rows] = entity === 'tenants'
     ? await getPool().execute('SELECT * FROM tenants WHERE id = ?', [Number(id)])
-    : await getPool().execute(`SELECT * FROM ${table} WHERE tenant_id = ? AND id = ?`, [DEFAULT_TENANT_ID, Number(id)]);
-  return rowToEntity(rows[0]);
+    : await getPool().execute(`SELECT * FROM ${table} WHERE tenant_id = ? AND id = ?`, [tenantId, Number(id)]);
+  return rowToEntity(rows[0], { includeTenant: options.includeTenant });
 }
 
-function insertSql(entity, payload) {
-  const keys = Object.keys(payload).filter((key) => key !== 'id');
+function insertSql(entity, payload, options = {}) {
+  const keys = Object.keys(payload).filter((key) => key !== 'id' && key !== 'tenantId');
+  const tenantId = Number(payload.tenantId || tenantFromOptions(options));
   const columns = entity === 'tenants' ? keys : ['tenant_id', ...keys];
   const placeholders = columns.map(() => '?');
-  const values = entity === 'tenants' ? keys.map((key) => payload[key]) : [DEFAULT_TENANT_ID, ...keys.map((key) => payload[key])];
+  const values = entity === 'tenants' ? keys.map((key) => payload[key]) : [tenantId, ...keys.map((key) => payload[key])];
   return { sql: `INSERT INTO ${ENTITY_TABLES[entity]}(${columns.join(',')}) VALUES (${placeholders.join(',')})`, values };
 }
 
 export async function mysqlCreate(entity, payload, options = {}) {
-  const { sql, values } = insertSql(entity, payload);
+  const tenantId = tenantFromOptions(options);
+  const { sql, values } = insertSql(entity, payload, options);
   const [result] = await getPool().execute(sql, values);
-  const record = await mysqlGetById(entity, result.insertId);
-  if (options.audit !== false) await audit(entity, 'create', record.id, null, record);
+  const record = await mysqlGetById(entity, result.insertId, { tenantId, includeTenant: options.includeTenant });
+  if (options.audit !== false) await audit(entity, 'create', record.id, null, record, options.actor || 'system', tenantId);
   return record;
 }
 
-export async function mysqlUpdate(entity, id, payload) {
-  const existing = await mysqlGetById(entity, id);
+export async function mysqlUpdate(entity, id, payload, options = {}) {
+  const tenantId = tenantFromOptions(options);
+  const existing = await mysqlGetById(entity, id, { tenantId });
   if (!existing) return null;
-  const keys = Object.keys(payload).filter((key) => key !== 'id' && payload[key] !== undefined);
+  const keys = Object.keys(payload).filter((key) => key !== 'id' && key !== 'tenantId' && payload[key] !== undefined);
   if (!keys.length) return existing;
   const assignments = keys.map((key) => `${key} = ?`).join(', ');
   if (entity === 'tenants') {
     await getPool().execute(`UPDATE tenants SET ${assignments} WHERE id = ?`, [...keys.map((key) => payload[key]), Number(id)]);
   } else {
-    await getPool().execute(`UPDATE ${ENTITY_TABLES[entity]} SET ${assignments} WHERE tenant_id = ? AND id = ?`, [...keys.map((key) => payload[key]), DEFAULT_TENANT_ID, Number(id)]);
+    await getPool().execute(`UPDATE ${ENTITY_TABLES[entity]} SET ${assignments} WHERE tenant_id = ? AND id = ?`, [...keys.map((key) => payload[key]), tenantId, Number(id)]);
   }
-  const updated = await mysqlGetById(entity, id);
-  await audit(entity, 'update', Number(id), existing, updated);
+  const updated = await mysqlGetById(entity, id, { tenantId });
+  await audit(entity, 'update', Number(id), existing, updated, options.actor || 'system', tenantId);
   return updated;
 }
 
-export async function mysqlDelete(entity, id) {
-  const existing = await mysqlGetById(entity, id);
+export async function mysqlDelete(entity, id, options = {}) {
+  const tenantId = tenantFromOptions(options);
+  const existing = await mysqlGetById(entity, id, { tenantId });
   if (entity === 'tenants') {
     await getPool().execute('DELETE FROM tenants WHERE id = ?', [Number(id)]);
   } else {
-    await getPool().execute(`DELETE FROM ${ENTITY_TABLES[entity]} WHERE tenant_id = ? AND id = ?`, [DEFAULT_TENANT_ID, Number(id)]);
+    await getPool().execute(`DELETE FROM ${ENTITY_TABLES[entity]} WHERE tenant_id = ? AND id = ?`, [tenantId, Number(id)]);
   }
-  if (existing) await audit(entity, 'delete', Number(id), existing, null);
+  if (existing) await audit(entity, 'delete', Number(id), existing, null, options.actor || 'system', tenantId);
 }
 
 export async function closeMysql() {
   if (pool) await pool.end();
   pool = null;
+}
+
+
+const RESTORE_ALLOWED = /^(SET FOREIGN_KEY_CHECKS|START TRANSACTION|COMMIT|DELETE FROM (tenants|users|clientes|proveedores|productos|egresos|facturas|factura_items|pagos|cobranzas|depositos|stock_movimientos)|INSERT INTO (tenants|users|clientes|proveedores|productos|egresos|facturas|factura_items|pagos|cobranzas|depositos|stock_movimientos))/i;
+
+export async function mysqlRestoreBackup(sqlDump) {
+  if (!sqlDump || !sqlDump.includes('-- Sistema Gestion MySQL backup')) throw new Error('Backup inválido: falta encabezado del sistema');
+  const statements = sqlDump
+    .split(';')
+    .map((part) => part.split('\n').filter((line) => !line.trim().startsWith('--')).join('\n').trim())
+    .filter(Boolean);
+  if (!statements.length) throw new Error('Backup vacío');
+  for (const statement of statements) {
+    if (!RESTORE_ALLOWED.test(statement)) throw new Error(`Sentencia no permitida en backup: ${statement.slice(0, 60)}`);
+  }
+  const conn = await getPool().getConnection();
+  try {
+    for (const statement of statements) await conn.query(statement);
+    return { ok: true, statements: statements.length };
+  } finally {
+    conn.release();
+  }
 }

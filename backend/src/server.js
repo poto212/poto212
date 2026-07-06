@@ -22,7 +22,7 @@ export function createApp() {
   app.use(requestId);
   app.use(securityHeaders);
   app.use(cors({ origin: allowedOrigins, credentials: false }));
-  app.use(express.json({ limit: '250kb' }));
+  app.use(express.json({ limit: process.env.JSON_BODY_LIMIT || '5mb' }));
   app.use(rateLimit);
   app.use(logRequest);
 

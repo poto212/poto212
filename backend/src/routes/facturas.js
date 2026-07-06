@@ -31,7 +31,7 @@ router.post('/', async (req, res) => {
   const parsed = validateFactura(req.body);
   if (!parsed.ok) return res.status(400).json({ error: 'Datos inválidos', fields: parsed.errors });
   const { clienteId, condicionIVA, neto, alicuota, concepto } = parsed.data;
-  const clientes = await storage.list('clientes');
+  const clientes = await storage.list('clientes', { tenantId: req.tenantId });
   const cliente = clientes.find((c) => String(c.id) === String(clienteId));
   if (!cliente) return res.status(400).json({ error: 'Cliente no encontrado' });
 
@@ -53,9 +53,9 @@ router.post('/', async (req, res) => {
     creadoPor: req.user.username
   };
 
-  const factura = await storage.create('facturas', facturaPayload);
+  const factura = await storage.create('facturas', facturaPayload, { tenantId: req.tenantId, actor: req.user.username });
   const qr = buildQrPayload(factura);
-  await storage.update('facturas', factura.id, { qr });
+  await storage.update('facturas', factura.id, { qr }, { tenantId: req.tenantId, actor: req.user.username });
   const items = Array.isArray(req.body.items) && req.body.items.length ? req.body.items : [{ descripcion: concepto, cantidad: 1, precioUnitario: neto, total: neto }];
   for (const item of items) {
     await storage.create('factura_items', {
@@ -66,7 +66,7 @@ router.post('/', async (req, res) => {
       cantidad: Number(item.cantidad || 1),
       precioUnitario: Number(item.precioUnitario || neto),
       total: Number(item.total || Number(item.cantidad || 1) * Number(item.precioUnitario || neto))
-    });
+    }, { tenantId: req.tenantId, actor: req.user.username });
   }
   factura.qr = qr;
   return res.status(201).json(factura);
@@ -74,12 +74,12 @@ router.post('/', async (req, res) => {
 
 router.get('/', async (req, res) => {
   if (!can(req.user.rol, 'facturas:read') && req.user.rol !== 'admin') return res.status(403).json({ error: 'Sin permiso' });
-  return res.json(await storage.list('facturas'));
+  return res.json(await storage.list('facturas', { tenantId: req.tenantId }));
 });
 
 router.get('/:id/pdf', async (req, res) => {
   if (!can(req.user.rol, 'facturas:read') && req.user.rol !== 'admin') return res.status(403).json({ error: 'Sin permiso' });
-  const factura = await storage.getById('facturas', req.params.id);
+  const factura = await storage.getById('facturas', req.params.id, { tenantId: req.tenantId });
   if (!factura) return res.status(404).json({ error: 'Factura no encontrada' });
 
   const pdf = buildInvoicePdf(factura);

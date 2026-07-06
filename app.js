@@ -62,7 +62,8 @@ const seedDb = {
   ],
   depositos: [{ id: "D001", nombre: "Depósito Central", ubicacion: "Casa central", activo: true }],
   pagos: [],
-  cobranzas: []
+  cobranzas: [],
+  tenants: [{ id: 1, nombre: "Empresa Demo", cuit: "", activo: true }]
 };
 
 let appMode = loadMode();
@@ -101,6 +102,7 @@ function setMode(mode) {
 async function apiRequest(path, options = {}) {
   const headers = { "Content-Type": "application/json", ...(options.headers || {}) };
   if (currentSession?.token) headers.Authorization = `Bearer ${currentSession.token}`;
+  if (currentSession?.tenantId) headers['X-Tenant-Id'] = currentSession.tenantId;
   const resp = await fetch(`${API_BASE}${path}`, { ...options, headers });
   if (!resp.ok) {
     const err = await resp.json().catch(() => ({}));
@@ -123,7 +125,7 @@ async function hydrateFromApi() {
     apiRequest("/api/entities/tenants").catch(() => []),
     apiRequest("/api/facturas").catch(() => [])
   ]);
-  db = { clientes, proveedores, productos, egresos, depositos, pagos, cobranzas };
+  db = { clientes, proveedores, productos, egresos, depositos, pagos, cobranzas, tenants: tenantsData };
   users = usersData;
   tenants = tenantsData;
   facturas = facturasData.map((f) => ({ ...f, condicion: f.condicionIVA }));
@@ -152,7 +154,7 @@ function getSession() {
 }
 
 function setSession(user) {
-  localStorage.setItem(SESSION_KEY, JSON.stringify({ username: user.username, rol: user.rol, nombre: user.nombre, token: user.token || null }));
+  localStorage.setItem(SESSION_KEY, JSON.stringify({ username: user.username, rol: user.rol, nombre: user.nombre, tenantId: user.tenantId || 1, token: user.token || null }));
 }
 
 function clearSession() {
@@ -187,6 +189,7 @@ function applyPermissionsUi() {
     ["exportInforme", "informes:export"],
     ["dbExport", "base_datos:export"],
     ["mysqlBackup", "base_datos:manage_users"],
+    ["mysqlRestoreBtn", "base_datos:manage_users"],
     ["dbReset", "base_datos:reset"],
     ["usuarioForm", "base_datos:manage_users"]
   ];
@@ -210,10 +213,12 @@ function renderUsuarios() {
 }
 
 function renderTenants() {
-  const tenantSelect = document.getElementById("tenantSelect");
-  if (!tenantSelect) return;
   const rows = tenants.length ? tenants : [{ id: 1, nombre: "Empresa Demo" }];
-  tenantSelect.innerHTML = rows.map((tenant) => `<option value="${tenant.id}">${tenant.nombre}</option>`).join("");
+  [document.getElementById("tenantSelect"), document.getElementById("loginTenantSelect")].forEach((tenantSelect) => {
+    if (!tenantSelect) return;
+    tenantSelect.innerHTML = rows.map((tenant) => `<option value="${tenant.id}">${tenant.nombre}</option>`).join("");
+    tenantSelect.value = String(currentSession?.tenantId || rows[0]?.id || 1);
+  });
 }
 
 function setupAuth() {
@@ -237,7 +242,7 @@ function setupAuth() {
       if (isApiMode()) {
         const result = await apiRequest("/api/auth/login", {
           method: "POST",
-          body: JSON.stringify({ username: data.username, password: data.password })
+          body: JSON.stringify({ username: data.username, password: data.password, tenantId: data.tenantId })
         });
         currentSession = { ...result.user, token: result.token };
         setSession(currentSession);
@@ -245,7 +250,7 @@ function setupAuth() {
       } else {
         const user = users.find((u) => u.username === data.username && u.password === data.password && u.activo);
         if (!user) throw new Error("Credenciales inválidas");
-        currentSession = { username: user.username, rol: user.rol, nombre: user.nombre };
+        currentSession = { username: user.username, rol: user.rol, nombre: user.nombre, tenantId: Number(data.tenantId || 1) };
         setSession(user);
       }
       err.textContent = '';
@@ -272,7 +277,7 @@ function setupAuth() {
 }
 
 function loadDb() {
-  if (isApiMode()) return { clientes: [], proveedores: [], productos: [], egresos: [] };
+  if (isApiMode()) return { clientes: [], proveedores: [], productos: [], egresos: [], depositos: [], pagos: [], cobranzas: [], tenants: [] };
   const raw = localStorage.getItem(STORAGE_KEY);
   if (!raw) {
     localStorage.setItem(STORAGE_KEY, JSON.stringify(seedDb));
@@ -394,6 +399,7 @@ function setupEgresos() {
 }
 
 const entityConfig = {
+  tenants: ["id", "nombre", "cuit", "activo"],
   clientes: ["id", "nombre", "cuit", "telefono", "localidad", "condicionIVA", "email"],
   proveedores: ["id", "nombre", "cuit", "telefono", "localidad"],
   productos: ["id", "nombre", "codigo", "stock", "costo", "precio", "categoria"],
@@ -437,6 +443,7 @@ function setupDbModule() {
   document.getElementById("entityForm").addEventListener("submit", async (e) => {
     e.preventDefault();
     const form = Object.fromEntries(new FormData(e.target).entries());
+    if (activeEntity === "tenants") form.activo = form.activo !== "false";
     if (activeEntity === "productos") {
       form.stock = Number(form.stock);
       form.costo = Number(form.costo);
@@ -549,7 +556,7 @@ function setupDbModule() {
     }
     try {
       const resp = await fetch(`${API_BASE}/api/backup/mysql.sql`, {
-        headers: { Authorization: `Bearer ${currentSession.token}` }
+        headers: { Authorization: `Bearer ${currentSession.token}`, 'X-Tenant-Id': currentSession.tenantId || 1 }
       });
       if (!resp.ok) throw new Error("No se pudo generar el backup MySQL");
       const blob = await resp.blob();
@@ -560,6 +567,36 @@ function setupDbModule() {
       URL.revokeObjectURL(a.href);
     } catch (error) {
       alert(error.message);
+    }
+  });
+
+  document.getElementById("mysqlRestoreBtn").addEventListener("click", () => {
+    if (!isApiMode()) return alert("La restauración MySQL está disponible sólo en modo API.");
+    if (!hasAction("base_datos:manage_users")) return alert("Solo admin puede restaurar backups.");
+    document.getElementById("mysqlRestoreFile").click();
+  });
+
+  document.getElementById("mysqlRestoreFile").addEventListener("change", async (e) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    const confirmText = window.prompt('Restaurar reemplaza datos operativos. Escribí RESTAURAR para confirmar:');
+    if (confirmText !== 'RESTAURAR') {
+      e.target.value = '';
+      return;
+    }
+    try {
+      const sql = await file.text();
+      const result = await apiRequest("/api/backup/mysql/restore", { method: "POST", body: JSON.stringify({ sql, confirm: confirmText }) });
+      alert(`Backup restaurado (${result.restored} sentencias). Se recargará la empresa actual.`);
+      await hydrateFromApi();
+      renderEntityUi();
+      renderUsuarios();
+      renderEgresos();
+      renderFacturas();
+    } catch (error) {
+      alert(error.message || "No se pudo restaurar el backup");
+    } finally {
+      e.target.value = '';
     }
   });
 
@@ -792,7 +829,7 @@ async function setupFacturacion() {
     if (!facturaActual) return alert("Primero generá una factura");
     if (isApiMode() && facturaActual.id) {
       fetch(`${API_BASE}/api/facturas/${facturaActual.id}/pdf`, {
-        headers: { Authorization: `Bearer ${currentSession.token}` }
+        headers: { Authorization: `Bearer ${currentSession.token}`, 'X-Tenant-Id': currentSession.tenantId || 1 }
       })
         .then((resp) => {
           if (!resp.ok) throw new Error("No se pudo descargar el PDF");
@@ -906,6 +943,47 @@ function setupMobileNavigation() {
   overlay?.addEventListener("click", () => document.body.classList.remove("nav-open"));
 }
 
+function setupTenantSwitch() {
+  const tenantSelect = document.getElementById("tenantSelect");
+  tenantSelect?.addEventListener("change", async () => {
+    if (!isApiMode() || !currentSession?.token) {
+      currentSession = { ...(currentSession || {}), tenantId: Number(tenantSelect.value) };
+      setSession(currentSession);
+      return;
+    }
+    try {
+      const result = await apiRequest("/api/auth/switch-tenant", { method: "POST", body: JSON.stringify({ tenantId: Number(tenantSelect.value) }) });
+      currentSession = { ...result.user, token: result.token };
+      setSession(currentSession);
+      await hydrateFromApi();
+      renderUsuarios();
+      renderEntityUi();
+      refreshProveedorOptions();
+      await setupFacturacion();
+      renderEgresos();
+      await renderInformes();
+      applyPermissionsUi();
+    } catch (error) {
+      alert(error.message || "No se pudo cambiar de empresa");
+      renderTenants();
+    }
+  });
+}
+
+async function loadPublicTenants() {
+  if (!isApiMode()) return;
+  try {
+    const resp = await fetch(`${API_BASE}/api/auth/tenants`);
+    if (resp.ok) {
+      tenants = await resp.json();
+      db.tenants = tenants;
+      renderTenants();
+    }
+  } catch (error) {
+    console.warn("No se pudieron cargar empresas públicas", error.message);
+  }
+}
+
 function setupModeSelector() {
   const modeEl = document.getElementById("dataMode");
   if (!modeEl) return;
@@ -921,7 +999,9 @@ async function bootstrap() {
   createDashboardCharts();
   fillIngresos();
   setupModeSelector();
+  await loadPublicTenants();
   renderTenants();
+  setupTenantSwitch();
   setupEgresos();
   setupDbModule();
   setupUsuarios();

@@ -34,11 +34,11 @@ router.post('/productos/stock-barcode', async (req, res) => {
   const cantidad = Number(req.body.cantidad || 0);
   if (!codigo || !Number.isFinite(cantidad) || cantidad === 0) return res.status(400).json({ error: 'Código y cantidad válida requeridos' });
 
-  const productos = await storage.list('productos');
+  const productos = await storage.list('productos', { tenantId: req.tenantId });
   const producto = productos.find((p) => String(p.codigo).toLowerCase() === codigo.toLowerCase());
   if (!producto) return res.status(404).json({ error: 'Producto no encontrado para el código de barras' });
 
-  const updated = await storage.update('productos', producto.id, { stock: Number(producto.stock || 0) + cantidad });
+  const updated = await storage.update('productos', producto.id, { stock: Number(producto.stock || 0) + cantidad }, { tenantId: req.tenantId, actor: req.user.username });
   await storage.create('stock_movimientos', {
     productoId: producto.id,
     depositoId: req.body.depositoId || null,
@@ -46,7 +46,7 @@ router.post('/productos/stock-barcode', async (req, res) => {
     cantidad: Math.abs(cantidad),
     motivo: 'Carga por código de barras',
     referencia: codigo
-  });
+  }, { tenantId: req.tenantId, actor: req.user.username });
   return res.json(updated);
 });
 
@@ -55,7 +55,7 @@ router.get('/:entity', async (req, res) => {
   if (!collections.includes(entity)) return res.status(404).json({ error: 'Entidad no válida' });
   if (!can(req.user.rol, 'entidades:read') && req.user.rol !== 'admin') return res.status(403).json({ error: 'Sin permiso' });
   if (entity === 'users' && req.user.rol !== 'admin') return res.status(403).json({ error: 'Sin permiso' });
-  return res.json(safeList(entity, await storage.list(entity)));
+  return res.json(safeList(entity, await storage.list(entity, { tenantId: req.tenantId, includeTenant: entity === 'users' })));
 });
 
 router.post('/:entity', async (req, res) => {
@@ -69,7 +69,7 @@ router.post('/:entity', async (req, res) => {
   if (!parsed.ok) return res.status(400).json({ error: 'Datos inválidos', fields: parsed.errors });
   if (entity === 'users') parsed.data.password = hashPassword(parsed.data.password);
 
-  const item = await storage.create(entity, parsed.data);
+  const item = await storage.create(entity, parsed.data, { tenantId: req.tenantId, actor: req.user.username });
   return res.status(201).json(safeList(entity, [item])[0]);
 });
 
@@ -81,7 +81,7 @@ router.put('/:entity/:id', async (req, res) => {
   const parsed = validateEntity(entity, req.body, { partial: true });
   if (!parsed.ok) return res.status(400).json({ error: 'Datos inválidos', fields: parsed.errors });
   if (entity === 'users' && parsed.data.password) parsed.data.password = hashPassword(parsed.data.password);
-  const updated = await storage.update(entity, id, parsed.data);
+  const updated = await storage.update(entity, id, parsed.data, { tenantId: req.tenantId, actor: req.user.username });
   if (!updated) return res.status(404).json({ error: 'Registro no encontrado' });
   return res.json(safeList(entity, [updated])[0]);
 });
@@ -91,7 +91,7 @@ router.delete('/:entity/:id', async (req, res) => {
   if (!collections.includes(entity)) return res.status(404).json({ error: 'Entidad no válida' });
   const action = entity === 'users' ? 'base_datos:manage_users' : actionMap[entity];
   if (!can(req.user.rol, action) && req.user.rol !== 'admin') return res.status(403).json({ error: `Sin permiso: ${action}` });
-  await storage.remove(entity, id);
+  await storage.remove(entity, id, { tenantId: req.tenantId, actor: req.user.username });
   return res.status(204).send();
 });
 

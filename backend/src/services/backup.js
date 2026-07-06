@@ -12,7 +12,8 @@ function sqlValue(value) {
 function insertStatement(table, row) {
   const columns = Object.keys(row);
   const values = columns.map((column) => sqlValue(row[column]));
-  return `INSERT INTO ${table} (${columns.join(', ')}) VALUES (${values.join(', ')});`;
+  const sqlColumns = columns.map((column) => (column === 'tenantId' ? 'tenant_id' : column));
+  return `INSERT INTO ${table} (${sqlColumns.join(', ')}) VALUES (${values.join(', ')});`;
 }
 
 export async function buildMysqlBackup() {
@@ -24,7 +25,7 @@ export async function buildMysqlBackup() {
   ];
 
   for (const entity of BACKUP_ENTITIES) {
-    const rows = await storage.list(entity).catch(() => []);
+    const rows = await storage.list(entity, { allTenants: true, includeTenant: true }).catch(() => []);
     lines.push('', `-- ${entity}`, `DELETE FROM ${entity};`);
     for (const row of rows) lines.push(insertStatement(entity, row));
   }

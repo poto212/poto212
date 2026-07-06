@@ -77,6 +77,9 @@ DATABASE_URL=postgresql://user:pass@localhost:5432/sistema_gestion
 - `GET /api/informes/caja`
 - `POST /api/informes/enviar-factura-mail-demo`
 - `GET /api/backup/mysql.sql`
+- `POST /api/backup/mysql/restore`
+- `GET /api/auth/tenants`
+- `POST /api/auth/switch-tenant`
 
 ## Seguridad, validación y observabilidad
 
@@ -105,6 +108,21 @@ El usuario `admin` puede descargar un dump SQL desde la UI (Base de Datos > Back
 ```bash
 curl -H "Authorization: Bearer <TOKEN>" http://localhost:4000/api/backup/mysql.sql -o backup.sql
 ```
+
+Para restaurar, la UI exige seleccionar un `.sql` generado por el sistema y escribir `RESTAURAR`. El endpoint valida el encabezado del backup y sólo acepta sentencias `SET FOREIGN_KEY_CHECKS`, transacción, `DELETE` e `INSERT` sobre tablas operativas permitidas.
+
+```bash
+curl -X POST http://localhost:4000/api/backup/mysql/restore \
+  -H "Authorization: Bearer <TOKEN>" \
+  -H "Content-Type: application/json" \
+  -d '{"confirm":"RESTAURAR","sql":"-- Sistema Gestion MySQL backup\n..."}'
+```
+
+## Multiempresa
+
+- `tenants` se administra desde la pestaña Base de Datos > Empresas.
+- El login y el selector de la topbar trabajan con `tenantId`; el backend agrega `tenantId` al JWT y filtra clientes, productos, egresos, facturas, pagos, cobranzas, depósitos y stock por empresa.
+- `POST /api/auth/switch-tenant` emite una nueva sesión para cambiar de empresa. Los usuarios no admin requieren existir y estar activos en la empresa destino; admin puede administrar tenants globalmente.
 
 ## Docker / CI
 

@@ -114,3 +114,55 @@ test('admin can export a MySQL SQL backup', async () => {
     assert.match(dump, /INSERT INTO productos/);
   });
 });
+
+
+test('admin can restore a trusted MySQL SQL backup export', async () => {
+  await withServer(async (baseUrl) => {
+    const { token } = await login(baseUrl);
+    const exportResponse = await fetch(`${baseUrl}/api/backup/mysql.sql`, { headers: { Authorization: `Bearer ${token}` } });
+    const dump = await exportResponse.text();
+    const restoreResponse = await fetch(`${baseUrl}/api/backup/mysql/restore`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` },
+      body: JSON.stringify({ sql: dump, confirm: 'RESTAURAR' })
+    });
+    const body = await restoreResponse.json();
+    assert.equal(restoreResponse.status, 200);
+    assert.equal(body.ok, true);
+    assert.equal(body.restored > 0, true);
+  });
+});
+
+test('tenant switch isolates entity reads by selected company', async () => {
+  await withServer(async (baseUrl) => {
+    const { token } = await login(baseUrl);
+    const tenantResponse = await fetch(`${baseUrl}/api/entities/tenants`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` },
+      body: JSON.stringify({ nombre: 'Empresa Aislada', cuit: '30-70000000-1', activo: true })
+    });
+    const tenant = await tenantResponse.json();
+    assert.equal(tenantResponse.status, 201);
+
+    const switchResponse = await fetch(`${baseUrl}/api/auth/switch-tenant`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` },
+      body: JSON.stringify({ tenantId: tenant.id })
+    });
+    const switched = await switchResponse.json();
+    assert.equal(switchResponse.status, 200);
+
+    const createResponse = await fetch(`${baseUrl}/api/entities/clientes`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${switched.token}` },
+      body: JSON.stringify({ nombre: 'Cliente Tenant 2', cuit: '30-70000000-1', condicionIVA: 'Responsable Inscripto', email: 'tenant2@example.com' })
+    });
+    assert.equal(createResponse.status, 201);
+
+    const tenantTwoRows = await fetch(`${baseUrl}/api/entities/clientes`, { headers: { Authorization: `Bearer ${switched.token}` } }).then((response) => response.json());
+    assert.equal(tenantTwoRows.some((row) => row.nombre === 'Cliente Tenant 2'), true);
+
+    const tenantOneRows = await fetch(`${baseUrl}/api/entities/clientes`, { headers: { Authorization: `Bearer ${token}` } }).then((response) => response.json());
+    assert.equal(tenantOneRows.some((row) => row.nombre === 'Cliente Tenant 2'), false);
+  });
+});

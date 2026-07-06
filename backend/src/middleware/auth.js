@@ -10,6 +10,7 @@ export function authRequired(req, res, next) {
 
   try {
     req.user = jwt.verify(token, JWT_SECRET);
+    req.tenantId = Number(req.user.tenantId || process.env.DEFAULT_TENANT_ID || 1);
     return next();
   } catch {
     return res.status(401).json({ error: 'Token inválido' });
@@ -25,7 +26,7 @@ export function requireAction(action) {
 }
 
 export function signSession(user) {
-  return jwt.sign({ id: user.id, username: user.username, rol: user.rol, nombre: user.nombre }, JWT_SECRET, {
+  return jwt.sign({ id: user.id, username: user.username, rol: user.rol, nombre: user.nombre, tenantId: user.tenantId || user.tenant_id || Number(process.env.DEFAULT_TENANT_ID || 1) }, JWT_SECRET, {
     expiresIn: '8h'
   });
 }

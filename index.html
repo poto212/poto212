@@ -184,6 +184,8 @@
               <div class="inline-actions">
                 <button id="dbExport" class="action-btn ghost">Exportar JSON</button>
                 <button id="mysqlBackup" class="action-btn ghost">Backup MySQL</button>
+                <button id="mysqlRestoreBtn" class="action-btn danger">Restaurar MySQL</button>
+                <input id="mysqlRestoreFile" type="file" accept=".sql,text/sql,text/plain" hidden />
                 <button id="dbReset" class="action-btn danger">Restaurar demo</button>
               </div>
             </div>
@@ -194,6 +196,7 @@
               <button class="entity-tab" data-entity="depositos">Depósitos</button>
               <button class="entity-tab" data-entity="pagos">Pagos</button>
               <button class="entity-tab" data-entity="cobranzas">Cobranzas</button>
+              <button class="entity-tab" data-entity="tenants">Empresas</button>
             </div>
 
             <form id="barcodeStockForm" class="form-grid compact stock-scanner">
@@ -300,6 +303,7 @@
         <h3>Ingreso al sistema</h3>
         <p>Usuarios demo: admin/admin123, vendedor/vendedor123, tesoreria/tesoreria123, contador/contador123.</p>
         <form id="loginForm" class="form-grid">
+          <label>Empresa <select name="tenantId" id="loginTenantSelect"><option value="1">Empresa Demo</option></select></label>
           <label>Usuario <input name="username" required /></label>
           <label>Contraseña <input name="password" type="password" required /></label>
           <button class="action-btn" type="submit">Iniciar sesión</button>
