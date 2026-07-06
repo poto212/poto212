@@ -467,6 +467,39 @@ function setupDbModule() {
 
   document.getElementById("entitySearch").addEventListener("input", (e) => renderEntityRows(e.target.value));
 
+  document.getElementById("barcodeStockForm").addEventListener("submit", async (e) => {
+    e.preventDefault();
+    const status = document.getElementById("barcodeStockStatus");
+    const data = Object.fromEntries(new FormData(e.target).entries());
+    const codigo = String(data.codigo || "").trim();
+    const cantidad = Number(data.cantidad || 0);
+    if (!codigo || !cantidad) return;
+
+    try {
+      let updated;
+      if (isApiMode()) {
+        updated = await apiRequest("/api/entities/productos/stock-barcode", { method: "POST", body: JSON.stringify({ codigo, cantidad }) });
+        const idx = db.productos.findIndex((p) => String(p.id) === String(updated.id));
+        if (idx >= 0) db.productos[idx] = updated;
+      } else {
+        const producto = db.productos.find((p) => String(p.codigo).toLowerCase() === codigo.toLowerCase());
+        if (!producto) throw new Error("Producto no encontrado para el código escaneado");
+        producto.stock = Number(producto.stock || 0) + cantidad;
+        updated = producto;
+        persistDb();
+      }
+      activeEntity = "productos";
+      document.querySelectorAll(".entity-tab").forEach((b) => b.classList.toggle("active", b.dataset.entity === "productos"));
+      editingId = null;
+      renderEntityUi();
+      status.textContent = `Stock actualizado: ${updated.codigo} - ${updated.nombre} (${updated.stock})`;
+      e.target.reset();
+      document.getElementById("barcodeInput").focus();
+    } catch (error) {
+      status.textContent = error.message || "No se pudo cargar stock";
+    }
+  });
+
   document.getElementById("dbReset").addEventListener("click", async () => {
     if (isApiMode()) {
       alert("En modo API el reset se gestiona desde backend/base de datos.");

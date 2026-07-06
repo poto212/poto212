@@ -101,3 +101,5 @@ th,td { text-align:left; border-bottom:1px solid var(--border); padding:.55rem; 
   .inline-actions,.entity-tabs { display:grid; grid-template-columns:1fr; }
   .action-btn,.mini-btn,select,input,button { width:100%; }
 }
+.stock-scanner { border:1px dashed var(--border); border-radius:12px; padding:.8rem; background:#f8fafc; }
+.stock-scanner:focus-within { border-color:var(--accent); box-shadow:0 0 0 3px rgb(47 126 247 / 12%); }

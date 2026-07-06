@@ -22,6 +22,20 @@ function safeList(entity, rows) {
 
 router.use(authRequired);
 
+router.post('/productos/stock-barcode', async (req, res) => {
+  if (!can(req.user.rol, 'entidades:create') && req.user.rol !== 'admin') return res.status(403).json({ error: 'Sin permiso' });
+  const codigo = String(req.body.codigo || '').trim();
+  const cantidad = Number(req.body.cantidad || 0);
+  if (!codigo || !Number.isFinite(cantidad) || cantidad === 0) return res.status(400).json({ error: 'Código y cantidad válida requeridos' });
+
+  const productos = await storage.list('productos');
+  const producto = productos.find((p) => String(p.codigo).toLowerCase() === codigo.toLowerCase());
+  if (!producto) return res.status(404).json({ error: 'Producto no encontrado para el código de barras' });
+
+  const updated = await storage.update('productos', producto.id, { stock: Number(producto.stock || 0) + cantidad });
+  return res.json(updated);
+});
+
 router.get('/:entity', async (req, res) => {
   const { entity } = req.params;
   if (!collections.includes(entity)) return res.status(404).json({ error: 'Entidad no válida' });

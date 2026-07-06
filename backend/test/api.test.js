@@ -87,3 +87,18 @@ test('invoice flow creates invoices, returns a real PDF response and renders mai
     assert.equal(mail.provider, 'console');
   });
 });
+
+test('barcode stock endpoint increments product stock by SKU/code', async () => {
+  await withServer(async (baseUrl) => {
+    const { token } = await login(baseUrl);
+    const response = await fetch(`${baseUrl}/api/entities/productos/stock-barcode`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` },
+      body: JSON.stringify({ codigo: 'USB-C-01', cantidad: 2 })
+    });
+    const product = await response.json();
+    assert.equal(response.status, 200);
+    assert.equal(product.codigo, 'USB-C-01');
+    assert.equal(Number(product.stock) >= 5, true);
+  });
+});

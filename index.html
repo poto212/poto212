@@ -190,6 +190,13 @@
               <button class="entity-tab" data-entity="productos">Productos</button>
             </div>
 
+            <form id="barcodeStockForm" class="form-grid compact stock-scanner">
+              <label>Código de barras / SKU <input name="codigo" id="barcodeInput" inputmode="text" autocomplete="off" placeholder="Escaneá o tipeá el código" required /></label>
+              <label>Cantidad a sumar <input name="cantidad" type="number" step="1" value="1" required /></label>
+              <button class="action-btn" type="submit">Cargar stock</button>
+              <small id="barcodeStockStatus" class="hint full">Usá un lector de código de barras conectado como teclado para cargar stock de productos.</small>
+            </form>
+
             <form id="entityForm" class="form-grid compact"></form>
 
             <div class="section-head">

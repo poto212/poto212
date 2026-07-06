@@ -35,7 +35,7 @@ Servidor: `http://localhost:4000`
 
 ## Proveedor de base de datos
 
-Por defecto usa **MySQL**:
+Por defecto usa **MySQL relacional** con tablas por entidad, `tenants` y `audit_logs`:
 
 ```env
 DB_PROVIDER=mysql
@@ -44,6 +44,8 @@ MYSQL_PORT=3306
 MYSQL_USER=root
 MYSQL_PASSWORD=password
 MYSQL_DATABASE=sistema_gestion
+DEFAULT_TENANT_ID=1
+DEFAULT_TENANT_NAME=Empresa Demo
 ```
 
 PostgreSQL sigue disponible como adapter alternativo si necesitás migrar o comparar proveedores:
@@ -64,6 +66,7 @@ DATABASE_URL=postgresql://user:pass@localhost:5432/sistema_gestion
 
 - `POST /api/auth/login`
 - `GET/POST/PUT/DELETE /api/entities/:entity`
+- `POST /api/entities/productos/stock-barcode`
 - `POST /api/facturas/simular-cae`
 - `POST /api/facturas`
 - `GET /api/facturas`
@@ -77,6 +80,7 @@ DATABASE_URL=postgresql://user:pass@localhost:5432/sistema_gestion
 - Validación por entidad/factura con respuestas `400` y detalle por campo.
 - Headers de seguridad, CORS configurable (`CORS_ORIGIN`) y rate limit (`RATE_LIMIT_*`).
 - `X-Request-Id` por request y logs JSON con método, ruta, estado y duración.
+- Auditoría persistente en `audit_logs` para altas, modificaciones y bajas MySQL.
 
 ## Mail y PDF
 

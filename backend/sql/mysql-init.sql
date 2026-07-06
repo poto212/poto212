@@ -1,11 +1,123 @@
 CREATE DATABASE IF NOT EXISTS sistema_gestion CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 USE sistema_gestion;
 
-CREATE TABLE IF NOT EXISTS records (
-  entity VARCHAR(80) NOT NULL,
-  id INT NOT NULL,
-  data JSON NOT NULL,
+CREATE TABLE IF NOT EXISTS tenants (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  nombre VARCHAR(160) NOT NULL,
+  cuit VARCHAR(20) NULL,
+  activo BOOLEAN NOT NULL DEFAULT TRUE,
+  created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+CREATE TABLE IF NOT EXISTS users (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  tenant_id INT NOT NULL,
+  username VARCHAR(60) NOT NULL,
+  password VARCHAR(255) NOT NULL,
+  nombre VARCHAR(160) NOT NULL,
+  rol VARCHAR(40) NOT NULL,
+  activo BOOLEAN NOT NULL DEFAULT TRUE,
   created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
   updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  PRIMARY KEY(entity, id)
+  UNIQUE KEY uq_users_tenant_username (tenant_id, username),
+  CONSTRAINT fk_users_tenant FOREIGN KEY (tenant_id) REFERENCES tenants(id)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+CREATE TABLE IF NOT EXISTS clientes (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  tenant_id INT NOT NULL,
+  nombre VARCHAR(160) NOT NULL,
+  cuit VARCHAR(20) NULL,
+  telefono VARCHAR(60) NULL,
+  localidad VARCHAR(120) NULL,
+  condicionIVA VARCHAR(60) NOT NULL,
+  email VARCHAR(180) NULL,
+  created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  INDEX idx_clientes_nombre (tenant_id, nombre),
+  CONSTRAINT fk_clientes_tenant FOREIGN KEY (tenant_id) REFERENCES tenants(id)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+CREATE TABLE IF NOT EXISTS proveedores (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  tenant_id INT NOT NULL,
+  nombre VARCHAR(160) NOT NULL,
+  cuit VARCHAR(20) NULL,
+  telefono VARCHAR(60) NULL,
+  localidad VARCHAR(120) NULL,
+  email VARCHAR(180) NULL,
+  created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  INDEX idx_proveedores_nombre (tenant_id, nombre),
+  CONSTRAINT fk_proveedores_tenant FOREIGN KEY (tenant_id) REFERENCES tenants(id)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+CREATE TABLE IF NOT EXISTS productos (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  tenant_id INT NOT NULL,
+  codigo VARCHAR(80) NOT NULL,
+  nombre VARCHAR(160) NOT NULL,
+  stock DECIMAL(14,2) NOT NULL DEFAULT 0,
+  costo DECIMAL(14,2) NOT NULL DEFAULT 0,
+  precio DECIMAL(14,2) NOT NULL DEFAULT 0,
+  categoria VARCHAR(120) NULL,
+  created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  UNIQUE KEY uq_productos_tenant_codigo (tenant_id, codigo),
+  INDEX idx_productos_nombre (tenant_id, nombre),
+  CONSTRAINT fk_productos_tenant FOREIGN KEY (tenant_id) REFERENCES tenants(id)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+CREATE TABLE IF NOT EXISTS egresos (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  tenant_id INT NOT NULL,
+  tipo VARCHAR(40) NOT NULL,
+  proveedor VARCHAR(160) NOT NULL,
+  categoria VARCHAR(120) NOT NULL,
+  fecha DATE NOT NULL,
+  vencimiento DATE NOT NULL,
+  estado VARCHAR(40) NOT NULL,
+  monto DECIMAL(14,2) NOT NULL,
+  nota TEXT NULL,
+  created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  INDEX idx_egresos_fecha (tenant_id, fecha),
+  CONSTRAINT fk_egresos_tenant FOREIGN KEY (tenant_id) REFERENCES tenants(id)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+CREATE TABLE IF NOT EXISTS facturas (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  tenant_id INT NOT NULL,
+  fecha DATE NOT NULL,
+  clienteId INT NOT NULL,
+  cliente VARCHAR(160) NOT NULL,
+  condicionIVA VARCHAR(60) NOT NULL,
+  tipo VARCHAR(40) NOT NULL,
+  concepto VARCHAR(240) NOT NULL,
+  neto DECIMAL(14,2) NOT NULL,
+  iva DECIMAL(14,2) NOT NULL,
+  total DECIMAL(14,2) NOT NULL,
+  cae VARCHAR(32) NULL,
+  caeVto DATE NULL,
+  creadoPor VARCHAR(80) NULL,
+  created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  INDEX idx_facturas_fecha (tenant_id, fecha),
+  CONSTRAINT fk_facturas_tenant FOREIGN KEY (tenant_id) REFERENCES tenants(id),
+  CONSTRAINT fk_facturas_cliente FOREIGN KEY (clienteId) REFERENCES clientes(id)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+CREATE TABLE IF NOT EXISTS audit_logs (
+  id BIGINT AUTO_INCREMENT PRIMARY KEY,
+  tenant_id INT NOT NULL,
+  entity VARCHAR(80) NOT NULL,
+  record_id INT NULL,
+  action VARCHAR(40) NOT NULL,
+  actor VARCHAR(120) NOT NULL DEFAULT 'system',
+  before_data JSON NULL,
+  after_data JSON NULL,
+  created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  INDEX idx_audit_entity (tenant_id, entity, record_id),
+  CONSTRAINT fk_audit_tenant FOREIGN KEY (tenant_id) REFERENCES tenants(id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;

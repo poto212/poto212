@@ -1,7 +1,17 @@
 import mysql from 'mysql2/promise';
 import { initialData } from './db.js';
+import { hashPassword, isHashedPassword } from '../services/security.js';
 
 let pool = null;
+const DEFAULT_TENANT_ID = Number(process.env.DEFAULT_TENANT_ID || 1);
+const ENTITY_TABLES = {
+  users: 'users',
+  clientes: 'clientes',
+  proveedores: 'proveedores',
+  productos: 'productos',
+  egresos: 'egresos',
+  facturas: 'facturas'
+};
 
 function mysqlConfig() {
   if (process.env.MYSQL_URL) return process.env.MYSQL_URL;
@@ -18,69 +28,215 @@ function getPool() {
   return pool;
 }
 
+function normalizeSeed(entity, item) {
+  if (entity === 'users') {
+    const password = isHashedPassword(item.password) ? item.password : hashPassword(item.password);
+    return { ...item, password };
+  }
+  return item;
+}
+
 async function ensureSchema() {
-  await getPool().execute(`
-    CREATE TABLE IF NOT EXISTS records (
-      entity VARCHAR(80) NOT NULL,
-      id INT NOT NULL,
-      data JSON NOT NULL,
+  const schema = [
+    `CREATE TABLE IF NOT EXISTS tenants (
+      id INT AUTO_INCREMENT PRIMARY KEY,
+      nombre VARCHAR(160) NOT NULL,
+      cuit VARCHAR(20) NULL,
+      activo BOOLEAN NOT NULL DEFAULT TRUE,
+      created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+      updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+    ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci`,
+    `CREATE TABLE IF NOT EXISTS users (
+      id INT AUTO_INCREMENT PRIMARY KEY,
+      tenant_id INT NOT NULL,
+      username VARCHAR(60) NOT NULL,
+      password VARCHAR(255) NOT NULL,
+      nombre VARCHAR(160) NOT NULL,
+      rol VARCHAR(40) NOT NULL,
+      activo BOOLEAN NOT NULL DEFAULT TRUE,
       created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
       updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-      PRIMARY KEY(entity, id)
-    ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-  `);
+      UNIQUE KEY uq_users_tenant_username (tenant_id, username),
+      CONSTRAINT fk_users_tenant FOREIGN KEY (tenant_id) REFERENCES tenants(id)
+    ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci`,
+    `CREATE TABLE IF NOT EXISTS clientes (
+      id INT AUTO_INCREMENT PRIMARY KEY,
+      tenant_id INT NOT NULL,
+      nombre VARCHAR(160) NOT NULL,
+      cuit VARCHAR(20) NULL,
+      telefono VARCHAR(60) NULL,
+      localidad VARCHAR(120) NULL,
+      condicionIVA VARCHAR(60) NOT NULL,
+      email VARCHAR(180) NULL,
+      created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+      updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+      INDEX idx_clientes_nombre (tenant_id, nombre),
+      CONSTRAINT fk_clientes_tenant FOREIGN KEY (tenant_id) REFERENCES tenants(id)
+    ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci`,
+    `CREATE TABLE IF NOT EXISTS proveedores (
+      id INT AUTO_INCREMENT PRIMARY KEY,
+      tenant_id INT NOT NULL,
+      nombre VARCHAR(160) NOT NULL,
+      cuit VARCHAR(20) NULL,
+      telefono VARCHAR(60) NULL,
+      localidad VARCHAR(120) NULL,
+      email VARCHAR(180) NULL,
+      created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+      updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+      INDEX idx_proveedores_nombre (tenant_id, nombre),
+      CONSTRAINT fk_proveedores_tenant FOREIGN KEY (tenant_id) REFERENCES tenants(id)
+    ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci`,
+    `CREATE TABLE IF NOT EXISTS productos (
+      id INT AUTO_INCREMENT PRIMARY KEY,
+      tenant_id INT NOT NULL,
+      codigo VARCHAR(80) NOT NULL,
+      nombre VARCHAR(160) NOT NULL,
+      stock DECIMAL(14,2) NOT NULL DEFAULT 0,
+      costo DECIMAL(14,2) NOT NULL DEFAULT 0,
+      precio DECIMAL(14,2) NOT NULL DEFAULT 0,
+      categoria VARCHAR(120) NULL,
+      created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+      updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+      UNIQUE KEY uq_productos_tenant_codigo (tenant_id, codigo),
+      INDEX idx_productos_nombre (tenant_id, nombre),
+      CONSTRAINT fk_productos_tenant FOREIGN KEY (tenant_id) REFERENCES tenants(id)
+    ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci`,
+    `CREATE TABLE IF NOT EXISTS egresos (
+      id INT AUTO_INCREMENT PRIMARY KEY,
+      tenant_id INT NOT NULL,
+      tipo VARCHAR(40) NOT NULL,
+      proveedor VARCHAR(160) NOT NULL,
+      categoria VARCHAR(120) NOT NULL,
+      fecha DATE NOT NULL,
+      vencimiento DATE NOT NULL,
+      estado VARCHAR(40) NOT NULL,
+      monto DECIMAL(14,2) NOT NULL,
+      nota TEXT NULL,
+      created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+      updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+      INDEX idx_egresos_fecha (tenant_id, fecha),
+      CONSTRAINT fk_egresos_tenant FOREIGN KEY (tenant_id) REFERENCES tenants(id)
+    ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci`,
+    `CREATE TABLE IF NOT EXISTS facturas (
+      id INT AUTO_INCREMENT PRIMARY KEY,
+      tenant_id INT NOT NULL,
+      fecha DATE NOT NULL,
+      clienteId INT NOT NULL,
+      cliente VARCHAR(160) NOT NULL,
+      condicionIVA VARCHAR(60) NOT NULL,
+      tipo VARCHAR(40) NOT NULL,
+      concepto VARCHAR(240) NOT NULL,
+      neto DECIMAL(14,2) NOT NULL,
+      iva DECIMAL(14,2) NOT NULL,
+      total DECIMAL(14,2) NOT NULL,
+      cae VARCHAR(32) NULL,
+      caeVto DATE NULL,
+      creadoPor VARCHAR(80) NULL,
+      created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+      updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+      INDEX idx_facturas_fecha (tenant_id, fecha),
+      CONSTRAINT fk_facturas_tenant FOREIGN KEY (tenant_id) REFERENCES tenants(id),
+      CONSTRAINT fk_facturas_cliente FOREIGN KEY (clienteId) REFERENCES clientes(id)
+    ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci`,
+    `CREATE TABLE IF NOT EXISTS audit_logs (
+      id BIGINT AUTO_INCREMENT PRIMARY KEY,
+      tenant_id INT NOT NULL,
+      entity VARCHAR(80) NOT NULL,
+      record_id INT NULL,
+      action VARCHAR(40) NOT NULL,
+      actor VARCHAR(120) NOT NULL DEFAULT 'system',
+      before_data JSON NULL,
+      after_data JSON NULL,
+      created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+      INDEX idx_audit_entity (tenant_id, entity, record_id),
+      CONSTRAINT fk_audit_tenant FOREIGN KEY (tenant_id) REFERENCES tenants(id)
+    ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci`
+  ];
+  for (const statement of schema) await getPool().execute(statement);
+}
+
+async function ensureTenant() {
+  await getPool().execute('INSERT IGNORE INTO tenants(id, nombre, cuit) VALUES (?, ?, ?)', [DEFAULT_TENANT_ID, process.env.DEFAULT_TENANT_NAME || 'Empresa Demo', process.env.DEFAULT_TENANT_CUIT || null]);
 }
 
 async function entityCount(entity) {
-  const [rows] = await getPool().execute('SELECT COUNT(*) AS count FROM records WHERE entity = ?', [entity]);
+  const table = ENTITY_TABLES[entity];
+  const [rows] = await getPool().execute(`SELECT COUNT(*) AS count FROM ${table} WHERE tenant_id = ?`, [DEFAULT_TENANT_ID]);
   return Number(rows[0]?.count || 0);
+}
+
+async function audit(entity, action, recordId, beforeData, afterData, actor = 'system') {
+  await getPool().execute(
+    'INSERT INTO audit_logs(tenant_id, entity, record_id, action, actor, before_data, after_data) VALUES (?, ?, ?, ?, ?, ?, ?)',
+    [DEFAULT_TENANT_ID, entity, recordId || null, action, actor, beforeData ? JSON.stringify(beforeData) : null, afterData ? JSON.stringify(afterData) : null]
+  );
+}
+
+function rowToEntity(row) {
+  if (!row) return null;
+  const clean = { ...row };
+  delete clean.tenant_id;
+  delete clean.created_at;
+  delete clean.updated_at;
+  return clean;
 }
 
 export async function initMysql() {
   await ensureSchema();
+  await ensureTenant();
   for (const [entity, items] of Object.entries(initialData)) {
+    if (!ENTITY_TABLES[entity]) continue;
     const count = await entityCount(entity);
     if (count > 0) continue;
-    for (const item of items) {
-      await getPool().execute('INSERT INTO records(entity, id, data) VALUES (?, ?, CAST(? AS JSON))', [entity, Number(item.id), JSON.stringify(item)]);
-    }
+    for (const item of items) await mysqlCreate(entity, normalizeSeed(entity, item), { audit: false });
   }
 }
 
 export async function mysqlList(entity) {
-  const [rows] = await getPool().execute('SELECT data FROM records WHERE entity = ? ORDER BY id ASC', [entity]);
-  return rows.map((row) => (typeof row.data === 'string' ? JSON.parse(row.data) : row.data));
+  const table = ENTITY_TABLES[entity];
+  if (!table) throw new Error(`Entidad MySQL no soportada: ${entity}`);
+  const [rows] = await getPool().execute(`SELECT * FROM ${table} WHERE tenant_id = ? ORDER BY id ASC`, [DEFAULT_TENANT_ID]);
+  return rows.map(rowToEntity);
 }
 
 export async function mysqlGetById(entity, id) {
-  const [rows] = await getPool().execute('SELECT data FROM records WHERE entity = ? AND id = ?', [entity, Number(id)]);
-  const data = rows[0]?.data;
-  if (!data) return null;
-  return typeof data === 'string' ? JSON.parse(data) : data;
+  const table = ENTITY_TABLES[entity];
+  if (!table) throw new Error(`Entidad MySQL no soportada: ${entity}`);
+  const [rows] = await getPool().execute(`SELECT * FROM ${table} WHERE tenant_id = ? AND id = ?`, [DEFAULT_TENANT_ID, Number(id)]);
+  return rowToEntity(rows[0]);
 }
 
-export async function mysqlNextId(entity) {
-  const [rows] = await getPool().execute('SELECT COALESCE(MAX(id), 0) AS max FROM records WHERE entity = ?', [entity]);
-  return Number(rows[0]?.max || 0) + 1;
+function insertSql(entity, payload) {
+  const keys = Object.keys(payload).filter((key) => key !== 'id');
+  const columns = ['tenant_id', ...keys];
+  const placeholders = columns.map(() => '?');
+  return { sql: `INSERT INTO ${ENTITY_TABLES[entity]}(${columns.join(',')}) VALUES (${placeholders.join(',')})`, values: [DEFAULT_TENANT_ID, ...keys.map((key) => payload[key])] };
 }
 
-export async function mysqlCreate(entity, payload) {
-  const id = await mysqlNextId(entity);
-  const record = { id, ...payload };
-  await getPool().execute('INSERT INTO records(entity, id, data) VALUES (?, ?, CAST(? AS JSON))', [entity, id, JSON.stringify(record)]);
+export async function mysqlCreate(entity, payload, options = {}) {
+  const { sql, values } = insertSql(entity, payload);
+  const [result] = await getPool().execute(sql, values);
+  const record = await mysqlGetById(entity, result.insertId);
+  if (options.audit !== false) await audit(entity, 'create', record.id, null, record);
   return record;
 }
 
 export async function mysqlUpdate(entity, id, payload) {
   const existing = await mysqlGetById(entity, id);
   if (!existing) return null;
-  const updated = { ...existing, ...payload, id: Number(id) };
-  await getPool().execute('UPDATE records SET data = CAST(? AS JSON) WHERE entity = ? AND id = ?', [JSON.stringify(updated), entity, Number(id)]);
+  const keys = Object.keys(payload).filter((key) => key !== 'id' && payload[key] !== undefined);
+  if (!keys.length) return existing;
+  const assignments = keys.map((key) => `${key} = ?`).join(', ');
+  await getPool().execute(`UPDATE ${ENTITY_TABLES[entity]} SET ${assignments} WHERE tenant_id = ? AND id = ?`, [...keys.map((key) => payload[key]), DEFAULT_TENANT_ID, Number(id)]);
+  const updated = await mysqlGetById(entity, id);
+  await audit(entity, 'update', Number(id), existing, updated);
   return updated;
 }
 
 export async function mysqlDelete(entity, id) {
-  await getPool().execute('DELETE FROM records WHERE entity = ? AND id = ?', [entity, Number(id)]);
+  const existing = await mysqlGetById(entity, id);
+  await getPool().execute(`DELETE FROM ${ENTITY_TABLES[entity]} WHERE tenant_id = ? AND id = ?`, [DEFAULT_TENANT_ID, Number(id)]);
+  if (existing) await audit(entity, 'delete', Number(id), existing, null);
 }
 
 export async function closeMysql() {
