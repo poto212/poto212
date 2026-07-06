@@ -796,6 +796,7 @@ function setupTabs() {
   const title = document.getElementById("section-title");
   tabs.forEach((tab) => {
     tab.addEventListener("click", () => {
+      document.body.classList.remove("nav-open");
       tabs.forEach((t) => t.classList.remove("active"));
       tab.classList.add("active");
       sections.forEach((s) => s.classList.remove("active"));
@@ -803,6 +804,31 @@ function setupTabs() {
       title.textContent = tab.dataset.tab === "inicio" ? "Dashboard de Inicio" : tab.textContent;
     });
   });
+}
+
+function hydrateResponsiveTableLabels() {
+  document.querySelectorAll(".table-wrapper table").forEach((table) => {
+    table.classList.add("responsive-card-table");
+    const headers = [...table.querySelectorAll("thead th")].map((th) => th.textContent.trim());
+    table.querySelectorAll("tbody tr").forEach((row) => {
+      row.querySelectorAll("td").forEach((cell, index) => {
+        if (headers[index]) cell.dataset.label = headers[index];
+      });
+    });
+  });
+}
+
+function setupResponsiveTables() {
+  hydrateResponsiveTableLabels();
+  const observer = new MutationObserver(hydrateResponsiveTableLabels);
+  document.querySelectorAll(".table-wrapper tbody").forEach((tbody) => observer.observe(tbody, { childList: true }));
+}
+
+function setupMobileNavigation() {
+  const menuBtn = document.getElementById("mobileMenuBtn");
+  const overlay = document.getElementById("navOverlay");
+  menuBtn?.addEventListener("click", () => document.body.classList.toggle("nav-open"));
+  overlay?.addEventListener("click", () => document.body.classList.remove("nav-open"));
 }
 
 function setupModeSelector() {
@@ -825,6 +851,8 @@ async function bootstrap() {
   setupUsuarios();
   setupInformesGenerator();
   setupTabs();
+  setupMobileNavigation();
+  setupResponsiveTables();
   setupAuth();
 
   if (isApiMode() && currentSession?.token) {

@@ -7,7 +7,7 @@ Prototipo front-end de gestión comercial/administrativa con pestañas de Inicio
 - Dashboard con KPIs y gráficos.
 - Egresos completo con alta + listado + búsqueda.
 - Arquitectura unificada Frontend + Backend: el front usa por defecto la API (`http://localhost:4000`) para auth, entidades, facturas e informes.
-- Modo demo opcional en `localStorage` para ejecutar sin backend (selector "Modo datos" en el header).
+- Backend orientado a MySQL por defecto; el modo demo localStorage queda sólo para demostraciones offline del frontend.
 - Informes con resumen financiero dinámico, gráfico por categoría de egresos y generador de informes (ventas/egresos/utilidad/stock) con exportación CSV.
 - Facturación electrónica en modo demo: solicitud CAE (simulada), discriminación de IVA por condición fiscal (RI/Monotributo/Consumidor Final), impresión, PDF y envío por email (mailto).
 - Usuarios, sesiones y roles (admin, vendedor, tesoreria, contador) con permisos por módulo/acción en modo demo.
@@ -16,7 +16,10 @@ Prototipo front-end de gestión comercial/administrativa con pestañas de Inicio
 
 ```bash
 cd backend
+cp .env.example .env
+# crear MySQL con: mysql -u root -p < sql/mysql-init.sql
 npm install
+npm run seed
 npm run start
 ```
 
@@ -28,7 +31,7 @@ python3 -m http.server 4173
 
 Luego abrir `http://localhost:4173`.
 
-> Si querés probar sin backend, cambiá el selector **Modo datos** a `Demo local`.
+> El backend ya no usa JSON como storage principal: configurá MySQL en `backend/.env`. Si querés probar sólo la UI sin backend, cambiá el selector **Modo datos** a `Demo local`.
 
 ## Backend demo por fases
 
@@ -56,3 +59,16 @@ Se generan imágenes en `artifacts/tabs/`:
 - `base-datos.png`
 - `informes.png`
 - `tesoreria.png`
+
+## Capturas responsive por viewport
+
+Con el front levantado:
+
+```bash
+bash scripts/take-responsive-screenshots.sh
+```
+
+Genera capturas en `artifacts/responsive/` para:
+- `desktop-1200.png`
+- `tablet-768.png`
+- `mobile-480.png`

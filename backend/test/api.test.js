@@ -2,6 +2,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 
 process.env.NODE_ENV = 'test';
+process.env.DB_PROVIDER = process.env.DB_PROVIDER || 'mysql';
 process.env.MAIL_PROVIDER = 'console';
 process.env.RATE_LIMIT_MAX = '1000';
 

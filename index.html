@@ -28,10 +28,14 @@
           <button class="tab" data-tab="tesoreria" data-module="tesoreria">Tesorería</button>
         </nav>
       </aside>
+      <div id="navOverlay" class="nav-overlay"></div>
 
       <main class="main-content">
         <header class="topbar">
-          <h2 id="section-title">Dashboard de Inicio</h2>
+          <div class="topbar-title">
+            <button id="mobileMenuBtn" class="mobile-menu-btn" type="button" aria-label="Abrir menú">☰</button>
+            <h2 id="section-title">Dashboard de Inicio</h2>
+          </div>
           <div class="filters">
             <label for="periodo">Período:</label>
             <select id="periodo">
@@ -174,7 +178,7 @@
         <section id="base-datos" class="tab-content">
           <article class="card">
             <div class="section-head">
-              <h3>Base de datos de prueba (localStorage)</h3>
+              <h3>Base de datos de prueba</h3>
               <div class="inline-actions">
                 <button id="dbExport" class="action-btn ghost">Exportar JSON</button>
                 <button id="dbReset" class="action-btn danger">Restaurar demo</button>

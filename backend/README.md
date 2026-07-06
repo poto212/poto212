@@ -1,18 +1,33 @@
 # Backend Demo - Sistema de Gestion
 
-Backend en **fases** para complementar el front actual.
+Backend en **fases** para complementar el front actual, ahora orientado a MySQL por defecto para dejar atrás el storage JSON en backend.
 
 ## Fases implementadas
 
-- **Fase 1:** autenticación, sesiones JWT, usuarios/roles/permisos y CRUD base (ahora con storage `json` o `postgres`).
+- **Fase 1:** autenticación, sesiones JWT, usuarios/roles/permisos y CRUD base con storage `mysql` por defecto (`postgres` queda como adapter alternativo).
 - **Fase 2:** facturación con reglas IVA, simulación CAE y PDF backend en `application/pdf`.
 - **Fase 3:** informes de resumen y envío de factura por mail vía SMTP configurable (con fallback `console` para desarrollo).
 
-## Ejecutar
+## Ejecutar con MySQL
+
+1. Crear base/tablas:
 
 ```bash
-cd backend
+mysql -u root -p < sql/mysql-init.sql
+```
+
+2. Configurar entorno:
+
+```bash
+cp .env.example .env
+# editar MYSQL_HOST, MYSQL_PORT, MYSQL_USER, MYSQL_PASSWORD y MYSQL_DATABASE
+```
+
+3. Instalar y levantar:
+
+```bash
 npm install
+npm run seed
 npm run start
 ```
 
@@ -20,14 +35,22 @@ Servidor: `http://localhost:4000`
 
 ## Proveedor de base de datos
 
-Por defecto usa `json` (archivo local).
+Por defecto usa **MySQL**:
 
-Para pasar a PostgreSQL:
+```env
+DB_PROVIDER=mysql
+MYSQL_HOST=localhost
+MYSQL_PORT=3306
+MYSQL_USER=root
+MYSQL_PASSWORD=password
+MYSQL_DATABASE=sistema_gestion
+```
 
-```bash
-cp .env.example .env
-# editar .env: DB_PROVIDER=postgres y DATABASE_URL=...
-npm run start
+PostgreSQL sigue disponible como adapter alternativo si necesitás migrar o comparar proveedores:
+
+```env
+DB_PROVIDER=postgres
+DATABASE_URL=postgresql://user:pass@localhost:5432/sistema_gestion
 ```
 
 ## Usuarios demo
@@ -48,10 +71,6 @@ npm run start
 - `GET /api/informes/resumen`
 - `GET /api/informes/egresos-por-categoria`
 - `POST /api/informes/enviar-factura-mail-demo`
-
-
-> Nota: si existía `db.json` con passwords legacy en texto plano, se normalizan a hash en el primer arranque.
-
 
 ## Seguridad, validación y observabilidad
 
