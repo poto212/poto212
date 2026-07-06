@@ -5,6 +5,7 @@ import authRoutes from './routes/auth.js';
 import entityRoutes from './routes/entities.js';
 import facturasRoutes from './routes/facturas.js';
 import informesRoutes from './routes/informes.js';
+import backupRoutes from './routes/backup.js';
 import { initStorage, getProvider } from './data/storage.js';
 import { rateLimit, requestId, securityHeaders } from './middleware/security.js';
 import { logError, logRequest } from './services/logger.js';
@@ -45,6 +46,7 @@ export function createApp() {
   app.use('/api/entities', entityRoutes);
   app.use('/api/facturas', facturasRoutes);
   app.use('/api/informes', informesRoutes);
+  app.use('/api/backup', backupRoutes);
 
   app.use((req, res) => res.status(404).json({ error: 'Ruta no encontrada', requestId: req.id }));
   app.use((error, req, res, _next) => {

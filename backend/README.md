@@ -76,6 +76,7 @@ DATABASE_URL=postgresql://user:pass@localhost:5432/sistema_gestion
 - `GET /api/informes/stock-alertas`
 - `GET /api/informes/caja`
 - `POST /api/informes/enviar-factura-mail-demo`
+- `GET /api/backup/mysql.sql`
 
 ## Seguridad, validación y observabilidad
 
@@ -95,6 +96,14 @@ DATABASE_URL=postgresql://user:pass@localhost:5432/sistema_gestion
 
 ```bash
 npm test
+```
+
+## Backup MySQL
+
+El usuario `admin` puede descargar un dump SQL desde la UI (Base de Datos > Backup MySQL) o directamente con:
+
+```bash
+curl -H "Authorization: Bearer <TOKEN>" http://localhost:4000/api/backup/mysql.sql -o backup.sql
 ```
 
 ## Docker / CI

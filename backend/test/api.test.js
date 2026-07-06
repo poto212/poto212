@@ -102,3 +102,15 @@ test('barcode stock endpoint increments product stock by SKU/code', async () => 
     assert.equal(Number(product.stock) >= 5, true);
   });
 });
+
+test('admin can export a MySQL SQL backup', async () => {
+  await withServer(async (baseUrl) => {
+    const { token } = await login(baseUrl);
+    const response = await fetch(`${baseUrl}/api/backup/mysql.sql`, { headers: { Authorization: `Bearer ${token}` } });
+    const dump = await response.text();
+    assert.equal(response.status, 200);
+    assert.match(response.headers.get('content-type'), /application\/sql/);
+    assert.match(dump, /Sistema Gestion MySQL backup/);
+    assert.match(dump, /INSERT INTO productos/);
+  });
+});

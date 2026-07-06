@@ -9,6 +9,7 @@ Prototipo front-end de gestión comercial/administrativa con pestañas de Inicio
 - Arquitectura unificada Frontend + Backend: el front usa por defecto la API (`http://localhost:4000`) para auth, entidades, facturas e informes.
 - Backend orientado a MySQL relacional por defecto; el modo demo localStorage queda sólo para demostraciones offline del frontend.
 - Carga rápida de stock con lector de código de barras/SKU desde Base de Datos > Productos.
+- Backup MySQL descargable desde Base de Datos > Backup MySQL para usuarios admin.
 - Informes con resumen financiero dinámico, gráfico por categoría de egresos y generador de informes (ventas/egresos/utilidad/stock) con exportación CSV.
 - Facturación electrónica en modo demo: solicitud CAE (simulada), discriminación de IVA por condición fiscal (RI/Monotributo/Consumidor Final), impresión, PDF y envío por email (mailto).
 - Usuarios, sesiones y roles (admin, vendedor, tesoreria, contador) con permisos por módulo/acción en modo demo.

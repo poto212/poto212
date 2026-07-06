@@ -186,6 +186,7 @@ function applyPermissionsUi() {
     ["informeForm", "informes:generar"],
     ["exportInforme", "informes:export"],
     ["dbExport", "base_datos:export"],
+    ["mysqlBackup", "base_datos:manage_users"],
     ["dbReset", "base_datos:reset"],
     ["usuarioForm", "base_datos:manage_users"]
   ];
@@ -539,6 +540,27 @@ function setupDbModule() {
     a.href = URL.createObjectURL(blob);
     a.download = "base-demo.json";
     a.click();
+  });
+
+  document.getElementById("mysqlBackup").addEventListener("click", async () => {
+    if (!isApiMode()) {
+      alert("El backup MySQL está disponible sólo en modo API.");
+      return;
+    }
+    try {
+      const resp = await fetch(`${API_BASE}/api/backup/mysql.sql`, {
+        headers: { Authorization: `Bearer ${currentSession.token}` }
+      });
+      if (!resp.ok) throw new Error("No se pudo generar el backup MySQL");
+      const blob = await resp.blob();
+      const a = document.createElement("a");
+      a.href = URL.createObjectURL(blob);
+      a.download = `sistema-gestion-backup-${new Date().toISOString().slice(0, 10)}.sql`;
+      a.click();
+      URL.revokeObjectURL(a.href);
+    } catch (error) {
+      alert(error.message);
+    }
   });
 
   renderEntityUi();
