@@ -2,6 +2,8 @@ import { Router } from 'express';
 import * as storage from '../data/storage.js';
 import { authRequired } from '../middleware/auth.js';
 import { can } from '../services/permissions.js';
+import { sendInvoiceMail } from '../services/mailer.js';
+import { validateMailPayload } from '../services/validation.js';
 
 const router = Router();
 router.use(authRequired);
@@ -28,10 +30,14 @@ router.get('/egresos-por-categoria', async (req, res) => {
   return res.json(grouped);
 });
 
-// fase 3 demo: email stub
-router.post('/enviar-factura-mail-demo', (req, res) => {
-  const { facturaId, to } = req.body;
-  return res.json({ ok: true, facturaId, to, status: 'queued_demo', detail: 'Implementar proveedor SMTP/API real en productivo' });
+router.post('/enviar-factura-mail-demo', async (req, res) => {
+  if (!can(req.user.rol, 'facturas:read') && req.user.rol !== 'admin') return res.status(403).json({ error: 'Sin permiso' });
+  const parsed = validateMailPayload(req.body);
+  if (!parsed.ok) return res.status(400).json({ error: 'Datos inválidos', fields: parsed.errors });
+  const factura = await storage.getById('facturas', parsed.data.facturaId);
+  if (!factura) return res.status(404).json({ error: 'Factura no encontrada' });
+  const result = await sendInvoiceMail({ factura, to: parsed.data.to });
+  return res.json({ ...result, facturaId: parsed.data.facturaId, to: parsed.data.to });
 });
 
 export default router;

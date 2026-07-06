@@ -15,6 +15,7 @@ export function verifyPassword(password, stored) {
   if (!stored || !stored.includes(':')) return false;
   const [salt, originalHash] = stored.split(':');
   const hash = crypto.scryptSync(password, salt, KEYLEN, { N: SCRYPT_N, r: SCRYPT_R, p: SCRYPT_P }).toString('hex');
+  if (Buffer.byteLength(hash, 'hex') !== Buffer.byteLength(originalHash, 'hex')) return false;
   return crypto.timingSafeEqual(Buffer.from(hash, 'hex'), Buffer.from(originalHash, 'hex'));
 }
 

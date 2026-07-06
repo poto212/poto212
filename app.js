@@ -428,7 +428,7 @@ function setupDbModule() {
         const idx = db[activeEntity].findIndex((x) => String(x.id) === String(editingId));
         db[activeEntity][idx] = updated;
       } else {
-        const idx = db[activeEntity].findIndex((x) => x.id === editingId);
+        const idx = db[activeEntity].findIndex((x) => String(x.id) === String(editingId));
         db[activeEntity][idx] = form;
       }
     } else {
@@ -450,7 +450,7 @@ function setupDbModule() {
     const editId = e.target.dataset.edit;
     const delId = e.target.dataset.del;
     if (editId) {
-      const row = db[activeEntity].find((x) => x.id === editId);
+      const row = db[activeEntity].find((x) => String(x.id) === String(editId));
       editingId = editId;
       renderEntityUi();
       const form = document.getElementById("entityForm");
@@ -610,7 +610,7 @@ function calcularFactura(neto, alicuota, condicion) {
 function renderFacturas() {
   document.getElementById("facturasRows").innerHTML = facturas
     .map(
-      (f) => `<tr><td>${f.fecha}</td><td>${f.cliente}</td><td>${f.condicion}</td><td>${f.tipo}</td><td>${f.cae || "-"}</td><td>${formatMoney(f.neto)}</td><td>${formatMoney(
+      (f) => `<tr><td>${f.fecha}</td><td>${f.cliente}</td><td>${f.condicion || f.condicionIVA}</td><td>${f.tipo}</td><td>${f.cae || "-"}</td><td>${formatMoney(f.neto)}</td><td>${formatMoney(
         f.iva
       )}</td><td>${formatMoney(f.total)}</td></tr>`
     )
@@ -625,7 +625,7 @@ async function setupFacturacion() {
   const ivaInput = document.getElementById("facturaIvaRate");
 
   function syncClienteCondicion() {
-    const c = db.clientes.find((x) => x.id === clienteSel.value);
+    const c = db.clientes.find((x) => String(x.id) === String(clienteSel.value));
     if (!c) return;
     const condicion = c.condicionIVA || "Consumidor Final";
     condSel.value = condicion;
@@ -660,7 +660,7 @@ async function setupFacturacion() {
     const data = Object.fromEntries(new FormData(e.target).entries());
     const neto = Number(data.neto);
     const calc = calcularFactura(neto, Number(data.alicuota), data.condicion);
-    const cli = db.clientes.find((x) => x.id === data.cliente);
+    const cli = db.clientes.find((x) => String(x.id) === String(data.cliente));
     const draftFactura = {
       fecha: new Date().toLocaleDateString("es-AR"),
       cliente: cli?.nombre || data.cliente,
@@ -715,6 +715,24 @@ async function setupFacturacion() {
 
   document.getElementById("btnPdfFactura").addEventListener("click", () => {
     if (!facturaActual) return alert("Primero generá una factura");
+    if (isApiMode() && facturaActual.id) {
+      fetch(`${API_BASE}/api/facturas/${facturaActual.id}/pdf`, {
+        headers: { Authorization: `Bearer ${currentSession.token}` }
+      })
+        .then((resp) => {
+          if (!resp.ok) throw new Error("No se pudo descargar el PDF");
+          return resp.blob();
+        })
+        .then((blob) => {
+          const a = document.createElement("a");
+          a.href = URL.createObjectURL(blob);
+          a.download = `factura-${facturaActual.id}.pdf`;
+          a.click();
+          URL.revokeObjectURL(a.href);
+        })
+        .catch((error) => alert(error.message));
+      return;
+    }
     const { jsPDF } = window.jspdf;
     const doc = new jsPDF();
     doc.text(`Factura ${facturaActual.tipo}`, 15, 20);
@@ -727,9 +745,19 @@ async function setupFacturacion() {
     doc.save(`factura-${Date.now()}.pdf`);
   });
 
-  document.getElementById("btnMailFactura").addEventListener("click", () => {
+  document.getElementById("btnMailFactura").addEventListener("click", async () => {
     if (!facturaActual) return alert("Primero generá una factura");
     const to = facturaActual.clienteEmail || "";
+    if (isApiMode() && facturaActual.id) {
+      const email = window.prompt("Enviar factura a:", to);
+      if (!email) return;
+      const result = await apiRequest("/api/informes/enviar-factura-mail-demo", {
+        method: "POST",
+        body: JSON.stringify({ facturaId: facturaActual.id, to: email })
+      });
+      alert(result.provider === "smtp" ? "Factura enviada por SMTP" : "Factura renderizada en modo consola");
+      return;
+    }
     const subject = encodeURIComponent(`Factura ${facturaActual.tipo} - ${facturaActual.cliente}`);
     const body = encodeURIComponent(`Adjuntamos factura en PDF. Total: ${formatMoney(facturaActual.total)}. CAE: ${facturaActual.cae || "N/D"}`);
     window.location.href = `mailto:${to}?subject=${subject}&body=${body}`;

@@ -2,6 +2,8 @@ import { Router } from 'express';
 import * as storage from '../data/storage.js';
 import { authRequired } from '../middleware/auth.js';
 import { can } from '../services/permissions.js';
+import { buildInvoicePdf } from '../services/pdf.js';
+import { validateFactura } from '../services/validation.js';
 
 const router = Router();
 router.use(authRequired);
@@ -28,9 +30,11 @@ router.post('/simular-cae', (req, res) => {
 router.post('/', async (req, res) => {
   if (!can(req.user.rol, 'facturas:create') && req.user.rol !== 'admin') return res.status(403).json({ error: 'Sin permiso' });
 
-  const { clienteId, condicionIVA, neto, alicuota, concepto, cae, caeVto } = req.body;
+  const parsed = validateFactura(req.body);
+  if (!parsed.ok) return res.status(400).json({ error: 'Datos inválidos', fields: parsed.errors });
+  const { clienteId, condicionIVA, neto, alicuota, concepto, cae, caeVto } = parsed.data;
   const clientes = await storage.list('clientes');
-  const cliente = clientes.find((c) => Number(c.id) === Number(clienteId));
+  const cliente = clientes.find((c) => String(c.id) === String(clienteId));
   if (!cliente) return res.status(400).json({ error: 'Cliente no encontrado' });
 
   const calculo = applyIvaRules(condicionIVA || cliente.condicionIVA, Number(neto), Number(alicuota || 21));
@@ -64,10 +68,11 @@ router.get('/:id/pdf', async (req, res) => {
   const factura = await storage.getById('facturas', req.params.id);
   if (!factura) return res.status(404).json({ error: 'Factura no encontrada' });
 
-  // fase 2 demo: devolver texto plano (hook para reemplazar por PDF real)
+  const pdf = buildInvoicePdf(factura);
   return res
-    .type('text/plain')
-    .send(`Factura ${factura.tipo}\nCliente: ${factura.cliente}\nTotal: ${factura.total}\nCAE: ${factura.cae || 'N/D'}`);
+    .type('application/pdf')
+    .setHeader('Content-Disposition', `attachment; filename="factura-${factura.id}.pdf"`)
+    .send(pdf);
 });
 
 export default router;
