@@ -1,14 +1,14 @@
 <div align="center">
 
-<img width="100%" src="https://capsule-render.vercel.app/api?type=waving&height=210&color=0:0f172a,45:2563eb,100:06b6d4&text=Juan%20Diego%20S%C3%A1nchez&fontColor=ffffff&fontSize=42&fontAlignY=38&desc=Licenciado%20en%20Sistemas%20%E2%80%A2%20Jefe%20de%20IT%20%E2%80%A2%20Desarrollo%20e%20Infraestructura&descAlignY=60&descSize=17&animation=fadeIn" alt="Portada de Juan Diego Sánchez" />
+<img width="100%" src="https://capsule-render.vercel.app/api?type=waving&height=215&color=0:0f172a,45:2563eb,100:06b6d4&text=Juan%20Diego%20S%C3%A1nchez&fontColor=ffffff&fontSize=42&fontAlignY=38&desc=Licenciado%20en%20Sistemas%20%E2%80%A2%20Jefe%20de%20IT%20%E2%80%A2%20Desarrollo%20e%20Infraestructura&descAlignY=60&descSize=17&animation=fadeIn" alt="Portada de Juan Diego Sánchez" />
 
-<img src="https://readme-typing-svg.demolab.com?font=Fira+Code&weight=600&size=22&pause=1200&color=38BDF8&center=true&vCenter=true&width=820&lines=Desarrollo+soluciones+web+para+empresas;Automatizo+procesos+con+IA;Administro+servidores%2C+Docker+y+Proxmox;Transformo+necesidades+reales+en+productos+digitales" alt="Presentación animada" />
+<img src="https://readme-typing-svg.demolab.com?font=Fira+Code&weight=600&size=21&pause=1200&color=38BDF8&center=true&vCenter=true&width=860&lines=Desarrollo+soluciones+web+para+empresas;Automatizo+procesos+con+IA;Administro+Linux%2C+Docker%2C+Nginx+y+Proxmox;Convierto+necesidades+reales+en+productos+digitales" alt="Presentación animada" />
 
 <br>
 
-[![GitHub](https://img.shields.io/badge/GitHub-@poto212-181717?style=for-the-badge&logo=github)](https://github.com/poto212)
-[![Argentina](https://img.shields.io/badge/Argentina-IT%20%26%20Desarrollo-75AADB?style=for-the-badge&logo=googlemaps&logoColor=white)](#)
-[![Estado](https://img.shields.io/badge/Proyectos-En%20desarrollo-22c55e?style=for-the-badge)](#proyectos-destacados)
+[![Perfil](https://img.shields.io/badge/GitHub-@poto212-181717?style=for-the-badge&logo=github)](https://github.com/poto212)
+![Ubicación](https://img.shields.io/badge/Argentina-IT%20%26%20Desarrollo-75AADB?style=for-the-badge&logo=googlemaps&logoColor=white)
+![Disponibilidad](https://img.shields.io/badge/Proyectos-En_desarrollo-22c55e?style=for-the-badge)
 
 </div>
 
@@ -18,18 +18,18 @@
 <tr>
 <td width="58%" valign="top">
 
-## 👨‍💻 Sobre mí
+## 👨‍💻 Perfil profesional
 
-Soy **Licenciado en Sistemas** y trabajo como **Jefe de IT**, combinando gestión tecnológica, infraestructura, soporte y desarrollo.
+Soy **Licenciado en Sistemas** y trabajo como **Jefe de IT**, combinando dirección tecnológica, infraestructura, soporte, automatización y desarrollo de software.
 
-Me especializo en convertir procesos manuales o dispersos en soluciones digitales simples, seguras y escalables.
+Mi enfoque es transformar procesos manuales o dispersos en soluciones digitales simples, seguras y escalables.
 
-- 🌐 Sistemas web multiusuario y SaaS.
-- 🧑‍💼 CRM y automatización empresarial.
-- 🐳 Docker, Linux, Nginx y despliegues.
-- 🖥️ Virtualización con Proxmox.
-- 📊 Monitoreo y observabilidad.
-- 🤖 Inteligencia artificial aplicada a procesos reales.
+- Sistemas web multiusuario y productos SaaS.
+- CRM, automatización comercial e integraciones.
+- Linux, Docker, Nginx y despliegues.
+- Virtualización y servicios sobre Proxmox.
+- Monitoreo, observabilidad y seguridad.
+- Inteligencia artificial aplicada a procesos reales.
 
 </td>
 <td width="42%" valign="top">
@@ -38,14 +38,14 @@ Me especializo en convertir procesos manuales o dispersos en soluciones digitale
 
 ```yaml
 rol: Jefe de IT
-perfil: Full Stack + Infraestructura
-objetivo: Productos SaaS propios
-intereses:
-  - Automatización
-  - Inteligencia artificial
-  - Ciberseguridad
-  - DevOps
+perfil: Desarrollo + Infraestructura
+objetivo: Crear productos SaaS propios
+prioridades:
   - Sistemas empresariales
+  - Automatización con IA
+  - DevOps y despliegues
+  - Ciberseguridad
+  - Monitoreo
 ubicacion: Argentina
 ```
 
@@ -61,19 +61,20 @@ ubicacion: Argentina
 <tr>
 <td width="50%" valign="top">
 
-### 🧑‍💼 CRM empresarial
+### 📊 Sistema de gestión comercial
 
-Gestión de prospectos, clientes, oportunidades, seguimiento comercial, reportes e integraciones.
+MVP web con dashboard, ingresos, egresos, clientes, proveedores, stock, facturación demo, informes, roles, MySQL y despliegue con Docker.
 
-![Estado](https://img.shields.io/badge/Estado-En_desarrollo-2563eb?style=flat-square)
-![Tipo](https://img.shields.io/badge/Tipo-SaaS-7c3aed?style=flat-square)
+![Estado](https://img.shields.io/badge/Estado-MVP_funcional-22c55e?style=flat-square)
+![Stack](https://img.shields.io/badge/Stack-Node.js_·_MySQL_·_Docker-2563eb?style=flat-square)
+![Acceso](https://img.shields.io/badge/Repositorio-Privado-f59e0b?style=flat-square)
 
 </td>
 <td width="50%" valign="top">
 
 ### 💬 Plataforma WhatsApp + CRM
 
-Campañas, múltiples sesiones, agenda, métricas, automatización e integración con inteligencia artificial.
+Campañas, múltiples sesiones, agenda, seguimiento comercial, métricas, automatización e integración con inteligencia artificial.
 
 ![Estado](https://img.shields.io/badge/Estado-En_desarrollo-2563eb?style=flat-square)
 ![IA](https://img.shields.io/badge/Integración-IA-06b6d4?style=flat-square)
@@ -85,7 +86,7 @@ Campañas, múltiples sesiones, agenda, métricas, automatización e integració
 
 ### 🛒 Comparador de precios
 
-Comparación por supermercado, unidad, litro, cantidad, listas de compra y mejores ofertas.
+Plataforma para comparar supermercados por unidad, litro, cantidad y lista de compra, mostrando ofertas y conveniencia total.
 
 ![Estado](https://img.shields.io/badge/Estado-Planificación-f59e0b?style=flat-square)
 ![Tipo](https://img.shields.io/badge/Tipo-Plataforma_web-7c3aed?style=flat-square)
@@ -95,7 +96,7 @@ Comparación por supermercado, unidad, litro, cantidad, listas de compra y mejor
 
 ### 🌾 Gestión de silos
 
-Migración de una aplicación Java a una plataforma web multiusuario con roles, reportes y copias de seguridad.
+Migración de una aplicación Java a una plataforma web multiusuario con roles, reportes, importación y copias de seguridad.
 
 ![Estado](https://img.shields.io/badge/Estado-En_desarrollo-2563eb?style=flat-square)
 ![Origen](https://img.shields.io/badge/Origen-Java-ed8b00?style=flat-square)
@@ -104,9 +105,11 @@ Migración de una aplicación Java a una plataforma web multiusuario con roles, 
 </tr>
 </table>
 
+> Los repositorios con lógica empresarial o información sensible se mantienen privados. En el perfil se presenta su arquitectura, alcance y estado real de avance.
+
 ---
 
-## 🛠️ Stack tecnológico
+## 🛠️ Tecnologías
 
 <div align="center">
 
@@ -114,9 +117,9 @@ Migración de una aplicación Java a una plataforma web multiusuario con roles, 
 
 <img src="https://skillicons.dev/icons?i=js,ts,nodejs,react,java,python,html,css&theme=dark" alt="Tecnologías de desarrollo" />
 
-### Datos e infraestructura
+### Datos, infraestructura y operaciones
 
-<img src="https://skillicons.dev/icons?i=mysql,postgres,linux,ubuntu,docker,nginx,git,github,grafana&theme=dark" alt="Bases de datos e infraestructura" />
+<img src="https://skillicons.dev/icons?i=mysql,postgres,linux,ubuntu,docker,nginx,git,github,grafana&theme=dark" alt="Datos e infraestructura" />
 
 <br><br>
 
@@ -129,7 +132,7 @@ Migración de una aplicación Java a una plataforma web multiusuario con roles, 
 
 ---
 
-## 🏗️ Mi laboratorio tecnológico
+## 🏗️ Laboratorio e infraestructura
 
 ```mermaid
 flowchart LR
@@ -140,8 +143,9 @@ flowchart LR
     D --> N[Nginx Proxy Manager]
     D --> K[Uptime Kuma]
     D --> H[Homarr]
-    D --> G[Glances / Grafana]
-    U --> S[Aplicaciones web]
+    D --> O[Glances · Grafana]
+    D --> A[Aplicaciones web]
+    U --> S[Seguridad y backups]
 ```
 
 <div align="center">
@@ -152,35 +156,16 @@ flowchart LR
 
 ---
 
-## 📊 Actividad y estadísticas
-
-<div align="center">
-
-<img height="170" src="https://github-readme-stats.vercel.app/api?username=poto212&show_icons=true&theme=tokyonight&hide_border=true&rank_icon=github&locale=es" alt="Estadísticas de GitHub" />
-<img height="170" src="https://github-readme-stats.vercel.app/api/top-langs/?username=poto212&layout=compact&theme=tokyonight&hide_border=true&locale=es" alt="Lenguajes más utilizados" />
-
-<br>
-
-<img width="70%" src="https://github-readme-streak-stats.herokuapp.com/?user=poto212&theme=tokyonight&hide_border=true&locale=es" alt="Racha de contribuciones" />
-
-<br>
-
-<img width="95%" src="https://github-readme-activity-graph.vercel.app/graph?username=poto212&theme=tokyo-night&hide_border=true&area=true" alt="Gráfico de actividad" />
-
-</div>
-
----
-
-## 💼 Qué puedo aportar
+## 💼 Áreas en las que trabajo
 
 <table>
 <tr>
-<td>🌐 Desarrollo de sistemas web</td>
-<td>🐳 Docker y despliegues</td>
+<td width="50%">🌐 Desarrollo de sistemas web</td>
+<td width="50%">🐳 Docker y despliegues</td>
 </tr>
 <tr>
 <td>⚙️ Automatización empresarial</td>
-<td>🖥️ Servidores Linux y Proxmox</td>
+<td>🖥️ Linux, redes y Proxmox</td>
 </tr>
 <tr>
 <td>🤖 Integración de inteligencia artificial</td>
@@ -194,18 +179,37 @@ flowchart LR
 
 ---
 
-<div id="contacto" align="center">
+## 📊 Actividad en GitHub
 
-## 🤝 Conectemos
+<div align="center">
 
-Estoy abierto a colaborar en proyectos de desarrollo, infraestructura, automatización y transformación digital.
+<img height="170" src="https://github-readme-stats.vercel.app/api?username=poto212&show_icons=true&theme=tokyonight&hide_border=true&rank_icon=github&locale=es" alt="Estadísticas de GitHub" />
+<img height="170" src="https://github-readme-stats.vercel.app/api/top-langs/?username=poto212&layout=compact&theme=tokyonight&hide_border=true&locale=es" alt="Lenguajes más utilizados" />
 
-[![Repositorios](https://img.shields.io/badge/Explorar_mis_repositorios-181717?style=for-the-badge&logo=github)](https://github.com/poto212?tab=repositories)
+<br>
+
+<img width="72%" src="https://github-readme-streak-stats.herokuapp.com/?user=poto212&theme=tokyonight&hide_border=true&locale=es" alt="Racha de contribuciones" />
+
+<br>
+
+<img width="95%" src="https://github-readme-activity-graph.vercel.app/graph?username=poto212&theme=tokyo-night&hide_border=true&area=true" alt="Gráfico de actividad" />
+
+</div>
+
+---
+
+<div align="center">
+
+## 🤝 Contacto y colaboración
+
+Interesado en proyectos de desarrollo, infraestructura, automatización, inteligencia artificial y transformación digital.
+
+[![Repositorios](https://img.shields.io/badge/Explorar_repositorios-181717?style=for-the-badge&logo=github)](https://github.com/poto212?tab=repositories)
 
 <br><br>
 
 ![Visitas](https://komarev.com/ghpvc/?username=poto212&style=for-the-badge&color=2563eb&label=VISITAS+AL+PERFIL)
 
-<img width="100%" src="https://capsule-render.vercel.app/api?type=waving&height=110&section=footer&color=0:0f172a,45:2563eb,100:06b6d4" alt="Pie de página" />
+<img width="100%" src="https://capsule-render.vercel.app/api?type=waving&height=105&section=footer&color=0:0f172a,45:2563eb,100:06b6d4" alt="Pie de página" />
 
 </div>
