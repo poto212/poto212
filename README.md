@@ -1,34 +1,61 @@
 <div align="center">
 
-# Juan Diego Sánchez
+<img width="100%" src="https://capsule-render.vercel.app/api?type=waving&height=210&color=0:0f172a,45:2563eb,100:06b6d4&text=Juan%20Diego%20S%C3%A1nchez&fontColor=ffffff&fontSize=42&fontAlignY=38&desc=Licenciado%20en%20Sistemas%20%E2%80%A2%20Jefe%20de%20IT%20%E2%80%A2%20Desarrollo%20e%20Infraestructura&descAlignY=60&descSize=17&animation=fadeIn" alt="Portada de Juan Diego Sánchez" />
 
-### Licenciado en Sistemas · Jefe de IT · Desarrollo e Infraestructura
+<img src="https://readme-typing-svg.demolab.com?font=Fira+Code&weight=600&size=22&pause=1200&color=38BDF8&center=true&vCenter=true&width=820&lines=Desarrollo+soluciones+web+para+empresas;Automatizo+procesos+con+IA;Administro+servidores%2C+Docker+y+Proxmox;Transformo+necesidades+reales+en+productos+digitales" alt="Presentación animada" />
 
-Diseño e implemento soluciones tecnológicas para empresas: sistemas web, automatización, infraestructura, monitoreo e inteligencia artificial aplicada.
+<br>
 
-[![Argentina](https://img.shields.io/badge/Argentina-75AADB?style=flat-square&logo=googlemaps&logoColor=white)](#)
-[![GitHub](https://img.shields.io/badge/@poto212-181717?style=flat-square&logo=github)](https://github.com/poto212)
-[![Proyectos](https://img.shields.io/badge/Abierto_a_colaboraciones-2ea44f?style=flat-square)](#contacto)
+[![GitHub](https://img.shields.io/badge/GitHub-@poto212-181717?style=for-the-badge&logo=github)](https://github.com/poto212)
+[![Argentina](https://img.shields.io/badge/Argentina-IT%20%26%20Desarrollo-75AADB?style=for-the-badge&logo=googlemaps&logoColor=white)](#)
+[![Estado](https://img.shields.io/badge/Proyectos-En%20desarrollo-22c55e?style=for-the-badge)](#proyectos-destacados)
 
 </div>
 
 ---
 
-## 👨‍💻 Perfil profesional
+<table>
+<tr>
+<td width="58%" valign="top">
 
-Trabajo como **Jefe de IT**, combinando gestión tecnológica, soporte, infraestructura y desarrollo de soluciones internas.
+## 👨‍💻 Sobre mí
 
-Mi enfoque está en transformar procesos manuales o dispersos en sistemas simples, seguros y escalables. Actualmente trabajo principalmente en:
+Soy **Licenciado en Sistemas** y trabajo como **Jefe de IT**, combinando gestión tecnológica, infraestructura, soporte y desarrollo.
 
-- Sistemas web multiusuario y plataformas SaaS.
-- CRM, gestión comercial y automatización de procesos.
-- Servidores Linux, virtualización y despliegues con Docker.
-- Monitoreo, observabilidad y ciberseguridad.
-- Integración de inteligencia artificial en procesos empresariales.
+Me especializo en convertir procesos manuales o dispersos en soluciones digitales simples, seguras y escalables.
+
+- 🌐 Sistemas web multiusuario y SaaS.
+- 🧑‍💼 CRM y automatización empresarial.
+- 🐳 Docker, Linux, Nginx y despliegues.
+- 🖥️ Virtualización con Proxmox.
+- 📊 Monitoreo y observabilidad.
+- 🤖 Inteligencia artificial aplicada a procesos reales.
+
+</td>
+<td width="42%" valign="top">
+
+## 🎯 Enfoque actual
+
+```yaml
+rol: Jefe de IT
+perfil: Full Stack + Infraestructura
+objetivo: Productos SaaS propios
+intereses:
+  - Automatización
+  - Inteligencia artificial
+  - Ciberseguridad
+  - DevOps
+  - Sistemas empresariales
+ubicacion: Argentina
+```
+
+</td>
+</tr>
+</table>
 
 ---
 
-## 🚀 Proyectos destacados
+<h2 id="proyectos-destacados">🚀 Proyectos destacados</h2>
 
 <table>
 <tr>
@@ -36,18 +63,20 @@ Mi enfoque está en transformar procesos manuales o dispersos en sistemas simple
 
 ### 🧑‍💼 CRM empresarial
 
-Plataforma para gestionar prospectos, clientes, oportunidades, seguimiento comercial, reportes e integraciones.
+Gestión de prospectos, clientes, oportunidades, seguimiento comercial, reportes e integraciones.
 
-**En desarrollo**
+![Estado](https://img.shields.io/badge/Estado-En_desarrollo-2563eb?style=flat-square)
+![Tipo](https://img.shields.io/badge/Tipo-SaaS-7c3aed?style=flat-square)
 
 </td>
 <td width="50%" valign="top">
 
-### 💬 WhatsApp + CRM
+### 💬 Plataforma WhatsApp + CRM
 
-Sistema web con campañas, múltiples sesiones, automatización, métricas, agenda e integración con IA.
+Campañas, múltiples sesiones, agenda, métricas, automatización e integración con inteligencia artificial.
 
-**En desarrollo**
+![Estado](https://img.shields.io/badge/Estado-En_desarrollo-2563eb?style=flat-square)
+![IA](https://img.shields.io/badge/Integración-IA-06b6d4?style=flat-square)
 
 </td>
 </tr>
@@ -56,9 +85,10 @@ Sistema web con campañas, múltiples sesiones, automatización, métricas, agen
 
 ### 🛒 Comparador de precios
 
-Comparación de productos por supermercado, precio unitario, litro, cantidad y mejores ofertas.
+Comparación por supermercado, unidad, litro, cantidad, listas de compra y mejores ofertas.
 
-**En planificación**
+![Estado](https://img.shields.io/badge/Estado-Planificación-f59e0b?style=flat-square)
+![Tipo](https://img.shields.io/badge/Tipo-Plataforma_web-7c3aed?style=flat-square)
 
 </td>
 <td width="50%" valign="top">
@@ -67,7 +97,8 @@ Comparación de productos por supermercado, precio unitario, litro, cantidad y m
 
 Migración de una aplicación Java a una plataforma web multiusuario con roles, reportes y copias de seguridad.
 
-**En desarrollo**
+![Estado](https://img.shields.io/badge/Estado-En_desarrollo-2563eb?style=flat-square)
+![Origen](https://img.shields.io/badge/Origen-Java-ed8b00?style=flat-square)
 
 </td>
 </tr>
@@ -75,83 +106,106 @@ Migración de una aplicación Java a una plataforma web multiusuario con roles, 
 
 ---
 
-## 🧰 Tecnologías
+## 🛠️ Stack tecnológico
 
 <div align="center">
 
-<img src="https://skillicons.dev/icons?i=js,ts,nodejs,react,java,python,mysql,postgres,linux,ubuntu,docker,nginx,git,github&perline=7" alt="Tecnologías principales" />
+### Desarrollo
+
+<img src="https://skillicons.dev/icons?i=js,ts,nodejs,react,java,python,html,css&theme=dark" alt="Tecnologías de desarrollo" />
+
+### Datos e infraestructura
+
+<img src="https://skillicons.dev/icons?i=mysql,postgres,linux,ubuntu,docker,nginx,git,github,grafana&theme=dark" alt="Bases de datos e infraestructura" />
+
+<br><br>
+
+![Proxmox](https://img.shields.io/badge/Proxmox-VE-E57000?style=for-the-badge&logo=proxmox&logoColor=white)
+![Wazuh](https://img.shields.io/badge/Wazuh-Seguridad-005571?style=for-the-badge)
+![Uptime Kuma](https://img.shields.io/badge/Uptime_Kuma-Monitoreo-5CDD8B?style=for-the-badge)
+![Home Assistant](https://img.shields.io/badge/Home_Assistant-Automatización-41BDF5?style=for-the-badge&logo=home-assistant&logoColor=white)
 
 </div>
 
-### Infraestructura y herramientas
-
-`Proxmox` · `Docker Compose` · `Ubuntu Server` · `Nginx` · `MySQL` · `Grafana` · `Wazuh` · `Uptime Kuma` · `Homarr` · `Home Assistant`
-
 ---
 
-## 🏗️ Laboratorio e infraestructura
+## 🏗️ Mi laboratorio tecnológico
 
-Mantengo un laboratorio propio orientado a desarrollo, pruebas y aprendizaje continuo:
-
-```text
-Proxmox VE
-├── Servidores Ubuntu
-├── Docker y Docker Compose
-├── Nginx Reverse Proxy
-├── Monitoreo con Uptime Kuma y Glances
-├── Dashboard centralizado con Homarr
-├── Automatización con Home Assistant
-└── Seguridad y observabilidad
+```mermaid
+flowchart LR
+    P[Proxmox VE] --> U[Ubuntu Server]
+    P --> HA[Home Assistant]
+    P --> NAS[TrueNAS]
+    U --> D[Docker]
+    D --> N[Nginx Proxy Manager]
+    D --> K[Uptime Kuma]
+    D --> H[Homarr]
+    D --> G[Glances / Grafana]
+    U --> S[Aplicaciones web]
 ```
-
----
-
-## 📊 Actividad en GitHub
 
 <div align="center">
 
-<img height="165" src="https://github-readme-stats.vercel.app/api?username=poto212&show_icons=true&theme=github_dark&hide_border=true&rank_icon=github&locale=es" alt="Estadísticas de GitHub" />
-<img height="165" src="https://github-readme-stats.vercel.app/api/top-langs/?username=poto212&layout=compact&theme=github_dark&hide_border=true&locale=es" alt="Lenguajes más utilizados" />
+`Proxmox` → `Ubuntu Server` → `Docker` → `Nginx` → `Aplicaciones` → `Monitoreo`
+
+</div>
+
+---
+
+## 📊 Actividad y estadísticas
+
+<div align="center">
+
+<img height="170" src="https://github-readme-stats.vercel.app/api?username=poto212&show_icons=true&theme=tokyonight&hide_border=true&rank_icon=github&locale=es" alt="Estadísticas de GitHub" />
+<img height="170" src="https://github-readme-stats.vercel.app/api/top-langs/?username=poto212&layout=compact&theme=tokyonight&hide_border=true&locale=es" alt="Lenguajes más utilizados" />
 
 <br>
 
-<img src="https://github-readme-streak-stats.herokuapp.com/?user=poto212&theme=github-dark-blue&hide_border=true&locale=es" alt="Actividad continua" />
+<img width="70%" src="https://github-readme-streak-stats.herokuapp.com/?user=poto212&theme=tokyonight&hide_border=true&locale=es" alt="Racha de contribuciones" />
+
+<br>
+
+<img width="95%" src="https://github-readme-activity-graph.vercel.app/graph?username=poto212&theme=tokyo-night&hide_border=true&area=true" alt="Gráfico de actividad" />
 
 </div>
 
 ---
 
-## 🎯 En qué estoy trabajando
+## 💼 Qué puedo aportar
 
-- Desarrollo de un CRM propio para el sector automotor.
-- Automatización de atención y seguimiento mediante WhatsApp e IA.
-- Consolidación de una infraestructura basada en Proxmox y Docker.
-- Mejora de prácticas de Git, despliegue, documentación y seguridad.
-- Creación de productos tecnológicos que puedan evolucionar hacia SaaS.
-
----
-
-## 🤝 Cómo puedo aportar
-
-- Análisis y digitalización de procesos empresariales.
-- Desarrollo de sistemas web y herramientas internas.
-- Implementación y administración de infraestructura Linux.
-- Virtualización, contenedores y despliegue de aplicaciones.
-- Monitoreo, soporte IT y documentación técnica.
-- Aplicación práctica de IA y automatización.
+<table>
+<tr>
+<td>🌐 Desarrollo de sistemas web</td>
+<td>🐳 Docker y despliegues</td>
+</tr>
+<tr>
+<td>⚙️ Automatización empresarial</td>
+<td>🖥️ Servidores Linux y Proxmox</td>
+</tr>
+<tr>
+<td>🤖 Integración de inteligencia artificial</td>
+<td>📊 Monitoreo y observabilidad</td>
+</tr>
+<tr>
+<td>🧑‍💼 CRM y herramientas internas</td>
+<td>🔐 Infraestructura y seguridad</td>
+</tr>
+</table>
 
 ---
 
 <div id="contacto" align="center">
 
-## 📫 Contacto
+## 🤝 Conectemos
 
 Estoy abierto a colaborar en proyectos de desarrollo, infraestructura, automatización y transformación digital.
 
-[![GitHub](https://img.shields.io/badge/Ver_mis_repositorios-181717?style=for-the-badge&logo=github)](https://github.com/poto212?tab=repositories)
+[![Repositorios](https://img.shields.io/badge/Explorar_mis_repositorios-181717?style=for-the-badge&logo=github)](https://github.com/poto212?tab=repositories)
 
-<br>
+<br><br>
 
-![Visitas](https://komarev.com/ghpvc/?username=poto212&style=flat-square&color=blueviolet&label=Visitas+al+perfil)
+![Visitas](https://komarev.com/ghpvc/?username=poto212&style=for-the-badge&color=2563eb&label=VISITAS+AL+PERFIL)
+
+<img width="100%" src="https://capsule-render.vercel.app/api?type=waving&height=110&section=footer&color=0:0f172a,45:2563eb,100:06b6d4" alt="Pie de página" />
 
 </div>
