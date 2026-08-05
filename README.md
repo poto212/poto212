@@ -179,20 +179,37 @@ flowchart LR
 
 ---
 
-## 📊 Actividad en GitHub
+## 🔄 Actividad y trabajo actual
+
+<table>
+<tr>
+<td width="50%" valign="top">
+
+### Desarrollo
+
+- Evolución del sistema de gestión comercial.
+- Diseño de soluciones CRM y SaaS.
+- Automatización de procesos con IA.
+- Migración de aplicaciones de escritorio a web.
+
+</td>
+<td width="50%" valign="top">
+
+### Infraestructura
+
+- Administración de Proxmox y Ubuntu Server.
+- Despliegues con Docker y Nginx.
+- Monitoreo con Uptime Kuma, Glances y Grafana.
+- Seguridad, backups y documentación técnica.
+
+</td>
+</tr>
+</table>
 
 <div align="center">
 
-<img height="170" src="https://github-readme-stats.vercel.app/api?username=poto212&show_icons=true&theme=tokyonight&hide_border=true&rank_icon=github&locale=es" alt="Estadísticas de GitHub" />
-<img height="170" src="https://github-readme-stats.vercel.app/api/top-langs/?username=poto212&layout=compact&theme=tokyonight&hide_border=true&locale=es" alt="Lenguajes más utilizados" />
-
-<br>
-
-<img width="72%" src="https://github-readme-streak-stats.herokuapp.com/?user=poto212&theme=tokyonight&hide_border=true&locale=es" alt="Racha de contribuciones" />
-
-<br>
-
-<img width="95%" src="https://github-readme-activity-graph.vercel.app/graph?username=poto212&theme=tokyo-night&hide_border=true&area=true" alt="Gráfico de actividad" />
+[![Contribuciones](https://img.shields.io/badge/Ver_contribuciones-en_GitHub-181717?style=for-the-badge&logo=github)](https://github.com/poto212?tab=overview&from=2026-01-01&to=2026-12-31)
+[![Repositorios](https://img.shields.io/badge/Ver_repositorios-proyectos-2563eb?style=for-the-badge&logo=github)](https://github.com/poto212?tab=repositories)
 
 </div>
 
@@ -204,7 +221,7 @@ flowchart LR
 
 Interesado en proyectos de desarrollo, infraestructura, automatización, inteligencia artificial y transformación digital.
 
-[![Repositorios](https://img.shields.io/badge/Explorar_repositorios-181717?style=for-the-badge&logo=github)](https://github.com/poto212?tab=repositories)
+[![Explorar](https://img.shields.io/badge/Explorar_repositorios-181717?style=for-the-badge&logo=github)](https://github.com/poto212?tab=repositories)
 
 <br><br>
 
