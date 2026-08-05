@@ -2,39 +2,41 @@
 
 <img width="100%" src="https://capsule-render.vercel.app/api?type=waving&height=215&color=0:0f172a,45:2563eb,100:06b6d4&text=Juan%20Diego%20S%C3%A1nchez&fontColor=ffffff&fontSize=42&fontAlignY=38&desc=Licenciado%20en%20Sistemas%20%E2%80%A2%20Jefe%20de%20IT%20%E2%80%A2%20Desarrollo%20e%20Infraestructura&descAlignY=60&descSize=17&animation=fadeIn" alt="Portada de Juan Diego Sánchez" />
 
-<img src="https://readme-typing-svg.demolab.com?font=Fira+Code&weight=600&size=21&pause=1200&color=38BDF8&center=true&vCenter=true&width=860&lines=Desarrollo+soluciones+web+para+empresas;Automatizo+procesos+con+IA;Administro+Linux%2C+Docker%2C+Nginx+y+Proxmox;Convierto+necesidades+reales+en+productos+digitales" alt="Presentación animada" />
+### Transformo procesos reales en sistemas web, automatizaciones e infraestructura confiable
+
+[![Perfil](https://img.shields.io/badge/GitHub-@poto212-181717?style=for-the-badge&logo=github)](https://github.com/poto212)
+![Argentina](https://img.shields.io/badge/Argentina-IT%20%26%20Desarrollo-75AADB?style=for-the-badge&logo=googlemaps&logoColor=white)
+![Rol](https://img.shields.io/badge/Rol-Jefe_de_IT-2563eb?style=for-the-badge)
+![Foco](https://img.shields.io/badge/Foco-SaaS_·_IA_·_Infraestructura-7c3aed?style=for-the-badge)
 
 <br>
 
-[![Perfil](https://img.shields.io/badge/GitHub-@poto212-181717?style=for-the-badge&logo=github)](https://github.com/poto212)
-![Ubicación](https://img.shields.io/badge/Argentina-IT%20%26%20Desarrollo-75AADB?style=for-the-badge&logo=googlemaps&logoColor=white)
-![Disponibilidad](https://img.shields.io/badge/Proyectos-En_desarrollo-22c55e?style=for-the-badge)
+[**Perfil**](#perfil-profesional) · [**Proyectos**](#proyectos-destacados) · [**Tecnologías**](#tecnologías) · [**Infraestructura**](#infraestructura) · [**Contacto**](#contacto)
 
 </div>
 
 ---
 
+<h2 id="perfil-profesional">👨‍💻 Perfil profesional</h2>
+
 <table>
 <tr>
-<td width="58%" valign="top">
+<td width="60%" valign="top">
 
-## 👨‍💻 Perfil profesional
+Soy **Licenciado en Sistemas** y trabajo como **Jefe de IT**, combinando dirección tecnológica, desarrollo de software, infraestructura, soporte y automatización.
 
-Soy **Licenciado en Sistemas** y trabajo como **Jefe de IT**, combinando dirección tecnológica, infraestructura, soporte, automatización y desarrollo de software.
-
-Mi enfoque es transformar procesos manuales o dispersos en soluciones digitales simples, seguras y escalables.
+Me especializo en convertir procesos manuales o dispersos en soluciones digitales simples, seguras y escalables.
 
 - Sistemas web multiusuario y productos SaaS.
 - CRM, automatización comercial e integraciones.
 - Linux, Docker, Nginx y despliegues.
-- Virtualización y servicios sobre Proxmox.
-- Monitoreo, observabilidad y seguridad.
+- Proxmox, monitoreo, seguridad y backups.
 - Inteligencia artificial aplicada a procesos reales.
 
 </td>
-<td width="42%" valign="top">
+<td width="40%" valign="top">
 
-## 🎯 Enfoque actual
+### 🎯 Enfoque actual
 
 ```yaml
 rol: Jefe de IT
@@ -55,6 +57,36 @@ ubicacion: Argentina
 
 ---
 
+## ⚡ Actualmente
+
+<table>
+<tr>
+<td width="33%" align="center" valign="top">
+
+### 📊 Construyendo
+
+Sistemas comerciales, CRM y herramientas internas.
+
+</td>
+<td width="33%" align="center" valign="top">
+
+### 🤖 Automatizando
+
+Procesos empresariales con IA e integraciones.
+
+</td>
+<td width="33%" align="center" valign="top">
+
+### 🖥️ Administrando
+
+Linux, Docker, Nginx, Proxmox y monitoreo.
+
+</td>
+</tr>
+</table>
+
+---
+
 <h2 id="proyectos-destacados">🚀 Proyectos destacados</h2>
 
 <table>
@@ -63,10 +95,10 @@ ubicacion: Argentina
 
 ### 📊 Sistema de gestión comercial
 
-MVP web con dashboard, ingresos, egresos, clientes, proveedores, stock, facturación demo, informes, roles, MySQL y despliegue con Docker.
+MVP web con dashboard, ingresos, egresos, clientes, proveedores, stock, facturación demo, informes, roles, MySQL y Docker.
 
 ![Estado](https://img.shields.io/badge/Estado-MVP_funcional-22c55e?style=flat-square)
-![Stack](https://img.shields.io/badge/Stack-Node.js_·_MySQL_·_Docker-2563eb?style=flat-square)
+![Stack](https://img.shields.io/badge/Node.js-MySQL_·_Docker-2563eb?style=flat-square)
 ![Acceso](https://img.shields.io/badge/Repositorio-Privado-f59e0b?style=flat-square)
 
 </td>
@@ -86,7 +118,7 @@ Campañas, múltiples sesiones, agenda, seguimiento comercial, métricas, automa
 
 ### 🛒 Comparador de precios
 
-Plataforma para comparar supermercados por unidad, litro, cantidad y lista de compra, mostrando ofertas y conveniencia total.
+Comparación de supermercados por unidad, litro, cantidad y lista de compra, con ofertas y análisis de conveniencia.
 
 ![Estado](https://img.shields.io/badge/Estado-Planificación-f59e0b?style=flat-square)
 ![Tipo](https://img.shields.io/badge/Tipo-Plataforma_web-7c3aed?style=flat-square)
@@ -105,11 +137,11 @@ Migración de una aplicación Java a una plataforma web multiusuario con roles, 
 </tr>
 </table>
 
-> Los repositorios con lógica empresarial o información sensible se mantienen privados. En el perfil se presenta su arquitectura, alcance y estado real de avance.
+> Los proyectos con lógica empresarial o información sensible se mantienen privados. El perfil presenta su alcance, arquitectura y estado real de avance.
 
 ---
 
-## 🛠️ Tecnologías
+<h2 id="tecnologías">🛠️ Tecnologías</h2>
 
 <div align="center">
 
@@ -117,7 +149,7 @@ Migración de una aplicación Java a una plataforma web multiusuario con roles, 
 
 <img src="https://skillicons.dev/icons?i=js,ts,nodejs,react,java,python,html,css&theme=dark" alt="Tecnologías de desarrollo" />
 
-### Datos, infraestructura y operaciones
+### Datos e infraestructura
 
 <img src="https://skillicons.dev/icons?i=mysql,postgres,linux,ubuntu,docker,nginx,git,github,grafana&theme=dark" alt="Datos e infraestructura" />
 
@@ -132,7 +164,7 @@ Migración de una aplicación Java a una plataforma web multiusuario con roles, 
 
 ---
 
-## 🏗️ Laboratorio e infraestructura
+<h2 id="infraestructura">🏗️ Infraestructura y laboratorio</h2>
 
 ```mermaid
 flowchart LR
@@ -156,7 +188,7 @@ flowchart LR
 
 ---
 
-## 💼 Áreas en las que trabajo
+## 💼 Capacidades
 
 <table>
 <tr>
@@ -179,53 +211,16 @@ flowchart LR
 
 ---
 
-## 🔄 Actividad y trabajo actual
-
-<table>
-<tr>
-<td width="50%" valign="top">
-
-### Desarrollo
-
-- Evolución del sistema de gestión comercial.
-- Diseño de soluciones CRM y SaaS.
-- Automatización de procesos con IA.
-- Migración de aplicaciones de escritorio a web.
-
-</td>
-<td width="50%" valign="top">
-
-### Infraestructura
-
-- Administración de Proxmox y Ubuntu Server.
-- Despliegues con Docker y Nginx.
-- Monitoreo con Uptime Kuma, Glances y Grafana.
-- Seguridad, backups y documentación técnica.
-
-</td>
-</tr>
-</table>
-
-<div align="center">
-
-[![Contribuciones](https://img.shields.io/badge/Ver_contribuciones-en_GitHub-181717?style=for-the-badge&logo=github)](https://github.com/poto212?tab=overview&from=2026-01-01&to=2026-12-31)
-[![Repositorios](https://img.shields.io/badge/Ver_repositorios-proyectos-2563eb?style=for-the-badge&logo=github)](https://github.com/poto212?tab=repositories)
-
-</div>
-
----
-
-<div align="center">
+<div id="contacto" align="center">
 
 ## 🤝 Contacto y colaboración
 
 Interesado en proyectos de desarrollo, infraestructura, automatización, inteligencia artificial y transformación digital.
 
-[![Explorar](https://img.shields.io/badge/Explorar_repositorios-181717?style=for-the-badge&logo=github)](https://github.com/poto212?tab=repositories)
+[![Contribuciones](https://img.shields.io/badge/Ver_contribuciones-181717?style=for-the-badge&logo=github)](https://github.com/poto212?tab=overview)
+[![Repositorios](https://img.shields.io/badge/Explorar_repositorios-2563eb?style=for-the-badge&logo=github)](https://github.com/poto212?tab=repositories)
 
 <br><br>
-
-![Visitas](https://komarev.com/ghpvc/?username=poto212&style=for-the-badge&color=2563eb&label=VISITAS+AL+PERFIL)
 
 <img width="100%" src="https://capsule-render.vercel.app/api?type=waving&height=105&section=footer&color=0:0f172a,45:2563eb,100:06b6d4" alt="Pie de página" />
 
