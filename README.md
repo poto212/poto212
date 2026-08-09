@@ -11,7 +11,7 @@
 
 <br>
 
-[**Perfil**](#perfil-profesional) · [**Proyectos**](#proyectos-destacados) · [**Tecnologías**](#tecnologías) · [**Infraestructura**](#infraestructura) · [**Contacto**](#contacto)
+[**Perfil**](#perfil-profesional) · [**Proyectos**](#proyectos-destacados) · [**Stack**](#stack-tecnológico) · [**Infraestructura**](#infraestructura-y-laboratorio) · [**Contacto**](#contacto)
 
 </div>
 
@@ -23,31 +23,32 @@
 <tr>
 <td width="60%" valign="top">
 
-Soy **Licenciado en Sistemas** y trabajo como **Jefe de IT**, combinando dirección tecnológica, desarrollo de software, infraestructura, soporte y automatización.
+Soy **Licenciado en Sistemas** y trabajo como **Jefe de IT**, combinando gestión tecnológica, desarrollo de software, infraestructura, soporte, automatización y seguridad.
 
-Me especializo en convertir procesos manuales o dispersos en soluciones digitales simples, seguras y escalables.
+Mi enfoque está en transformar procesos manuales o dispersos en soluciones web simples, medibles, seguras y escalables.
 
-- Sistemas web multiusuario y productos SaaS.
-- CRM, automatización comercial e integraciones.
-- Linux, Docker, Nginx y despliegues.
-- Proxmox, monitoreo, seguridad y backups.
-- Inteligencia artificial aplicada a procesos reales.
+- Desarrollo de sistemas web multiusuario y productos SaaS.
+- CRM, gestión comercial, herramientas administrativas y automatización.
+- Linux, Docker, Nginx, MySQL/PostgreSQL y despliegues productivos.
+- Proxmox, monitoreo, observabilidad, backups y seguridad.
+- Inteligencia artificial aplicada a operaciones y procesos empresariales.
 
 </td>
 <td width="40%" valign="top">
 
-### 🎯 Enfoque actual
+### 🎯 Enfoque 2026
 
 ```yaml
 rol: Jefe de IT
 perfil: Desarrollo + Infraestructura
-objetivo: Crear productos SaaS propios
+objetivo: Construir productos SaaS propios
 prioridades:
   - Sistemas empresariales
   - Automatización con IA
-  - DevOps y despliegues
   - Ciberseguridad
-  - Monitoreo
+  - DevOps y despliegues
+  - Monitoreo multiservidor
+  - Productos comercializables
 ubicacion: Argentina
 ```
 
@@ -61,25 +62,32 @@ ubicacion: Argentina
 
 <table>
 <tr>
-<td width="33%" align="center" valign="top">
+<td width="25%" align="center" valign="top">
 
-### 📊 Construyendo
+### 🧩 Construyendo
 
-Sistemas comerciales, CRM y herramientas internas.
+Sistemas empresariales, CRM y plataformas SaaS.
 
 </td>
-<td width="33%" align="center" valign="top">
+<td width="25%" align="center" valign="top">
 
 ### 🤖 Automatizando
 
-Procesos empresariales con IA e integraciones.
+Procesos con IA, integraciones y mensajería.
 
 </td>
-<td width="33%" align="center" valign="top">
+<td width="25%" align="center" valign="top">
 
 ### 🖥️ Administrando
 
-Linux, Docker, Nginx, Proxmox y monitoreo.
+Linux, Docker, Proxmox, Nginx y bases de datos.
+
+</td>
+<td width="25%" align="center" valign="top">
+
+### 🛡️ Protegiendo
+
+Monitoreo, alertas, backups y hardening.
 
 </td>
 </tr>
@@ -87,7 +95,7 @@ Linux, Docker, Nginx, Proxmox y monitoreo.
 
 ---
 
-<h2 id="proyectos-destacados">🚀 Proyectos destacados</h2>
+<h2 id="proyectos-destacados">🚀 Proyectos destacados en desarrollo</h2>
 
 <table>
 <tr>
@@ -95,53 +103,119 @@ Linux, Docker, Nginx, Proxmox y monitoreo.
 
 ### 📊 Sistema de gestión comercial
 
-MVP web con dashboard, ingresos, egresos, clientes, proveedores, stock, facturación demo, informes, roles, MySQL y Docker.
+Plataforma web para clientes, ventas, cuenta corriente, stock, facturación, cobranzas, presupuestos, reportes, importación histórica desde Excel, roles, auditoría y panel de administración.
 
-![Estado](https://img.shields.io/badge/Estado-MVP_funcional-22c55e?style=flat-square)
-![Stack](https://img.shields.io/badge/Node.js-MySQL_·_Docker-2563eb?style=flat-square)
+![Estado](https://img.shields.io/badge/Estado-MVP_avanzado-22c55e?style=flat-square)
+![Stack](https://img.shields.io/badge/Stack-Node.js_·_MySQL_·_Docker-2563eb?style=flat-square)
 ![Acceso](https://img.shields.io/badge/Repositorio-Privado-f59e0b?style=flat-square)
 
 </td>
 <td width="50%" valign="top">
 
-### 💬 Plataforma WhatsApp + CRM
+### 💬 Plataforma de mensajería + CRM
 
-Campañas, múltiples sesiones, agenda, seguimiento comercial, métricas, automatización e integración con inteligencia artificial.
+Sistema para gestión de campañas, agenda, contactos, múltiples sesiones, respuestas, métricas, control de envíos, automatización, alertas e integración con inteligencia artificial.
 
 ![Estado](https://img.shields.io/badge/Estado-En_desarrollo-2563eb?style=flat-square)
 ![IA](https://img.shields.io/badge/Integración-IA-06b6d4?style=flat-square)
+![Tipo](https://img.shields.io/badge/Tipo-SaaS-7c3aed?style=flat-square)
 
 </td>
 </tr>
 <tr>
 <td width="50%" valign="top">
 
-### 🛒 Comparador de precios
+### 🛡️ Plataforma de monitoreo multiservidor
 
-Comparación de supermercados por unidad, litro, cantidad y lista de compra, con ofertas y análisis de conveniencia.
+Dashboard central para supervisar servidores Linux, servicios web, Docker, SSH, Samba, recursos, disponibilidad, incidentes, seguridad y alertas desde desktop o móvil.
 
-![Estado](https://img.shields.io/badge/Estado-Planificación-f59e0b?style=flat-square)
-![Tipo](https://img.shields.io/badge/Tipo-Plataforma_web-7c3aed?style=flat-square)
+Incluye integración conceptual con herramientas como **Proxmox, Uptime Kuma, Grafana, Wazuh, Glances y notificaciones externas**.
+
+![Estado](https://img.shields.io/badge/Estado-Prototipo_avanzado-22c55e?style=flat-square)
+![Área](https://img.shields.io/badge/Área-DevOps_·_SecOps-ef4444?style=flat-square)
 
 </td>
 <td width="50%" valign="top">
 
-### 🌾 Gestión de silos
+### 🧾 Plataforma contable y fiscal
 
-Migración de una aplicación Java a una plataforma web multiusuario con roles, reportes, importación y copias de seguridad.
+Sistema web para estudios contables y gestión de clientes: IVA, monotributo, tasas, autónomos, cargas sociales, conciliación bancaria, cuenta corriente, presupuestos, parámetros fiscales y comparativas entre períodos.
+
+Diseñado con revisión humana previa a cualquier presentación o proceso sensible.
 
 ![Estado](https://img.shields.io/badge/Estado-En_desarrollo-2563eb?style=flat-square)
+![Área](https://img.shields.io/badge/Área-FinTech_·_Backoffice-14b8a6?style=flat-square)
+
+</td>
+</tr>
+<tr>
+<td width="50%" valign="top">
+
+### 🤝 CRM empresarial propio
+
+Arquitectura de CRM para ventas, agenda, seguimiento de oportunidades, clientes, usados, planes, webchat, WhatsApp, reportes, métricas e integraciones con plataformas existentes.
+
+Objetivo: reemplazar herramientas fragmentadas por una solución propia, escalable y controlada internamente.
+
+![Estado](https://img.shields.io/badge/Estado-Diseño_·_Desarrollo-2563eb?style=flat-square)
+![Tipo](https://img.shields.io/badge/Tipo-CRM_empresarial-7c3aed?style=flat-square)
+
+</td>
+<td width="50%" valign="top">
+
+### 🛒 Comparador inteligente de precios
+
+Plataforma para comparar productos de supermercados por precio final, unidad, litro, peso o cantidad; analizar listas de compra, detectar ofertas y estimar dónde conviene comprar.
+
+Pensado como producto web comercializable y ampliable mediante automatización de datos.
+
+![Estado](https://img.shields.io/badge/Estado-Diseño_MVP-f59e0b?style=flat-square)
+![Tipo](https://img.shields.io/badge/Tipo-Plataforma_web-7c3aed?style=flat-square)
+
+</td>
+</tr>
+<tr>
+<td width="50%" valign="top">
+
+### 🌾 Gestión agropecuaria / silos
+
+Modernización de una solución desarrollada originalmente en Java hacia una plataforma web multiusuario con dashboard, roles, cálculos, reportes, exportación PDF, importación de datos, auditoría y backups.
+
+![Estado](https://img.shields.io/badge/Estado-Migración_web-2563eb?style=flat-square)
 ![Origen](https://img.shields.io/badge/Origen-Java-ed8b00?style=flat-square)
+
+</td>
+<td width="50%" valign="top">
+
+### 🏢 Sistemas internos y automatización
+
+Desarrollo de herramientas internas para métricas operativas, seguimiento de procesos, importación/exportación Excel, reportes, dashboards, roles y consolidación de información de distintas áreas.
+
+![Estado](https://img.shields.io/badge/Estado-Evolución_continua-22c55e?style=flat-square)
+![Enfoque](https://img.shields.io/badge/Enfoque-Transformación_digital-06b6d4?style=flat-square)
 
 </td>
 </tr>
 </table>
 
-> Los proyectos con lógica empresarial o información sensible se mantienen privados. El perfil presenta su alcance, arquitectura y estado real de avance.
+> 🔒 Los proyectos con lógica empresarial, credenciales, datos de clientes o información sensible permanecen privados. Este perfil muestra únicamente alcance funcional, tecnologías y objetivos generales.
 
 ---
 
-<h2 id="tecnologías">🛠️ Tecnologías</h2>
+## 🧠 Qué estoy desarrollando en estos proyectos
+
+- **Dashboards ejecutivos** con métricas, estados, alertas e indicadores comparativos.
+- **Arquitecturas multiusuario** con roles, permisos, auditoría y trazabilidad.
+- **APIs y backends** preparados para integraciones y automatización.
+- **Importación y exportación** de Excel, CSV, PDF y datos históricos.
+- **Automatizaciones con IA** manteniendo validaciones y revisión humana cuando corresponde.
+- **Seguridad por diseño**: control de acceso, validación de entradas, backups, hardening y monitoreo.
+- **Despliegues reproducibles** con Linux, Docker y reverse proxy.
+- **Monitoreo operativo** con métricas, disponibilidad, alertas y recuperación ante fallos.
+
+---
+
+<h2 id="stack-tecnológico">🛠️ Stack tecnológico</h2>
 
 <div align="center">
 
@@ -164,7 +238,7 @@ Migración de una aplicación Java a una plataforma web multiusuario con roles, 
 
 ---
 
-<h2 id="infraestructura">🏗️ Infraestructura y laboratorio</h2>
+<h2 id="infraestructura-y-laboratorio">🏗️ Infraestructura y laboratorio</h2>
 
 ```mermaid
 flowchart LR
@@ -172,17 +246,18 @@ flowchart LR
     P --> HA[Home Assistant]
     P --> NAS[TrueNAS]
     U --> D[Docker]
-    D --> N[Nginx Proxy Manager]
+    D --> N[Nginx]
     D --> K[Uptime Kuma]
     D --> H[Homarr]
-    D --> O[Glances · Grafana]
+    D --> G[Glances / Grafana]
     D --> A[Aplicaciones web]
-    U --> S[Seguridad y backups]
+    U --> W[Wazuh / Seguridad]
+    U --> B[Backups]
 ```
 
 <div align="center">
 
-`Proxmox` → `Ubuntu Server` → `Docker` → `Nginx` → `Aplicaciones` → `Monitoreo`
+`Proxmox` → `Ubuntu Server` → `Docker` → `Nginx` → `Aplicaciones` → `Monitoreo` → `Alertas`
 
 </div>
 
@@ -193,11 +268,11 @@ flowchart LR
 <table>
 <tr>
 <td width="50%">🌐 Desarrollo de sistemas web</td>
-<td width="50%">🐳 Docker y despliegues</td>
+<td width="50%">🐳 Docker, Linux y despliegues</td>
 </tr>
 <tr>
 <td>⚙️ Automatización empresarial</td>
-<td>🖥️ Linux, redes y Proxmox</td>
+<td>🖥️ Redes, servidores y Proxmox</td>
 </tr>
 <tr>
 <td>🤖 Integración de inteligencia artificial</td>
@@ -205,9 +280,27 @@ flowchart LR
 </tr>
 <tr>
 <td>🧑‍💼 CRM y herramientas internas</td>
-<td>🔐 Infraestructura y seguridad</td>
+<td>🔐 Seguridad, backups y hardening</td>
+</tr>
+<tr>
+<td>🗄️ MySQL / PostgreSQL</td>
+<td>📈 Dashboards y reportes</td>
 </tr>
 </table>
+
+---
+
+## 🗺️ Roadmap personal 2026
+
+```text
+Sistemas internos → Productos SaaS → Automatización con IA
+        ↓                 ↓                  ↓
+  datos y procesos   arquitectura web    asistentes y agentes
+        ↓                 ↓                  ↓
+   dashboards       despliegue seguro    monitoreo continuo
+```
+
+Objetivo: evolucionar soluciones creadas para problemas reales hacia productos robustos, documentados y reutilizables.
 
 ---
 
@@ -215,7 +308,7 @@ flowchart LR
 
 ## 🤝 Contacto y colaboración
 
-Interesado en proyectos de desarrollo, infraestructura, automatización, inteligencia artificial y transformación digital.
+Interesado en proyectos de **desarrollo**, **infraestructura**, **automatización**, **inteligencia artificial**, **ciberseguridad** y **transformación digital**.
 
 [![Contribuciones](https://img.shields.io/badge/Ver_contribuciones-181717?style=for-the-badge&logo=github)](https://github.com/poto212?tab=overview)
 [![Repositorios](https://img.shields.io/badge/Explorar_repositorios-2563eb?style=for-the-badge&logo=github)](https://github.com/poto212?tab=repositories)
