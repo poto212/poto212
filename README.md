@@ -1,55 +1,64 @@
 <div align="center">
 
-<img width="100%" src="https://capsule-render.vercel.app/api?type=waving&height=215&color=0:0f172a,45:2563eb,100:06b6d4&text=Juan%20Diego%20S%C3%A1nchez&fontColor=ffffff&fontSize=42&fontAlignY=38&desc=Licenciado%20en%20Sistemas%20%E2%80%A2%20Jefe%20de%20IT%20%E2%80%A2%20Desarrollo%20e%20Infraestructura&descAlignY=60&descSize=17&animation=fadeIn" alt="Portada de Juan Diego Sánchez" />
+<img width="100%" src="https://capsule-render.vercel.app/api?type=waving&height=230&color=0:0b1220,45:1d4ed8,100:06b6d4&text=Juan%20Diego%20S%C3%A1nchez&fontColor=ffffff&fontSize=43&fontAlignY=36&desc=Licenciado%20en%20Sistemas%20%E2%80%A2%20IT%20Leadership%20%E2%80%A2%20Software%20%E2%80%A2%20Infrastructure%20%E2%80%A2%20Security&descAlignY=58&descSize=16&animation=fadeIn" alt="Juan Diego Sánchez — Sistemas, software, infraestructura y seguridad" />
 
-### Transformo procesos reales en sistemas web, automatizaciones e infraestructura confiable
+### Diseño y construyo sistemas que conectan negocio, software e infraestructura
 
-[![Perfil](https://img.shields.io/badge/GitHub-@poto212-181717?style=for-the-badge&logo=github)](https://github.com/poto212)
-![Argentina](https://img.shields.io/badge/Argentina-IT%20%26%20Desarrollo-75AADB?style=for-the-badge&logo=googlemaps&logoColor=white)
-![Rol](https://img.shields.io/badge/Rol-Jefe_de_IT-2563eb?style=for-the-badge)
-![Foco](https://img.shields.io/badge/Foco-SaaS_·_IA_·_Infraestructura-7c3aed?style=for-the-badge)
+![Argentina](https://img.shields.io/badge/Argentina-75AADB?style=for-the-badge&logo=googlemaps&logoColor=white)
+![IT](https://img.shields.io/badge/IT-Leadership-2563EB?style=for-the-badge)
+![Software](https://img.shields.io/badge/Software-SaaS_·_CRM_·_ERP-7C3AED?style=for-the-badge)
+![Infra](https://img.shields.io/badge/Infra-Linux_·_Docker_·_Proxmox-0F766E?style=for-the-badge)
+![Security](https://img.shields.io/badge/Security-SecOps_·_Observability-DC2626?style=for-the-badge)
 
 <br>
 
-[**Perfil**](#perfil-profesional) · [**Proyectos**](#proyectos-destacados) · [**Stack**](#stack-tecnológico) · [**Infraestructura**](#infraestructura-y-laboratorio) · [**Contacto**](#contacto)
+[**Perfil**](#perfil) · [**Portfolio**](#portfolio) · [**Arquitectura**](#arquitectura) · [**Stack**](#stack) · [**Principios**](#principios) · [**Contacto**](#contacto)
 
 </div>
 
 ---
 
-<h2 id="perfil-profesional">👨‍💻 Perfil profesional</h2>
+<h2 id="perfil">👨‍💻 Perfil</h2>
 
 <table>
 <tr>
-<td width="60%" valign="top">
+<td width="62%" valign="top">
 
-Soy **Licenciado en Sistemas** y trabajo como **Jefe de IT**, combinando gestión tecnológica, desarrollo de software, infraestructura, soporte, automatización y seguridad.
+Soy **Licenciado en Sistemas** y trabajo en liderazgo de IT, desarrollo de software, infraestructura, automatización y seguridad.
 
-Mi enfoque está en transformar procesos manuales o dispersos en soluciones web simples, medibles, seguras y escalables.
+Mi foco está en resolver problemas reales de operación: convertir procesos manuales, planillas, aplicaciones heredadas y herramientas aisladas en **plataformas web integradas, observables, auditables y seguras**.
 
-- Desarrollo de sistemas web multiusuario y productos SaaS.
-- CRM, gestión comercial, herramientas administrativas y automatización.
-- Linux, Docker, Nginx, MySQL/PostgreSQL y despliegues productivos.
-- Proxmox, monitoreo, observabilidad, backups y seguridad.
-- Inteligencia artificial aplicada a operaciones y procesos empresariales.
+Trabajo especialmente en:
+
+- productos **SaaS multiusuario y multi-tenant**;
+- CRM, ERP, backoffice y automatización empresarial;
+- APIs, integraciones, mensajería y procesamiento asíncrono;
+- Linux, Docker, Nginx, Proxmox y bases de datos;
+- observabilidad, backups, recuperación e incidentes;
+- seguridad por diseño, MFA, RBAC, auditoría y trazabilidad;
+- inteligencia artificial aplicada como copiloto y apoyo operativo.
 
 </td>
-<td width="40%" valign="top">
+<td width="38%" valign="top">
 
-### 🎯 Enfoque 2026
+### 🎯 Foco actual
 
 ```yaml
-rol: Jefe de IT
-perfil: Desarrollo + Infraestructura
-objetivo: Construir productos SaaS propios
+perfil: Systems + Software + Infrastructure
+objetivo: productos propios y soluciones empresariales
 prioridades:
-  - Sistemas empresariales
-  - Automatización con IA
-  - Ciberseguridad
-  - DevOps y despliegues
-  - Monitoreo multiservidor
-  - Productos comercializables
-ubicacion: Argentina
+  - SaaS y plataformas web
+  - automatización con IA
+  - DevOps / SecOps
+  - observabilidad
+  - resiliencia
+  - UX operativa
+metodo:
+  - auditar
+  - implementar
+  - validar
+  - medir
+  - documentar
 ```
 
 </td>
@@ -58,36 +67,161 @@ ubicacion: Argentina
 
 ---
 
-## ⚡ Actualmente
+## ⚡ Lo que estoy construyendo
 
 <table>
 <tr>
-<td width="25%" align="center" valign="top">
+<td width="25%" align="center" valign="top"><h3>🧩 Productos</h3>SaaS, CRM, ERP, portales y herramientas verticales.</td>
+<td width="25%" align="center" valign="top"><h3>🤖 Automatización</h3>IA asistiva, workflows, integraciones y mensajería.</td>
+<td width="25%" align="center" valign="top"><h3>🖥️ Plataforma</h3>Linux, Docker, Proxmox, Nginx, datos y despliegues.</td>
+<td width="25%" align="center" valign="top"><h3>🛡️ Resiliencia</h3>Monitoreo, auditoría, seguridad, backups e incidentes.</td>
+</tr>
+</table>
 
-### 🧩 Construyendo
+---
 
-Sistemas empresariales, CRM y plataformas SaaS.
+<h2 id="portfolio">🚀 Portfolio de sistemas</h2>
+
+> Gran parte del código y de la lógica de negocio es privada. Acá muestro únicamente el alcance técnico y funcional, sin publicar infraestructura, credenciales ni información sensible.
+
+<table>
+<tr>
+<td width="50%" valign="top">
+
+### 🛡️ Apollo WebGuard
+**Plataforma de observabilidad, diagnóstico y SecOps.**
+
+Centraliza monitoreo multiservidor, servicios, Docker, disponibilidad, incidentes, evidencia, métricas, alertas, backups y acciones operativas asistidas.
+
+`Proxmox` `Docker` `Nginx` `Wazuh` `Grafana` `Prometheus` `Loki` `SSH`
+
+![Tipo](https://img.shields.io/badge/Tipo-Observability_·_SecOps-DC2626?style=flat-square)
+![Estado](https://img.shields.io/badge/Estado-Desarrollo_activo-22C55E?style=flat-square)
 
 </td>
-<td width="25%" align="center" valign="top">
+<td width="50%" valign="top">
 
-### 🤖 Automatizando
+### 🏥 Health Turnos SaaS
+**Plataforma multi-tenant para salud.**
 
-Procesos con IA, integraciones y mensajería.
+Turnos, pacientes, profesionales, sedes, coberturas, pagos, laboratorio, radiología, resultados, booking público, lista de espera, facturación, mensajería, auditoría y administración SaaS.
+
+`PostgreSQL` `Prisma` `Redis` `Docker` `RBAC` `MFA` `Multi-tenant`
+
+![Tipo](https://img.shields.io/badge/Tipo-SaaS_multi--tenant-7C3AED?style=flat-square)
+![Foco](https://img.shields.io/badge/Foco-Workflow_·_Resiliencia-2563EB?style=flat-square)
 
 </td>
-<td width="25%" align="center" valign="top">
+</tr>
+<tr>
+<td width="50%" valign="top">
 
-### 🖥️ Administrando
+### 💬 WA CRM Sender
+**Mensajería empresarial + CRM + centro de operaciones.**
 
-Linux, Docker, Proxmox, Nginx y bases de datos.
+Campañas, contactos, conversaciones, agenda, colas, workers, scheduler, reintentos, DLQ, métricas reconciliadas, health score, preflight, automatizaciones e IA operativa.
+
+`PostgreSQL` `RLS` `Redis` `BullMQ` `Workers` `Docker` `Nginx`
+
+![Tipo](https://img.shields.io/badge/Tipo-Messaging_·_CRM-06B6D4?style=flat-square)
+![Arquitectura](https://img.shields.io/badge/Arquitectura-Async_·_Multi--tenant-7C3AED?style=flat-square)
 
 </td>
-<td width="25%" align="center" valign="top">
+<td width="50%" valign="top">
 
-### 🛡️ Protegiendo
+### 🛒 Exabyte ERP Store
+**ERP + ecommerce integrado.**
 
-Monitoreo, alertas, backups y hardening.
+Productos, depósitos, stock, presupuestos, ventas, cobranzas, reportes, catálogo, carrito, checkout, reservas, pagos, marketplace, logística, servicio técnico y administración.
+
+`Node.js` `MySQL` `Docker` `Nginx` `Ecommerce` `API`
+
+![Tipo](https://img.shields.io/badge/Tipo-ERP_·_Ecommerce-0F766E?style=flat-square)
+![Foco](https://img.shields.io/badge/Foco-Operación_end--to--end-2563EB?style=flat-square)
+
+</td>
+</tr>
+<tr>
+<td width="50%" valign="top">
+
+### 🧾 BrokerFlow / OLBROKER
+**Gestión integral para productores y brokers de seguros.**
+
+Clientes, pólizas, producción, agenda, tareas, reportes, importaciones con rollback, auditoría, chat, indicadores, MFA y analítica operativa/gerencial.
+
+`Node.js` `MySQL` `Docker` `Analytics` `RBAC` `MFA`
+
+![Tipo](https://img.shields.io/badge/Tipo-InsurTech-2563EB?style=flat-square)
+![Foco](https://img.shields.io/badge/Foco-Datos_·_Operación-06B6D4?style=flat-square)
+
+</td>
+<td width="50%" valign="top">
+
+### 🤝 CRM empresarial
+**Vista 360 para operación comercial.**
+
+Leads, contactos, oportunidades, agenda, WhatsApp, emails, presupuestos, vehículos, operaciones, seguimiento, presencia colaborativa, actividad, próximas acciones y copiloto IA asistivo.
+
+`CRM` `Timeline 360` `Collaboration` `Automation` `AI`
+
+![Tipo](https://img.shields.io/badge/Tipo-CRM_empresarial-7C3AED?style=flat-square)
+![UX](https://img.shields.io/badge/UX-360_·_Next_Action-14B8A6?style=flat-square)
+
+</td>
+</tr>
+<tr>
+<td width="50%" valign="top">
+
+### 🌾 Silos Web
+**Modernización de software agropecuario legado.**
+
+Migración de una solución histórica hacia una plataforma web multiusuario con cálculos, dashboards, roles, validaciones, importación/exportación, reportes PDF, auditoría y backups.
+
+`Spring Boot` `React` `MySQL` `Docker` `PDF` `Excel`
+
+![Tipo](https://img.shields.io/badge/Tipo-AgriTech-65A30D?style=flat-square)
+![Modernización](https://img.shields.io/badge/Modernización-Legacy_→_Web-F59E0B?style=flat-square)
+
+</td>
+<td width="50%" valign="top">
+
+### 💳 Financiera RM
+**Workflow financiero para sucursales.**
+
+Solicitud, evaluación, aprobación y seguimiento de préstamos, operación de caja y cobranza de cupones, con perfiles diferenciados para operador y supervisor.
+
+`Workflow` `RBAC` `Auditoría` `Migración de legado`
+
+![Tipo](https://img.shields.io/badge/Tipo-FinTech-0F766E?style=flat-square)
+![Foco](https://img.shields.io/badge/Foco-Control_·_Trazabilidad-2563EB?style=flat-square)
+
+</td>
+</tr>
+<tr>
+<td width="50%" valign="top">
+
+### 🏢 Portal STM
+**Portal de afiliados + administración.**
+
+Padrón, afiliaciones, documentación, validaciones, beneficios, vouchers, portal del afiliado, administración, auditoría e integraciones de comunicación.
+
+`Portal` `RBAC` `Auditoría` `Integraciones` `Responsive UX`
+
+![Tipo](https://img.shields.io/badge/Tipo-Portal_de_servicios-2563EB?style=flat-square)
+![Foco](https://img.shields.io/badge/Foco-Autoservicio_·_Control-14B8A6?style=flat-square)
+
+</td>
+<td width="50%" valign="top">
+
+### 🛍️ App Comprar Precios
+**Comparador inteligente para compras.**
+
+Comparación por precio final, unidad, litro, peso o cantidad, listas de compra, detección de ofertas y análisis para decidir dónde conviene comprar.
+
+`Web App` `Data` `Comparación` `Automatización`
+
+![Tipo](https://img.shields.io/badge/Tipo-Consumer_Data-f59e0b?style=flat-square)
+![Foco](https://img.shields.io/badge/Foco-Decisión_de_compra-7C3AED?style=flat-square)
 
 </td>
 </tr>
@@ -95,212 +229,109 @@ Monitoreo, alertas, backups y hardening.
 
 ---
 
-<h2 id="proyectos-destacados">🚀 Proyectos destacados en desarrollo</h2>
+## 🧠 Patrones que reutilizo entre proyectos
 
-<table>
-<tr>
-<td width="50%" valign="top">
-
-### 📊 Sistema de gestión comercial
-
-Plataforma web para clientes, ventas, cuenta corriente, stock, facturación, cobranzas, presupuestos, reportes, importación histórica desde Excel, roles, auditoría y panel de administración.
-
-![Estado](https://img.shields.io/badge/Estado-MVP_avanzado-22c55e?style=flat-square)
-![Stack](https://img.shields.io/badge/Stack-Node.js_·_MySQL_·_Docker-2563eb?style=flat-square)
-![Acceso](https://img.shields.io/badge/Repositorio-Privado-f59e0b?style=flat-square)
-
-</td>
-<td width="50%" valign="top">
-
-### 💬 Plataforma de mensajería + CRM
-
-Sistema para gestión de campañas, agenda, contactos, múltiples sesiones, respuestas, métricas, control de envíos, automatización, alertas e integración con inteligencia artificial.
-
-![Estado](https://img.shields.io/badge/Estado-En_desarrollo-2563eb?style=flat-square)
-![IA](https://img.shields.io/badge/Integración-IA-06b6d4?style=flat-square)
-![Tipo](https://img.shields.io/badge/Tipo-SaaS-7c3aed?style=flat-square)
-
-</td>
-</tr>
-<tr>
-<td width="50%" valign="top">
-
-### 🛡️ Plataforma de monitoreo multiservidor
-
-Dashboard central para supervisar servidores Linux, servicios web, Docker, SSH, Samba, recursos, disponibilidad, incidentes, seguridad y alertas desde desktop o móvil.
-
-Incluye integración conceptual con herramientas como **Proxmox, Uptime Kuma, Grafana, Wazuh, Glances y notificaciones externas**.
-
-![Estado](https://img.shields.io/badge/Estado-Prototipo_avanzado-22c55e?style=flat-square)
-![Área](https://img.shields.io/badge/Área-DevOps_·_SecOps-ef4444?style=flat-square)
-
-</td>
-<td width="50%" valign="top">
-
-### 🧾 Plataforma contable y fiscal
-
-Sistema web para estudios contables y gestión de clientes: IVA, monotributo, tasas, autónomos, cargas sociales, conciliación bancaria, cuenta corriente, presupuestos, parámetros fiscales y comparativas entre períodos.
-
-Diseñado con revisión humana previa a cualquier presentación o proceso sensible.
-
-![Estado](https://img.shields.io/badge/Estado-En_desarrollo-2563eb?style=flat-square)
-![Área](https://img.shields.io/badge/Área-FinTech_·_Backoffice-14b8a6?style=flat-square)
-
-</td>
-</tr>
-<tr>
-<td width="50%" valign="top">
-
-### 🤝 CRM empresarial propio
-
-Arquitectura de CRM para ventas, agenda, seguimiento de oportunidades, clientes, usados, planes, webchat, WhatsApp, reportes, métricas e integraciones con plataformas existentes.
-
-Objetivo: reemplazar herramientas fragmentadas por una solución propia, escalable y controlada internamente.
-
-![Estado](https://img.shields.io/badge/Estado-Diseño_·_Desarrollo-2563eb?style=flat-square)
-![Tipo](https://img.shields.io/badge/Tipo-CRM_empresarial-7c3aed?style=flat-square)
-
-</td>
-<td width="50%" valign="top">
-
-### 🛒 Comparador inteligente de precios
-
-Plataforma para comparar productos de supermercados por precio final, unidad, litro, peso o cantidad; analizar listas de compra, detectar ofertas y estimar dónde conviene comprar.
-
-Pensado como producto web comercializable y ampliable mediante automatización de datos.
-
-![Estado](https://img.shields.io/badge/Estado-Diseño_MVP-f59e0b?style=flat-square)
-![Tipo](https://img.shields.io/badge/Tipo-Plataforma_web-7c3aed?style=flat-square)
-
-</td>
-</tr>
-<tr>
-<td width="50%" valign="top">
-
-### 🌾 Gestión agropecuaria / silos
-
-Modernización de una solución desarrollada originalmente en Java hacia una plataforma web multiusuario con dashboard, roles, cálculos, reportes, exportación PDF, importación de datos, auditoría y backups.
-
-![Estado](https://img.shields.io/badge/Estado-Migración_web-2563eb?style=flat-square)
-![Origen](https://img.shields.io/badge/Origen-Java-ed8b00?style=flat-square)
-
-</td>
-<td width="50%" valign="top">
-
-### 🏢 Sistemas internos y automatización
-
-Desarrollo de herramientas internas para métricas operativas, seguimiento de procesos, importación/exportación Excel, reportes, dashboards, roles y consolidación de información de distintas áreas.
-
-![Estado](https://img.shields.io/badge/Estado-Evolución_continua-22c55e?style=flat-square)
-![Enfoque](https://img.shields.io/badge/Enfoque-Transformación_digital-06b6d4?style=flat-square)
-
-</td>
-</tr>
-</table>
-
-> 🔒 Los proyectos con lógica empresarial, credenciales, datos de clientes o información sensible permanecen privados. Este perfil muestra únicamente alcance funcional, tecnologías y objetivos generales.
+| Patrón | Aplicación |
+|---|---|
+| **Timeline / Vista 360** | contexto completo de clientes, pacientes, operaciones o incidentes |
+| **RBAC + MFA + auditoría** | control de acceso, acciones sensibles y trazabilidad |
+| **Health Score + preflight** | detectar problemas antes de ejecutar operaciones críticas |
+| **Import con validación + rollback** | migraciones e importaciones seguras |
+| **Centro de Operaciones** | reducir dependencia de consola y acelerar diagnóstico |
+| **Workers + reintentos + DLQ** | procesos asíncronos resilientes |
+| **Dashboards operativos y gerenciales** | métricas claras según el tipo de usuario |
+| **IA asistiva** | sugerir, resumir y priorizar sin quitar control humano |
+| **Backups + restore drills** | verificar que recuperar sea tan real como respaldar |
+| **Responsive UX** | reducir clics y mantener claridad en desktop y móvil |
 
 ---
 
-## 🧠 Qué estoy desarrollando en estos proyectos
+<h2 id="arquitectura">🏗️ Arquitectura que uso como referencia</h2>
 
-- **Dashboards ejecutivos** con métricas, estados, alertas e indicadores comparativos.
-- **Arquitecturas multiusuario** con roles, permisos, auditoría y trazabilidad.
-- **APIs y backends** preparados para integraciones y automatización.
-- **Importación y exportación** de Excel, CSV, PDF y datos históricos.
-- **Automatizaciones con IA** manteniendo validaciones y revisión humana cuando corresponde.
-- **Seguridad por diseño**: control de acceso, validación de entradas, backups, hardening y monitoreo.
-- **Despliegues reproducibles** con Linux, Docker y reverse proxy.
-- **Monitoreo operativo** con métricas, disponibilidad, alertas y recuperación ante fallos.
+```mermaid
+flowchart LR
+    U[Usuarios] --> RP[Reverse Proxy / Nginx]
+    RP --> WEB[Web Apps]
+    RP --> API[APIs]
+
+    API --> DB[(PostgreSQL / MySQL)]
+    API --> R[(Redis)]
+    R --> W[Workers / Jobs]
+
+    P[Proxmox] --> L[Linux / Ubuntu]
+    L --> D[Docker]
+    D --> WEB
+    D --> API
+    D --> OBS[Observabilidad]
+
+    OBS --> M[Metrics / Logs / Health]
+    M --> A[Alertas / Incidentes]
+
+    API --> AUD[Auditoría]
+    API --> BK[Backups]
+    API --> AI[IA asistiva]
+```
+
+<div align="center">
+
+**Negocio → UX → API → Datos → Automatización → Observabilidad → Seguridad → Recuperación**
+
+</div>
 
 ---
 
-<h2 id="stack-tecnológico">🛠️ Stack tecnológico</h2>
+<h2 id="stack">🛠️ Stack</h2>
 
 <div align="center">
 
 ### Desarrollo
 
-<img src="https://skillicons.dev/icons?i=js,ts,nodejs,react,java,python,html,css&theme=dark" alt="Tecnologías de desarrollo" />
+<img src="https://skillicons.dev/icons?i=ts,js,nodejs,react,nextjs,java,spring,python,html,css&theme=dark" alt="Stack de desarrollo" />
 
-### Datos e infraestructura
+### Datos · DevOps · Plataforma
 
-<img src="https://skillicons.dev/icons?i=mysql,postgres,linux,ubuntu,docker,nginx,git,github,grafana&theme=dark" alt="Datos e infraestructura" />
+<img src="https://skillicons.dev/icons?i=postgres,mysql,redis,linux,ubuntu,docker,nginx,git,github,grafana&theme=dark" alt="Stack de datos e infraestructura" />
 
 <br><br>
 
 ![Proxmox](https://img.shields.io/badge/Proxmox-VE-E57000?style=for-the-badge&logo=proxmox&logoColor=white)
-![Wazuh](https://img.shields.io/badge/Wazuh-Seguridad-005571?style=for-the-badge)
-![Uptime Kuma](https://img.shields.io/badge/Uptime_Kuma-Monitoreo-5CDD8B?style=for-the-badge)
-![Home Assistant](https://img.shields.io/badge/Home_Assistant-Automatización-41BDF5?style=for-the-badge&logo=home-assistant&logoColor=white)
+![Wazuh](https://img.shields.io/badge/Wazuh-SecOps-005571?style=for-the-badge)
+![Prometheus](https://img.shields.io/badge/Prometheus-Metrics-E6522C?style=for-the-badge&logo=prometheus&logoColor=white)
+![Grafana](https://img.shields.io/badge/Grafana-Observability-F46800?style=for-the-badge&logo=grafana&logoColor=white)
+![Uptime Kuma](https://img.shields.io/badge/Uptime_Kuma-Uptime-5CDD8B?style=for-the-badge)
 
 </div>
 
 ---
 
-<h2 id="infraestructura-y-laboratorio">🏗️ Infraestructura y laboratorio</h2>
+<h2 id="principios">🧭 Principios de ingeniería</h2>
 
-```mermaid
-flowchart LR
-    P[Proxmox VE] --> U[Ubuntu Server]
-    P --> HA[Home Assistant]
-    P --> NAS[TrueNAS]
-    U --> D[Docker]
-    D --> N[Nginx]
-    D --> K[Uptime Kuma]
-    D --> H[Homarr]
-    D --> G[Glances / Grafana]
-    D --> A[Aplicaciones web]
-    U --> W[Wazuh / Seguridad]
-    U --> B[Backups]
+```text
+PRESERVAR → REVISAR → CAMBIO MÍNIMO → VALIDAR → PROBAR → DOCUMENTAR
 ```
+
+- **No duplicar:** primero entender lo que ya existe.
+- **Backend como autoridad:** permisos, precios, estados y reglas críticas se validan en servidor.
+- **Seguridad por diseño:** MFA, RBAC, validación, auditoría, secretos fuera del código y mínimo privilegio.
+- **Operabilidad:** health checks, logs, métricas, alertas, backups y procedimientos de recuperación.
+- **Evidencia antes de PASS:** build, tests, smoke, health y validación funcional.
+- **IA con control humano:** asistencia y automatización donde aporta valor, sin delegar decisiones sensibles sin validación.
+- **UX enfocada en operación:** menos clics, estados claros, responsive, accesibilidad y acciones visibles.
+
+---
+
+## 📈 Áreas en las que más trabajo
 
 <div align="center">
 
-`Proxmox` → `Ubuntu Server` → `Docker` → `Nginx` → `Aplicaciones` → `Monitoreo` → `Alertas`
+![SaaS](https://img.shields.io/badge/SaaS-Multi--tenant-7C3AED?style=for-the-badge)
+![CRM](https://img.shields.io/badge/CRM-Timeline_360-2563EB?style=for-the-badge)
+![ERP](https://img.shields.io/badge/ERP-Operación_end--to--end-0F766E?style=for-the-badge)
+![AI](https://img.shields.io/badge/AI-Copilots_·_Automation-06B6D4?style=for-the-badge)
+![SecOps](https://img.shields.io/badge/SecOps-Hardening_·_Audit-DC2626?style=for-the-badge)
+![DevOps](https://img.shields.io/badge/DevOps-Containers_·_Deployments-F59E0B?style=for-the-badge)
 
 </div>
-
----
-
-## 💼 Capacidades
-
-<table>
-<tr>
-<td width="50%">🌐 Desarrollo de sistemas web</td>
-<td width="50%">🐳 Docker, Linux y despliegues</td>
-</tr>
-<tr>
-<td>⚙️ Automatización empresarial</td>
-<td>🖥️ Redes, servidores y Proxmox</td>
-</tr>
-<tr>
-<td>🤖 Integración de inteligencia artificial</td>
-<td>📊 Monitoreo y observabilidad</td>
-</tr>
-<tr>
-<td>🧑‍💼 CRM y herramientas internas</td>
-<td>🔐 Seguridad, backups y hardening</td>
-</tr>
-<tr>
-<td>🗄️ MySQL / PostgreSQL</td>
-<td>📈 Dashboards y reportes</td>
-</tr>
-</table>
-
----
-
-## 🗺️ Roadmap personal 2026
-
-```text
-Sistemas internos → Productos SaaS → Automatización con IA
-        ↓                 ↓                  ↓
-  datos y procesos   arquitectura web    asistentes y agentes
-        ↓                 ↓                  ↓
-   dashboards       despliegue seguro    monitoreo continuo
-```
-
-Objetivo: evolucionar soluciones creadas para problemas reales hacia productos robustos, documentados y reutilizables.
 
 ---
 
@@ -308,13 +339,14 @@ Objetivo: evolucionar soluciones creadas para problemas reales hacia productos r
 
 ## 🤝 Contacto y colaboración
 
-Interesado en proyectos de **desarrollo**, **infraestructura**, **automatización**, **inteligencia artificial**, **ciberseguridad** y **transformación digital**.
+Me interesan proyectos donde se crucen **software, infraestructura, automatización, IA, seguridad y transformación digital**.
 
-[![Contribuciones](https://img.shields.io/badge/Ver_contribuciones-181717?style=for-the-badge&logo=github)](https://github.com/poto212?tab=overview)
-[![Repositorios](https://img.shields.io/badge/Explorar_repositorios-2563eb?style=for-the-badge&logo=github)](https://github.com/poto212?tab=repositories)
+[![GitHub](https://img.shields.io/badge/GitHub-@poto212-181717?style=for-the-badge&logo=github)](https://github.com/poto212)
+[![Repositorios](https://img.shields.io/badge/Explorar-repositorios-2563EB?style=for-the-badge&logo=github)](https://github.com/poto212?tab=repositories)
+[![Actividad](https://img.shields.io/badge/Ver-contribuciones-0F766E?style=for-the-badge&logo=github)](https://github.com/poto212?tab=overview)
 
 <br><br>
 
-<img width="100%" src="https://capsule-render.vercel.app/api?type=waving&height=105&section=footer&color=0:0f172a,45:2563eb,100:06b6d4" alt="Pie de página" />
+<img width="100%" src="https://capsule-render.vercel.app/api?type=waving&height=105&section=footer&color=0:0b1220,45:1d4ed8,100:06b6d4" alt="Footer" />
 
 </div>
