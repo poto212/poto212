@@ -1,6 +1,6 @@
 <div align="center">
 
-<img width="100%" src="https://capsule-render.vercel.app/api?type=waving&height=235&color=0:0b1220,42:1d4ed8,100:06b6d4&text=Juan%20Diego%20S%C3%A1nchez&fontColor=ffffff&fontSize=43&fontAlignY=36&desc=Licenciado%20en%20Sistemas%20%E2%80%A2%20Jefe%20de%20IT%20%E2%80%A2%20Software%20%E2%80%A2%20Infraestructura%20%E2%80%A2%20Seguridad&descAlignY=59&descSize=16&animation=fadeIn" alt="Juan Diego Sánchez — Sistemas, software, infraestructura y seguridad" />
+<img width="100%" src="./assets/banner-profile.svg" alt="Juan Diego Sánchez — Licenciado en Sistemas, Jefe de IT, software, infraestructura, seguridad, automatización e IA" />
 
 ### Sistemas reales. Infraestructura real. Automatización con criterio.
 
