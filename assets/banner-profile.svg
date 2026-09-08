@@ -1,0 +1,58 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="520" viewBox="0 0 1600 520" role="img" aria-labelledby="title desc">
+  <title id="title">Juan Diego Sánchez — Licenciado en Sistemas, Jefe de IT y Desarrollador Full Stack</title>
+  <desc id="desc">Banner tecnológico en tonos azul oscuro y cian con software, infraestructura, seguridad, automatización e inteligencia artificial.</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#020617"/>
+      <stop offset="0.52" stop-color="#071b33"/>
+      <stop offset="1" stop-color="#020617"/>
+    </linearGradient>
+    <linearGradient id="cyan" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#38bdf8"/>
+      <stop offset="1" stop-color="#06b6d4"/>
+    </linearGradient>
+    <filter id="glow"><feGaussianBlur stdDeviation="8" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+  </defs>
+  <rect width="1600" height="520" rx="24" fill="url(#bg)"/>
+  <g opacity="0.22">
+    <rect x="1110" y="35" width="100" height="330" rx="10" fill="#0f2740" stroke="#0ea5e9"/>
+    <rect x="1225" y="20" width="100" height="350" rx="10" fill="#0f2740" stroke="#0ea5e9"/>
+    <rect x="1340" y="50" width="100" height="315" rx="10" fill="#0f2740" stroke="#0ea5e9"/>
+    <rect x="1455" y="25" width="90" height="340" rx="10" fill="#0f2740" stroke="#0ea5e9"/>
+    <g fill="#38bdf8">
+      <circle cx="1130" cy="70" r="4"/><circle cx="1160" cy="70" r="4"/><circle cx="1190" cy="70" r="4"/>
+      <circle cx="1245" cy="58" r="4"/><circle cx="1275" cy="58" r="4"/><circle cx="1305" cy="58" r="4"/>
+      <circle cx="1360" cy="86" r="4"/><circle cx="1390" cy="86" r="4"/><circle cx="1420" cy="86" r="4"/>
+    </g>
+    <path d="M1128 110h65M1128 135h65M1128 160h65M1242 100h65M1242 125h65M1242 150h65M1357 120h65M1357 145h65M1357 170h65M1470 105h55M1470 130h55M1470 155h55" stroke="#22d3ee" stroke-width="3"/>
+  </g>
+  <circle cx="1250" cy="200" r="180" fill="#0ea5e9" opacity="0.08" filter="url(#glow)"/>
+  <g transform="translate(1130 150)">
+    <rect width="340" height="190" rx="18" fill="#061526" stroke="#1d4ed8" stroke-width="2"/>
+    <rect x="22" y="24" width="138" height="125" rx="8" fill="#03111f" stroke="#0ea5e9" opacity="0.95"/>
+    <path d="M38 54h92M38 72h72M38 90h104M38 108h58M38 126h86" stroke="#38bdf8" stroke-width="5" opacity="0.75"/>
+    <rect x="180" y="24" width="138" height="125" rx="8" fill="#03111f" stroke="#0ea5e9" opacity="0.95"/>
+    <path d="M198 116l28-27 27 13 38-44" fill="none" stroke="#22d3ee" stroke-width="6"/>
+    <path d="M198 128h102" stroke="#1d4ed8" stroke-width="3"/>
+    <rect x="148" y="166" width="44" height="7" rx="3.5" fill="#38bdf8"/>
+  </g>
+  <g font-family="Inter,Segoe UI,Arial,sans-serif">
+    <text x="78" y="115" font-size="66" font-weight="800" fill="#f8fafc">Juan Diego <tspan fill="#38bdf8">Sánchez</tspan></text>
+    <text x="82" y="166" font-size="29" fill="#dbeafe">Licenciado en Sistemas  |  Jefe de IT  |  Desarrollador Full Stack</text>
+    <text x="82" y="218" font-size="30" font-weight="600" fill="url(#cyan)">Software • Infraestructura • Seguridad • Automatización • IA</text>
+    <text x="82" y="265" font-size="23" font-style="italic" fill="#cbd5e1">Diseño y construyo sistemas que conectan negocio, software e infraestructura.</text>
+  </g>
+  <g transform="translate(80 315)" font-family="Inter,Segoe UI,Arial,sans-serif" font-size="17" text-anchor="middle">
+    <g><rect width="122" height="70" rx="14" fill="#071827" stroke="#0ea5e9"/><text x="61" y="30" fill="#38bdf8" font-size="24">☁</text><text x="61" y="56" fill="#e2e8f0">SaaS</text></g>
+    <g transform="translate(135)"><rect width="122" height="70" rx="14" fill="#071827" stroke="#0ea5e9"/><text x="61" y="30" fill="#38bdf8" font-size="23">◉</text><text x="61" y="56" fill="#e2e8f0">CRM</text></g>
+    <g transform="translate(270)"><rect width="122" height="70" rx="14" fill="#071827" stroke="#0ea5e9"/><text x="61" y="30" fill="#38bdf8" font-size="22">▤</text><text x="61" y="56" fill="#e2e8f0">ERP</text></g>
+    <g transform="translate(405)"><rect width="122" height="70" rx="14" fill="#071827" stroke="#0ea5e9"/><text x="61" y="30" fill="#38bdf8" font-size="22">◆</text><text x="61" y="56" fill="#e2e8f0">Docker</text></g>
+    <g transform="translate(540)"><rect width="122" height="70" rx="14" fill="#071827" stroke="#0ea5e9"/><text x="61" y="30" fill="#38bdf8" font-size="22">✕</text><text x="61" y="56" fill="#e2e8f0">Proxmox</text></g>
+    <g transform="translate(675)"><rect width="152" height="70" rx="14" fill="#071827" stroke="#0ea5e9"/><text x="76" y="30" fill="#38bdf8" font-size="22">▥</text><text x="76" y="56" fill="#e2e8f0">Observabilidad</text></g>
+    <g transform="translate(840)"><rect width="122" height="70" rx="14" fill="#071827" stroke="#0ea5e9"/><text x="61" y="30" fill="#38bdf8" font-size="22">⬡</text><text x="61" y="56" fill="#e2e8f0">RBAC</text></g>
+    <g transform="translate(975)"><rect width="122" height="70" rx="14" fill="#071827" stroke="#0ea5e9"/><text x="61" y="30" fill="#38bdf8" font-size="22">🔒</text><text x="61" y="56" fill="#e2e8f0">MFA</text></g>
+  </g>
+  <line x1="80" y1="425" x2="1520" y2="425" stroke="#0ea5e9" stroke-width="2" opacity="0.7"/>
+  <text x="82" y="470" font-family="Inter,Segoe UI,Arial,sans-serif" font-size="22" font-style="italic" fill="#cbd5e1">“Código que funciona, personas que confían, proyectos que perduran.”</text>
+  <text x="1515" y="470" text-anchor="end" font-family="Inter,Segoe UI,Arial,sans-serif" font-size="18" fill="#38bdf8">PRESERVAR → REVISAR → CAMBIO MÍNIMO → VALIDAR → PROBAR → DOCUMENTAR</text>
+</svg>
