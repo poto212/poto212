@@ -258,7 +258,7 @@ Comparación por precio final, unidad, litro, peso o cantidad, listas de compra,
 </td>
 <td width="50%" valign="top">
 
-### 🧮 Ana Roza Web
+### 🧮 EstudioRoza Contable
 **Portal profesional + backoffice contable**
 
 Sitio web, portal de clientes, checklist, timeline, presupuestos, cuenta corriente, importaciones, backups, MFA opcional, auditoría y controles de acceso a documentación.
