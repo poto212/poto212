@@ -31,7 +31,7 @@ Mi especialidad es transformar procesos reales —planillas, aplicaciones hereda
 ### Áreas donde más trabajo
 
 - SaaS multiusuario y multi-tenant.
-- CRM, ERP, backoffice y portales de servicios.
+- CRM, ERP, backoffice, ITSM y portales de servicios.
 - APIs, integraciones, mensajería y procesamiento asíncrono.
 - Linux, Docker, Nginx, Proxmox y bases de datos.
 - Observabilidad, health checks, alertas, backups y recuperación.
@@ -72,22 +72,10 @@ criterio:
 
 <table>
 <tr>
-<td width="25%" align="center" valign="top">
-<h3>🧩 Productos</h3>
-SaaS, CRM, ERP, portales y soluciones verticales.
-</td>
-<td width="25%" align="center" valign="top">
-<h3>🤖 Automatización</h3>
-IA asistiva, workflows, integraciones y mensajería.
-</td>
-<td width="25%" align="center" valign="top">
-<h3>🖥️ Plataforma</h3>
-Linux, Docker, Proxmox, Nginx, datos y despliegues.
-</td>
-<td width="25%" align="center" valign="top">
-<h3>🛡️ Resiliencia</h3>
-Monitoreo, seguridad, auditoría, backups e incidentes.
-</td>
+<td width="25%" align="center" valign="top"><h3>🧩 Productos</h3>SaaS, CRM, ERP, ITSM, portales y soluciones verticales.</td>
+<td width="25%" align="center" valign="top"><h3>🤖 Automatización</h3>IA asistiva, workflows, integraciones y mensajería.</td>
+<td width="25%" align="center" valign="top"><h3>🖥️ Plataforma</h3>Linux, Docker, Proxmox, Nginx, datos y despliegues.</td>
+<td width="25%" align="center" valign="top"><h3>🛡️ Resiliencia</h3>Monitoreo, seguridad, auditoría, backups e incidentes.</td>
 </tr>
 </table>
 
@@ -106,7 +94,7 @@ Monitoreo, seguridad, auditoría, backups e incidentes.
 
 Plataforma para centralizar monitoreo de servidores, servicios, Docker, disponibilidad, incidentes, evidencia, métricas, alertas, seguridad y recuperación operativa.
 
-`Proxmox` `Docker` `Nginx` `Wazuh` `Grafana` `Prometheus` `Loki`
+Integra conceptos y herramientas de **Proxmox, Docker, Nginx, Uptime Kuma, Glances, Wazuh, Grafana, Prometheus, Loki, Alertmanager y OpenTelemetry**.
 
 ![Área](https://img.shields.io/badge/Área-Observability_·_SecOps-DC2626?style=flat-square)
 ![Estado](https://img.shields.io/badge/Estado-Desarrollo_activo-22C55E?style=flat-square)
@@ -119,7 +107,7 @@ Plataforma para centralizar monitoreo de servidores, servicios, Docker, disponib
 
 Turnos, pacientes, profesionales, sedes, coberturas, pagos, laboratorio, radiología, HCE, booking público, lista de espera, mensajería, facturación y administración SaaS.
 
-Incluye MFA, auditoría, restore drills, presencia colaborativa, optimistic locking, timeline unificado y controles de privacidad.
+Incluye **MFA, auditoría encadenada, restore drills, presencia colaborativa, optimistic locking, timeline unificado, privacidad por rol y resiliencia operativa**.
 
 `PostgreSQL` `Prisma` `Redis` `Docker` `RBAC` `MFA`
 
@@ -136,7 +124,7 @@ Incluye MFA, auditoría, restore drills, presencia colaborativa, optimistic lock
 
 Plataforma multiempresa con campañas, contactos, conversaciones, API externa, webhooks firmados, workflows, Team Inbox, omnicanalidad, IA asistiva y centro de operaciones.
 
-Arquitectura con PostgreSQL RLS, Redis/BullMQ, workers, reintentos, DLQ, preflight, Health Score, circuit breaker, backups y rollback de despliegues.
+Arquitectura con **PostgreSQL RLS, Redis/BullMQ, workers, reintentos, DLQ, preflight, Health Score, circuit breaker, backups y rollback de despliegues**.
 
 `PostgreSQL` `RLS` `Redis` `BullMQ` `Workers` `Docker`
 
@@ -151,7 +139,7 @@ Arquitectura con PostgreSQL RLS, Redis/BullMQ, workers, reintentos, DLQ, preflig
 
 Clientes, proveedores, productos, depósitos, stock, lector de código de barras, facturación interna, cuentas corrientes, presupuestos, tienda web, carrito, pagos, Mercado Libre, logística, conciliación y servicio técnico.
 
-Incluye 2FA para roles sensibles, backend endurecido, validación de comprobantes y protección de secretos.
+Incluye **2FA para roles sensibles, backend endurecido, validación de comprobantes y protección de secretos**.
 
 `Node.js` `MySQL` `Docker` `Nginx` `Ecommerce`
 
@@ -166,31 +154,50 @@ Incluye 2FA para roles sensibles, backend endurecido, validación de comprobante
 ### 🧾 BrokerFlow / OLBROKER
 **InsurTech · Gestión para brokers**
 
-Clientes, vehículos, pólizas, producción, siniestros, agenda, tareas, chat con presencia, reportes PDF, roles, auditoría, revocación de sesiones y copiloto IA opcional.
+Plataforma de gestión para clientes, vehículos, pólizas, producción, siniestros, agenda, tareas, chat, reportes PDF, roles, auditoría, MFA y copiloto IA opcional.
+
+La base estable actual es **OLBROKER 6.6.7**, desplegada con estrategia **Blue/Green**, slot de rollback preservado, datos compartidos protegidos y backups validados antes de cambios.
 
 Las importaciones XLSX/CSV son transaccionales, con validación previa y rollback completo ante errores bloqueantes.
 
-`Node.js` `MySQL` `Docker` `Nginx` `RBAC`
+`Node.js` `MySQL / MariaDB` `Docker` `Nginx` `Blue/Green` `RBAC` `MFA`
 
 ![Tipo](https://img.shields.io/badge/Tipo-InsurTech-2563EB?style=flat-square)
-![Foco](https://img.shields.io/badge/Foco-Trazabilidad_·_Operación-06B6D4?style=flat-square)
+![Release](https://img.shields.io/badge/Base_estable-6.6.7-22C55E?style=flat-square)
 
 </td>
 <td width="50%" valign="top">
 
-### 🤝 CRM empresarial
+### 🎫 Romera IT Desk
+**ITSM · Tickets · CMDB · Soporte interno**
+
+Sistema interno de mesa de ayuda para centralizar incidentes, solicitudes y seguimiento de IT, con portal web propio, núcleo ITSM/CMDB, base MySQL y bridge de integración.
+
+Diseñado para recibir tickets desde **web interna, email, API y Spark/Openfire**, manteniendo la experiencia orientada a Romera y desacoplando las integraciones del núcleo ITSM.
+
+`Node.js` `MySQL` `Docker` `ITSM` `CMDB` `API` `Spark/Openfire`
+
+![Tipo](https://img.shields.io/badge/Tipo-ITSM_·_Service_Desk-2563EB?style=flat-square)
+![Estado](https://img.shields.io/badge/Estado-Implementación_activa-F59E0B?style=flat-square)
+
+</td>
+</tr>
+<tr>
+<td width="50%" valign="top">
+
+### 🤝 CRM Romera
 **Vista 360 · Colaboración · IA asistiva**
 
-Leads, contactos, agenda, WhatsApp, emails, presupuestos, planes, vehículos, operaciones, seguimiento, Timeline 360, presencia colaborativa, control de sobrescrituras y próxima acción sugerida.
+Leads, contactos, agenda, WhatsApp, emails, presupuestos, planes, vehículos, operaciones y seguimiento comercial.
 
-`CRM` `Timeline 360` `Collaboration` `Automation` `AI`
+La evolución incorpora **Timeline 360, presencia colaborativa, control de sobrescrituras, matriz de permisos por contexto, oportunidades estancadas, lead scoring y copiloto comercial explicable**.
+
+`CRM` `Timeline 360` `Collaboration` `Automation` `AI` `RBAC`
 
 ![Tipo](https://img.shields.io/badge/Tipo-CRM_empresarial-7C3AED?style=flat-square)
 ![UX](https://img.shields.io/badge/UX-Vista_360_·_Next_Action-14B8A6?style=flat-square)
 
 </td>
-</tr>
-<tr>
 <td width="50%" valign="top">
 
 ### 🌾 Silos Web
@@ -204,6 +211,8 @@ Evolución de una solución histórica hacia una plataforma web multiusuario con
 ![Modernización](https://img.shields.io/badge/Modernización-Legacy_→_Web-F59E0B?style=flat-square)
 
 </td>
+</tr>
+<tr>
 <td width="50%" valign="top">
 
 ### 💳 Financiera RM
@@ -217,14 +226,14 @@ Solicitud, evaluación, aprobación y seguimiento de préstamos, operación de c
 ![Foco](https://img.shields.io/badge/Foco-Control_·_Trazabilidad-2563EB?style=flat-square)
 
 </td>
-</tr>
-<tr>
 <td width="50%" valign="top">
 
 ### 🏢 Portal STM
 **Portal de afiliados + administración**
 
-Padrón, afiliaciones, documentación, validaciones, beneficios, vouchers, portal del afiliado, portal administrativo, usuarios, roles, auditoría e integraciones de comunicación.
+Padrón, afiliaciones, documentación, validaciones, beneficios, vouchers, portal del afiliado, supervisor, administración, auditoría e integraciones de comunicación.
+
+Incluye controles de **anti-enumeración, BOLA/BFLA, rate limiting, reglas de beneficios, trazabilidad y UX responsive**.
 
 `Portal` `RBAC` `Auditoría` `Integraciones` `Responsive UX`
 
@@ -232,6 +241,8 @@ Padrón, afiliaciones, documentación, validaciones, beneficios, vouchers, porta
 ![Foco](https://img.shields.io/badge/Foco-Autoservicio_·_Control-14B8A6?style=flat-square)
 
 </td>
+</tr>
+<tr>
 <td width="50%" valign="top">
 
 ### 🛍️ App Comprar Precios
@@ -243,6 +254,19 @@ Comparación por precio final, unidad, litro, peso o cantidad, listas de compra,
 
 ![Tipo](https://img.shields.io/badge/Tipo-Consumer_Data-F59E0B?style=flat-square)
 ![Foco](https://img.shields.io/badge/Foco-Decisión_de_compra-7C3AED?style=flat-square)
+
+</td>
+<td width="50%" valign="top">
+
+### 🧮 Ana Roza Web
+**Portal profesional + backoffice contable**
+
+Sitio web, portal de clientes, checklist, timeline, presupuestos, cuenta corriente, importaciones, backups, MFA opcional, auditoría y controles de acceso a documentación.
+
+`Node.js` `PostgreSQL` `Docker` `MFA` `Auditoría`
+
+![Tipo](https://img.shields.io/badge/Tipo-Backoffice_profesional-0F766E?style=flat-square)
+![Foco](https://img.shields.io/badge/Foco-Clientes_·_Operación-2563EB?style=flat-square)
 
 </td>
 </tr>
@@ -261,6 +285,7 @@ Comparación por precio final, unidad, litro, peso o cantidad, listas de compra,
 - RBAC y mínimo privilegio.
 - MFA / TOTP.
 - RLS multi-tenant.
+- BOLA / BFLA.
 - Auditoría y trazabilidad.
 - Cifrado de datos sensibles.
 - Sesiones revocables.
@@ -277,7 +302,8 @@ Comparación por precio final, unidad, litro, peso o cantidad, listas de compra,
 - Idempotencia.
 - Circuit breakers.
 - Backup + restore drill.
-- Rollback de despliegues/importaciones.
+- Blue/Green y rollback.
+- Imports transaccionales.
 
 </td>
 <td width="33%" valign="top">
@@ -290,6 +316,7 @@ Comparación por precio final, unidad, litro, peso o cantidad, listas de compra,
 - Alertas e incidentes.
 - Métricas y health scores.
 - Colaboración/presencia.
+- ITSM / CMDB.
 - IA como copiloto.
 
 </td>
@@ -303,10 +330,10 @@ Comparación por precio final, unidad, litro, peso o cantidad, listas de compra,
 ```mermaid
 flowchart LR
     U[Usuarios / Sistemas externos] --> RP[Reverse Proxy / Nginx]
-    RP --> WEB[Web Apps]
-    RP --> API[APIs]
+    RP --> WEB[Web Apps / Portales]
+    RP --> API[APIs / Integraciones]
 
-    API --> DB[(PostgreSQL / MySQL)]
+    API --> DB[(PostgreSQL / MySQL / MariaDB)]
     API --> REDIS[(Redis)]
     REDIS --> JOBS[Workers / Jobs / Queues]
 
