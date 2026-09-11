@@ -12,7 +12,7 @@
 
 <br>
 
-[**Perfil**](#perfil) · [**Portfolio**](#portfolio) · [**Capacidades**](#capacidades) · [**Arquitectura**](#arquitectura) · [**Stack**](#stack) · [**Método**](#metodo)
+[**Perfil**](#perfil) · [**Qué resuelvo**](#que-resuelvo) · [**Destacados**](#destacados) · [**Portfolio**](#portfolio) · [**Arquitecturas**](#arquitecturas) · [**Stack**](#stack) · [**Método**](#metodo)
 
 </div>
 
@@ -22,31 +22,31 @@
 
 <table>
 <tr>
-<td width="61%" valign="top">
+<td width="62%" valign="top">
 
-Soy **Licenciado en Sistemas** y **Jefe de IT**. Trabajo combinando desarrollo de software, infraestructura, automatización, operación y seguridad.
+Soy **Licenciado en Sistemas** y **Jefe de IT**. Trabajo en el cruce entre desarrollo de software, infraestructura, automatización, operación y seguridad.
 
-Mi especialidad es transformar procesos reales —planillas, aplicaciones heredadas, tareas manuales y herramientas aisladas— en **plataformas web integradas, seguras, auditables y operables**.
+Mi foco es transformar procesos manuales, sistemas heredados y herramientas aisladas en **plataformas web integradas, seguras, observables y mantenibles**.
 
-### Áreas donde más trabajo
+Trabajo especialmente con:
 
 - SaaS multiusuario y multi-tenant.
-- CRM, ERP, backoffice, ITSM y portales de servicios.
-- APIs, integraciones, mensajería y procesamiento asíncrono.
+- CRM, ERP, ITSM, backoffice y portales.
+- APIs, integraciones, mensajería y workers.
 - Linux, Docker, Nginx, Proxmox y bases de datos.
-- Observabilidad, health checks, alertas, backups y recuperación.
-- Seguridad por diseño: RBAC, MFA, auditoría, aislamiento y mínimo privilegio.
-- IA asistiva para resumir, priorizar, detectar anomalías y apoyar operación.
+- Observabilidad, backups, recuperación e incidentes.
+- RBAC, MFA, auditoría, RLS, BOLA/BFLA y hardening.
+- IA asistiva con control humano.
 
 </td>
-<td width="39%" valign="top">
+<td width="38%" valign="top">
 
 ### 🎯 Enfoque
 
 ```yaml
 perfil: Sistemas + Software + Infraestructura
 rol: Jefe de IT
-foco:
+prioridades:
   - productos SaaS
   - sistemas empresariales
   - automatización
@@ -54,12 +54,6 @@ foco:
   - observabilidad
   - resiliencia
   - UX operativa
-criterio:
-  - preservar
-  - revisar
-  - validar
-  - probar
-  - documentar
 ```
 
 </td>
@@ -68,22 +62,34 @@ criterio:
 
 ---
 
-## ⚡ Qué construyo
+<h2 id="que-resuelvo">🧭 Qué problemas resuelvo</h2>
 
 <table>
 <tr>
-<td width="25%" align="center" valign="top"><h3>🧩 Productos</h3>SaaS, CRM, ERP, ITSM, portales y soluciones verticales.</td>
-<td width="25%" align="center" valign="top"><h3>🤖 Automatización</h3>IA asistiva, workflows, integraciones y mensajería.</td>
-<td width="25%" align="center" valign="top"><h3>🖥️ Plataforma</h3>Linux, Docker, Proxmox, Nginx, datos y despliegues.</td>
-<td width="25%" align="center" valign="top"><h3>🛡️ Resiliencia</h3>Monitoreo, seguridad, auditoría, backups e incidentes.</td>
+<td width="25%" align="center" valign="top">
+<h3>🧩 Procesos</h3>
+Planillas, tareas manuales y circuitos dispersos → sistemas integrados.
+</td>
+<td width="25%" align="center" valign="top">
+<h3>🔄 Legacy</h3>
+Aplicaciones históricas → plataformas web modernas y mantenibles.
+</td>
+<td width="25%" align="center" valign="top">
+<h3>🖥️ Operación</h3>
+Servicios aislados → observabilidad, alertas, backups y recuperación.
+</td>
+<td width="25%" align="center" valign="top">
+<h3>🔐 Riesgo</h3>
+Permisos débiles y poca trazabilidad → controles, auditoría y mínimo privilegio.
+</td>
 </tr>
 </table>
 
 ---
 
-<h2 id="portfolio">🚀 Portfolio de sistemas</h2>
+<h2 id="destacados">⭐ Proyectos destacados</h2>
 
-> 🔒 Gran parte del código y la lógica de negocio es privada. El perfil muestra únicamente alcance técnico y funcional, sin publicar IPs, credenciales, secretos, datos reales ni infraestructura sensible.
+> Gran parte del código y de la lógica de negocio es privada. Acá muestro únicamente alcance técnico y funcional, sin publicar IPs, credenciales, secretos ni infraestructura sensible.
 
 <table>
 <tr>
@@ -92,27 +98,27 @@ criterio:
 ### 🛡️ Apollo WebGuard
 **Observabilidad · Diagnóstico · SecOps**
 
-Plataforma para centralizar monitoreo de servidores, servicios, Docker, disponibilidad, incidentes, evidencia, métricas, alertas, seguridad y recuperación operativa.
+Plataforma para centralizar monitoreo de servidores, servicios y contenedores, disponibilidad, incidentes, evidencia, métricas, alertas, backups y respuesta operativa asistida.
 
 Integra conceptos y herramientas de **Proxmox, Docker, Nginx, Uptime Kuma, Glances, Wazuh, Grafana, Prometheus, Loki, Alertmanager y OpenTelemetry**.
 
-![Área](https://img.shields.io/badge/Área-Observability_·_SecOps-DC2626?style=flat-square)
 ![Estado](https://img.shields.io/badge/Estado-Desarrollo_activo-22C55E?style=flat-square)
+![Área](https://img.shields.io/badge/Área-Observability_·_SecOps-DC2626?style=flat-square)
 
 </td>
 <td width="50%" valign="top">
 
 ### 🏥 Health Turnos SaaS
-**SaaS multi-tenant para salud**
+**HealthTech · SaaS multi-tenant**
 
-Turnos, pacientes, profesionales, sedes, coberturas, pagos, laboratorio, radiología, HCE, booking público, lista de espera, mensajería, facturación y administración SaaS.
+Agenda, pacientes, profesionales, sedes, coberturas, pagos, HCE, laboratorio, radiología, booking público, lista de espera, mensajería, facturación y administración SaaS.
 
 Incluye **MFA, auditoría encadenada, restore drills, presencia colaborativa, optimistic locking, timeline unificado, privacidad por rol y resiliencia operativa**.
 
 `PostgreSQL` `Prisma` `Redis` `Docker` `RBAC` `MFA`
 
 ![Tipo](https://img.shields.io/badge/Tipo-SaaS_multi--tenant-7C3AED?style=flat-square)
-![Foco](https://img.shields.io/badge/Foco-HealthTech_·_Resiliencia-2563EB?style=flat-square)
+![Foco](https://img.shields.io/badge/Foco-Workflow_·_Resiliencia-2563EB?style=flat-square)
 
 </td>
 </tr>
@@ -128,145 +134,23 @@ Arquitectura con **PostgreSQL RLS, Redis/BullMQ, workers, reintentos, DLQ, prefl
 
 `PostgreSQL` `RLS` `Redis` `BullMQ` `Workers` `Docker`
 
-![Tipo](https://img.shields.io/badge/Tipo-Messaging_·_CRM-06B6D4?style=flat-square)
-![Arquitectura](https://img.shields.io/badge/Arquitectura-Async_·_Multiempresa-7C3AED?style=flat-square)
+![Tipo](https://img.shields.io/badge/Tipo-Multiempresa_·_Messaging-06B6D4?style=flat-square)
+![Reliability](https://img.shields.io/badge/Reliability-DLQ_·_Health_Score-7C3AED?style=flat-square)
 
 </td>
-<td width="50%" valign="top">
-
-### 🛒 Exabyte ERP Store
-**ERP + Ecommerce integrado**
-
-Clientes, proveedores, productos, depósitos, stock, lector de código de barras, facturación interna, cuentas corrientes, presupuestos, tienda web, carrito, pagos, Mercado Libre, logística, conciliación y servicio técnico.
-
-Incluye **2FA para roles sensibles, backend endurecido, validación de comprobantes y protección de secretos**.
-
-`Node.js` `MySQL` `Docker` `Nginx` `Ecommerce`
-
-![Tipo](https://img.shields.io/badge/Tipo-ERP_·_Ecommerce-0F766E?style=flat-square)
-![Foco](https://img.shields.io/badge/Foco-Operación_end--to--end-2563EB?style=flat-square)
-
-</td>
-</tr>
-<tr>
 <td width="50%" valign="top">
 
 ### 🧾 BrokerFlow / OLBROKER
 **InsurTech · Gestión para brokers**
 
-Plataforma de gestión para clientes, vehículos, pólizas, producción, siniestros, agenda, tareas, chat, reportes PDF, roles, auditoría, MFA y copiloto IA opcional.
+Clientes, vehículos, pólizas, producción, siniestros, agenda, tareas, chat, reportes, roles, auditoría, MFA e IA opcional.
 
-La base estable actual es **OLBROKER 6.6.7**, desplegada con estrategia **Blue/Green**, slot de rollback preservado, datos compartidos protegidos y backups validados antes de cambios.
+La base estable actual es **OLBROKER 6.6.7**, con estrategia **Blue/Green**, rollback preservado, datos compartidos protegidos y backups validados. Las importaciones XLSX/CSV son transaccionales y hacen rollback completo ante errores bloqueantes.
 
-Las importaciones XLSX/CSV son transaccionales, con validación previa y rollback completo ante errores bloqueantes.
+`Node.js` `MySQL / MariaDB` `Docker` `Nginx` `Blue/Green` `MFA`
 
-`Node.js` `MySQL / MariaDB` `Docker` `Nginx` `Blue/Green` `RBAC` `MFA`
-
-![Tipo](https://img.shields.io/badge/Tipo-InsurTech-2563EB?style=flat-square)
-![Release](https://img.shields.io/badge/Base_estable-6.6.7-22C55E?style=flat-square)
-
-</td>
-<td width="50%" valign="top">
-
-### 🎫 Romera IT Desk
-**ITSM · Tickets · CMDB · Soporte interno**
-
-Sistema interno de mesa de ayuda para centralizar incidentes, solicitudes y seguimiento de IT, con portal web propio, núcleo ITSM/CMDB, base MySQL y bridge de integración.
-
-Diseñado para recibir tickets desde **web interna, email, API y Spark/Openfire**, manteniendo la experiencia orientada a Romera y desacoplando las integraciones del núcleo ITSM.
-
-`Node.js` `MySQL` `Docker` `ITSM` `CMDB` `API` `Spark/Openfire`
-
-![Tipo](https://img.shields.io/badge/Tipo-ITSM_·_Service_Desk-2563EB?style=flat-square)
-![Estado](https://img.shields.io/badge/Estado-Implementación_activa-F59E0B?style=flat-square)
-
-</td>
-</tr>
-<tr>
-<td width="50%" valign="top">
-
-### 🤝 CRM Romera
-**Vista 360 · Colaboración · IA asistiva**
-
-Leads, contactos, agenda, WhatsApp, emails, presupuestos, planes, vehículos, operaciones y seguimiento comercial.
-
-La evolución incorpora **Timeline 360, presencia colaborativa, control de sobrescrituras, matriz de permisos por contexto, oportunidades estancadas, lead scoring y copiloto comercial explicable**.
-
-`CRM` `Timeline 360` `Collaboration` `Automation` `AI` `RBAC`
-
-![Tipo](https://img.shields.io/badge/Tipo-CRM_empresarial-7C3AED?style=flat-square)
-![UX](https://img.shields.io/badge/UX-Vista_360_·_Next_Action-14B8A6?style=flat-square)
-
-</td>
-<td width="50%" valign="top">
-
-### 🌾 Silos Web
-**Modernización de software agropecuario**
-
-Evolución de una solución histórica hacia una plataforma web multiusuario con cálculos, dashboards, roles, validaciones, importación/exportación, reportes PDF, auditoría y backups.
-
-`Spring Boot` `React` `MySQL` `Docker` `PDF` `Excel`
-
-![Tipo](https://img.shields.io/badge/Tipo-AgriTech-65A30D?style=flat-square)
-![Modernización](https://img.shields.io/badge/Modernización-Legacy_→_Web-F59E0B?style=flat-square)
-
-</td>
-</tr>
-<tr>
-<td width="50%" valign="top">
-
-### 💳 Financiera RM
-**Workflow financiero para sucursales**
-
-Solicitud, evaluación, aprobación y seguimiento de préstamos, operación de caja y cobranza de cupones con perfiles diferenciados para operador y supervisor.
-
-`Workflow` `RBAC` `Auditoría` `Migración de legado`
-
-![Tipo](https://img.shields.io/badge/Tipo-FinTech-0F766E?style=flat-square)
-![Foco](https://img.shields.io/badge/Foco-Control_·_Trazabilidad-2563EB?style=flat-square)
-
-</td>
-<td width="50%" valign="top">
-
-### 🏢 Portal STM
-**Portal de afiliados + administración**
-
-Padrón, afiliaciones, documentación, validaciones, beneficios, vouchers, portal del afiliado, supervisor, administración, auditoría e integraciones de comunicación.
-
-Incluye controles de **anti-enumeración, BOLA/BFLA, rate limiting, reglas de beneficios, trazabilidad y UX responsive**.
-
-`Portal` `RBAC` `Auditoría` `Integraciones` `Responsive UX`
-
-![Tipo](https://img.shields.io/badge/Tipo-Portal_de_servicios-2563EB?style=flat-square)
-![Foco](https://img.shields.io/badge/Foco-Autoservicio_·_Control-14B8A6?style=flat-square)
-
-</td>
-</tr>
-<tr>
-<td width="50%" valign="top">
-
-### 🛍️ App Comprar Precios
-**Comparador inteligente para compras**
-
-Comparación por precio final, unidad, litro, peso o cantidad, listas de compra, análisis de ofertas y soporte a la decisión de compra.
-
-`Web App` `Data` `Comparación` `Automatización`
-
-![Tipo](https://img.shields.io/badge/Tipo-Consumer_Data-F59E0B?style=flat-square)
-![Foco](https://img.shields.io/badge/Foco-Decisión_de_compra-7C3AED?style=flat-square)
-
-</td>
-<td width="50%" valign="top">
-
-### 🧮 EstudioRoza Contable
-**Portal profesional + backoffice contable**
-
-Sitio web, portal de clientes, checklist, timeline, presupuestos, cuenta corriente, importaciones, backups, MFA opcional, auditoría y controles de acceso a documentación.
-
-`Node.js` `PostgreSQL` `Docker` `MFA` `Auditoría`
-
-![Tipo](https://img.shields.io/badge/Tipo-Backoffice_profesional-0F766E?style=flat-square)
-![Foco](https://img.shields.io/badge/Foco-Clientes_·_Operación-2563EB?style=flat-square)
+![Estado](https://img.shields.io/badge/Estado-Producción-22C55E?style=flat-square)
+![Release](https://img.shields.io/badge/Base_estable-6.6.7-2563EB?style=flat-square)
 
 </td>
 </tr>
@@ -274,7 +158,22 @@ Sitio web, portal de clientes, checklist, timeline, presupuestos, cuenta corrien
 
 ---
 
-<h2 id="capacidades">🧠 Capacidades comprobadas en los proyectos</h2>
+<h2 id="portfolio">🚀 Portfolio</h2>
+
+| Proyecto | Problema / alcance | Tecnologías y prácticas |
+|---|---|---|
+| **🎫 Romera IT Desk** | ITSM, tickets, CMDB y soporte interno con web, email, API y Spark/Openfire | `Node.js` `MySQL` `Docker` `ITSM` `CMDB` |
+| **🤝 CRM Romera** | Operación comercial con Timeline 360, colaboración, scoring y copiloto IA | `CRM` `RBAC` `Automation` `AI` |
+| **🛒 Exabyte ERP Store** | ERP + ecommerce: stock, cuentas, presupuestos, pagos, logística y service | `Node.js` `MySQL` `Docker` `Nginx` |
+| **🌾 Silos Web** | Modernización de software agropecuario legado | `Spring Boot` `React` `MySQL` `Docker` |
+| **💳 Financiera RM** | Workflow financiero para sucursales, caja y cobranza | `Workflow` `RBAC` `Auditoría` |
+| **🏢 Portal STM** | Afiliados, beneficios, vouchers, validaciones y administración | `RBAC` `BOLA/BFLA` `Rate Limit` `Responsive` |
+| **🧮 EstudioRoza Contable** | Portal de clientes + backoffice contable | `Node.js` `PostgreSQL` `Docker` `MFA` |
+| **🛍️ App Comprar Precios** | Comparación inteligente por precio, peso, volumen y unidad | `Web App` `Data` `Automation` |
+
+---
+
+## 🧠 Capacidades que reutilizo entre sistemas
 
 <table>
 <tr>
@@ -287,7 +186,6 @@ Sitio web, portal de clientes, checklist, timeline, presupuestos, cuenta corrien
 - RLS multi-tenant.
 - BOLA / BFLA.
 - Auditoría y trazabilidad.
-- Cifrado de datos sensibles.
 - Sesiones revocables.
 - Rate limiting y hardening.
 
@@ -296,10 +194,10 @@ Sitio web, portal de clientes, checklist, timeline, presupuestos, cuenta corrien
 
 ### ⚙️ Confiabilidad
 
-- Health checks y readiness.
-- Preflight antes de operaciones críticas.
-- Reintentos y DLQ.
+- Health / readiness.
+- Preflight.
 - Idempotencia.
+- Reintentos y DLQ.
 - Circuit breakers.
 - Backup + restore drill.
 - Blue/Green y rollback.
@@ -314,7 +212,7 @@ Sitio web, portal de clientes, checklist, timeline, presupuestos, cuenta corrien
 - Timeline / Vista 360.
 - Centros de operaciones.
 - Alertas e incidentes.
-- Métricas y health scores.
+- Health scores.
 - Colaboración/presencia.
 - ITSM / CMDB.
 - IA como copiloto.
@@ -325,7 +223,65 @@ Sitio web, portal de clientes, checklist, timeline, presupuestos, cuenta corrien
 
 ---
 
-<h2 id="arquitectura">🏗️ Arquitectura de referencia</h2>
+<h2 id="arquitecturas">🏗️ Arquitecturas reales que implemento</h2>
+
+<table>
+<tr>
+<td width="33%" valign="top">
+
+### SaaS multi-tenant
+
+```text
+Web / Booking
+      ↓
+API + RBAC
+      ↓
+Tenant isolation
+      ↓
+PostgreSQL / Redis
+      ↓
+Workers + Audit
+```
+
+</td>
+<td width="33%" valign="top">
+
+### Sistemas empresariales
+
+```text
+Usuarios
+   ↓
+Nginx
+   ↓
+Frontend + API
+   ↓
+MySQL/PostgreSQL
+   ↓
+Integraciones
+```
+
+</td>
+<td width="33%" valign="top">
+
+### Observability / SecOps
+
+```text
+Hosts / Containers
+        ↓
+Metrics + Logs
+        ↓
+Correlation
+        ↓
+Alerts / Incidents
+        ↓
+Evidence / Runbooks
+```
+
+</td>
+</tr>
+</table>
+
+### Arquitectura transversal
 
 ```mermaid
 flowchart LR
@@ -334,21 +290,20 @@ flowchart LR
     RP --> API[APIs / Integraciones]
 
     API --> DB[(PostgreSQL / MySQL / MariaDB)]
-    API --> REDIS[(Redis)]
-    REDIS --> JOBS[Workers / Jobs / Queues]
+    API --> R[(Redis)]
+    R --> W[Workers / Jobs / Queues]
 
-    P[Proxmox] --> L[Linux / Ubuntu]
-    L --> D[Docker]
+    P[Proxmox / Linux] --> D[Docker]
     D --> WEB
     D --> API
     D --> OBS[Observabilidad]
 
-    OBS --> MET[Metrics / Logs / Health]
-    MET --> ALT[Alertas / Incidentes]
+    OBS --> M[Metrics / Logs / Health]
+    M --> A[Alertas / Incidentes]
 
     API --> AUD[Auditoría]
     API --> BK[Backup / Restore]
-    API --> IA[IA asistiva]
+    API --> AI[IA asistiva]
 ```
 
 <div align="center">
@@ -393,16 +348,16 @@ flowchart LR
 
 | Principio | Aplicación |
 |---|---|
-| **Preservar** | No romper módulos, datos o flujos ya estables. |
-| **Revisar** | Auditar estado real antes de cambiar código. |
-| **Cambio mínimo** | Resolver el problema sin reescrituras innecesarias. |
+| **Preservar** | No romper módulos, datos o flujos estables. |
+| **Revisar** | Auditar estado real antes de modificar. |
+| **Cambio mínimo** | Resolver sin reescrituras innecesarias. |
 | **Validar** | Backend y reglas de negocio como autoridad. |
-| **Probar** | Build, tests, smoke, health y pruebas funcionales. |
-| **Documentar** | Versiones, cambios, decisiones, backups y procedimientos. |
+| **Probar** | Build, tests, smoke, health y validación funcional. |
+| **Documentar** | Versiones, cambios, backups y procedimientos. |
 
 ### Principios transversales
 
-- **No duplicar funciones** que ya existen y funcionan.
+- **No duplicar** funciones que ya existen y funcionan.
 - **Seguridad por diseño**, no como agregado final.
 - **Evidencia antes de declarar PASS**.
 - **Backups que también se prueban restaurando**.
