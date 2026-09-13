@@ -6,7 +6,7 @@
 
 ![Argentina](https://img.shields.io/badge/Argentina-75AADB?style=for-the-badge&logo=googlemaps&logoColor=white)
 ![Rol](https://img.shields.io/badge/Jefe_de_IT-2563EB?style=for-the-badge)
-![Software](https://img.shields.io/badge/SaaS_·_CRM_·_ERP-7C3AED?style=for-the-badge)
+![Software](https://img.shields.io/badge/SaaS_·_CRM_·_ERP_·_ITSM_·_LegalTech-7C3AED?style=for-the-badge)
 ![Infra](https://img.shields.io/badge/Linux_·_Docker_·_Proxmox-0F766E?style=for-the-badge)
 ![Security](https://img.shields.io/badge/SecOps_·_Observability-DC2626?style=for-the-badge)
 
@@ -31,7 +31,7 @@ Mi foco es transformar procesos manuales, sistemas heredados y herramientas aisl
 Trabajo especialmente con:
 
 - SaaS multiusuario y multi-tenant.
-- CRM, ERP, ITSM, backoffice y portales.
+- CRM, ERP, ITSM, backoffice, LegalTech y portales.
 - APIs, integraciones, mensajería y workers.
 - Linux, Docker, Nginx, Proxmox y bases de datos.
 - Observabilidad, backups, recuperación e incidentes.
@@ -100,7 +100,7 @@ Permisos débiles y poca trazabilidad → controles, auditoría y mínimo privil
 
 Plataforma para centralizar monitoreo de servidores, servicios y contenedores, disponibilidad, incidentes, evidencia, métricas, alertas, backups y respuesta operativa asistida.
 
-Integra conceptos y herramientas de **Proxmox, Docker, Nginx, Uptime Kuma, Glances, Wazuh, Grafana, Prometheus, Loki, Alertmanager y OpenTelemetry**.
+Integra conceptos y herramientas de **Proxmox, Docker, Nginx, Uptime Kuma, Glances, Wazuh, Grafana, Prometheus, Loki, Alertmanager y OpenTelemetry**, con foco en actualización controlada, rollback y postura de seguridad.
 
 ![Estado](https://img.shields.io/badge/Estado-Desarrollo_activo-22C55E?style=flat-square)
 ![Área](https://img.shields.io/badge/Área-Observability_·_SecOps-DC2626?style=flat-square)
@@ -113,7 +113,7 @@ Integra conceptos y herramientas de **Proxmox, Docker, Nginx, Uptime Kuma, Glanc
 
 Agenda, pacientes, profesionales, sedes, coberturas, pagos, HCE, laboratorio, radiología, booking público, lista de espera, mensajería, facturación y administración SaaS.
 
-Incluye **MFA, auditoría encadenada, restore drills, presencia colaborativa, optimistic locking, timeline unificado, privacidad por rol y resiliencia operativa**.
+Incluye **MFA, auditoría encadenada, restore drills, presencia colaborativa, optimistic locking, timeline unificado, privacidad por rol, aislamiento multi-tenant y verificación E2E**.
 
 `PostgreSQL` `Prisma` `Redis` `Docker` `RBAC` `MFA`
 
@@ -145,12 +145,12 @@ Arquitectura con **PostgreSQL RLS, Redis/BullMQ, workers, reintentos, DLQ, prefl
 
 Clientes, vehículos, pólizas, producción, siniestros, agenda, tareas, chat, reportes, roles, auditoría, MFA e IA opcional.
 
-La base estable actual es **OLBROKER 6.6.7**, con estrategia **Blue/Green**, rollback preservado, datos compartidos protegidos y backups validados. Las importaciones XLSX/CSV son transaccionales y hacen rollback completo ante errores bloqueantes.
+La versión pública estable actual es **OLBROKER 6.6.8**. La rama **6.6.9** se mantiene como candidato/green de evolución, preservando estrategia **Blue/Green**, rollback, datos compartidos y backups validados. Las importaciones XLSX/CSV continúan siendo transaccionales.
 
 `Node.js` `MySQL / MariaDB` `Docker` `Nginx` `Blue/Green` `MFA`
 
 ![Estado](https://img.shields.io/badge/Estado-Producción-22C55E?style=flat-square)
-![Release](https://img.shields.io/badge/Base_estable-6.6.7-2563EB?style=flat-square)
+![Release](https://img.shields.io/badge/Estable-6.6.8-2563EB?style=flat-square)
 
 </td>
 </tr>
@@ -162,14 +162,22 @@ La base estable actual es **OLBROKER 6.6.7**, con estrategia **Blue/Green**, rol
 
 | Proyecto | Problema / alcance | Tecnologías y prácticas |
 |---|---|---|
-| **🎫 Romera IT Desk** | ITSM, tickets, CMDB y soporte interno con web, email, API y Spark/Openfire | `Node.js` `MySQL` `Docker` `ITSM` `CMDB` |
+| **⚖️ Baudo** | Plataforma jurídica en desarrollo con API, web y gestión segura de documentos | `Node.js` `PostgreSQL 17` `Redis` `Nginx` `ClamAV` `Health/Ready` |
+| **🎫 ITFlow** | Plataforma integral de soporte y operaciones IT: tickets, activos, usuarios, sucursales, automatizaciones e integraciones | `v0.6.2` `GLPI 11` `Node.js` `MySQL 8.4` `Docker` `GateGuard` |
 | **🤝 CRM Romera** | Operación comercial con Timeline 360, colaboración, scoring y copiloto IA | `CRM` `RBAC` `Automation` `AI` |
-| **🛒 Exabyte ERP Store** | ERP + ecommerce: stock, cuentas, presupuestos, pagos, logística y service | `Node.js` `MySQL` `Docker` `Nginx` |
-| **🌾 Silos Web** | Modernización de software agropecuario legado | `Spring Boot` `React` `MySQL` `Docker` |
+| **🛒 Exabyte ERP Store** | ERP + ecommerce: stock, cuentas, presupuestos, pagos, logística y service | `v6.1.3` `Node.js` `MySQL` `Docker` `Security Gate` |
+| **🌾 Silos / Resinta** | Modernización de software agropecuario legado con concurrencia e idempotencia durable | `v3.2.1-stage21` `Spring Boot` `React` `MySQL` `GateGuard` |
 | **💳 Financiera RM** | Workflow financiero para sucursales, caja y cobranza | `Workflow` `RBAC` `Auditoría` |
 | **🏢 Portal STM** | Afiliados, beneficios, vouchers, validaciones y administración | `RBAC` `BOLA/BFLA` `Rate Limit` `Responsive` |
 | **🧮 EstudioRoza Contable** | Portal de clientes + backoffice contable | `Node.js` `PostgreSQL` `Docker` `MFA` |
 | **🛍️ App Comprar Precios** | Comparación inteligente por precio, peso, volumen y unidad | `Web App` `Data` `Automation` |
+
+### Cambios recientes relevantes
+
+- **Baudo v0.7.0**: API y web operativas con PostgreSQL, Redis, Nginx, health/readiness, rate limiting, headers de seguridad y escaneo antivirus de documentos con ClamAV.
+- **ITFlow v0.6.2**: portal y consola técnica propios, tickets vía web/API/Spark, activos vinculados, deduplicación, retry/backoff seguro, dead-letter, correlation IDs, GateGuard y verification loop.
+- **Exabyte ERP Store v6.1.3**: release estable con Security Gate fail-closed, verificación de regresión y separación de auditoría MySQL privilegiada del usuario de aplicación.
+- **Silos / Resinta v3.2.1-stage21**: GateGuard, verificación Docker E2E, importaciones con rollback real, locking/concurrencia segura, idempotencia durable y restore de backup verificado.
 
 ---
 
@@ -188,6 +196,8 @@ La base estable actual es **OLBROKER 6.6.7**, con estrategia **Blue/Green**, rol
 - Auditoría y trazabilidad.
 - Sesiones revocables.
 - Rate limiting y hardening.
+- GateGuard / Security Gate.
+- Escaneo de archivos cuando el dominio lo requiere.
 
 </td>
 <td width="33%" valign="top">
@@ -196,12 +206,13 @@ La base estable actual es **OLBROKER 6.6.7**, con estrategia **Blue/Green**, rol
 
 - Health / readiness.
 - Preflight.
-- Idempotencia.
+- Idempotencia durable.
 - Reintentos y DLQ.
 - Circuit breakers.
 - Backup + restore drill.
 - Blue/Green y rollback.
 - Imports transaccionales.
+- Verification loop y smoke E2E.
 
 </td>
 <td width="33%" valign="top">
@@ -216,6 +227,7 @@ La base estable actual es **OLBROKER 6.6.7**, con estrategia **Blue/Green**, rol
 - Colaboración/presencia.
 - ITSM / CMDB.
 - IA como copiloto.
+- Correlation IDs y logs estructurados.
 
 </td>
 </tr>
@@ -333,6 +345,7 @@ flowchart LR
 ![Prometheus](https://img.shields.io/badge/Prometheus-Metrics-E6522C?style=for-the-badge&logo=prometheus&logoColor=white)
 ![Grafana](https://img.shields.io/badge/Grafana-Observability-F46800?style=for-the-badge&logo=grafana&logoColor=white)
 ![Uptime Kuma](https://img.shields.io/badge/Uptime_Kuma-Uptime-5CDD8B?style=for-the-badge)
+![ClamAV](https://img.shields.io/badge/ClamAV-Document_Security-2563EB?style=for-the-badge)
 
 </div>
 
