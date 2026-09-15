@@ -66,22 +66,10 @@ prioridades:
 
 <table>
 <tr>
-<td width="25%" align="center" valign="top">
-<h3>🧩 Procesos</h3>
-Planillas, tareas manuales y circuitos dispersos → sistemas integrados.
-</td>
-<td width="25%" align="center" valign="top">
-<h3>🔄 Legacy</h3>
-Aplicaciones históricas → plataformas web modernas y mantenibles.
-</td>
-<td width="25%" align="center" valign="top">
-<h3>🖥️ Operación</h3>
-Servicios aislados → observabilidad, alertas, backups y recuperación.
-</td>
-<td width="25%" align="center" valign="top">
-<h3>🔐 Riesgo</h3>
-Permisos débiles y poca trazabilidad → controles, auditoría y mínimo privilegio.
-</td>
+<td width="25%" align="center" valign="top"><h3>🧩 Procesos</h3>Planillas, tareas manuales y circuitos dispersos → sistemas integrados.</td>
+<td width="25%" align="center" valign="top"><h3>🔄 Legacy</h3>Aplicaciones históricas → plataformas web modernas y mantenibles.</td>
+<td width="25%" align="center" valign="top"><h3>🖥️ Operación</h3>Servicios aislados → observabilidad, alertas, backups y recuperación.</td>
+<td width="25%" align="center" valign="top"><h3>🔐 Riesgo</h3>Permisos débiles y poca trazabilidad → controles, auditoría y mínimo privilegio.</td>
 </tr>
 </table>
 
@@ -162,19 +150,20 @@ La versión pública estable actual es **OLBROKER 6.6.8**. La rama **6.6.9** se 
 
 | Proyecto | Problema / alcance | Tecnologías y prácticas |
 |---|---|---|
-| **⚖️ Baudo** | Plataforma jurídica en desarrollo con API, web y gestión segura de documentos | `Node.js` `PostgreSQL 17` `Redis` `Nginx` `ClamAV` `Health/Ready` |
+| **⚖️ Baudo** | Plataforma jurídica con portal público, área de estudio, administración de plataforma y gestión segura de documentos | `v0.8.0` `Node.js` `PostgreSQL 17` `Redis` `Nginx` `ClamAV` |
 | **🎫 ITFlow** | Plataforma integral de soporte y operaciones IT: tickets, activos, usuarios, sucursales, automatizaciones e integraciones | `v0.6.2` `GLPI 11` `Node.js` `MySQL 8.4` `Docker` `GateGuard` |
 | **🤝 CRM Romera** | Operación comercial con Timeline 360, colaboración, scoring y copiloto IA | `CRM` `RBAC` `Automation` `AI` |
 | **🛒 Exabyte ERP Store** | ERP + ecommerce: stock, cuentas, presupuestos, pagos, logística y service | `v6.1.3` `Node.js` `MySQL` `Docker` `Security Gate` |
 | **🌾 Silos / Resinta** | Modernización de software agropecuario legado con concurrencia e idempotencia durable | `v3.2.1-stage21` `Spring Boot` `React` `MySQL` `GateGuard` |
-| **💳 Financiera RM** | Workflow financiero para sucursales, caja y cobranza | `Workflow` `RBAC` `Auditoría` |
+| **💳 Financiera RM** | Workflow financiero con portal de Soporte IT, revisión de accesos, salud operativa y auditoría | `V0.11` `RBAC` `MFA` `Auditoría` `Readiness` `Docker` |
 | **🏢 Portal STM** | Afiliados, beneficios, vouchers, validaciones y administración | `RBAC` `BOLA/BFLA` `Rate Limit` `Responsive` |
 | **🧮 EstudioRoza Contable** | Portal de clientes + backoffice contable | `Node.js` `PostgreSQL` `Docker` `MFA` |
 | **🛍️ App Comprar Precios** | Comparación inteligente por precio, peso, volumen y unidad | `Web App` `Data` `Automation` |
 
 ### Cambios recientes relevantes
 
-- **Baudo v0.7.0**: API y web operativas con PostgreSQL, Redis, Nginx, health/readiness, rate limiting, headers de seguridad y escaneo antivirus de documentos con ClamAV.
+- **Baudo v0.8.0**: separación entre navegación del estudio y administración de plataforma, control de servicio, modo de presentación seguro sin tokens, acceso público limitado al área cliente y mejoras de roles/usuarios.
+- **Financiera RM V0.11**: nuevo portal de **Soporte IT** para Sistemas con salud, usuarios, uso, sesiones, base, auditoría y actividad reciente; revisión de accesos privilegiados, visibilidad de MFA, readiness real, rotación de logs y build reproducible con `npm ci`.
 - **ITFlow v0.6.2**: portal y consola técnica propios, tickets vía web/API/Spark, activos vinculados, deduplicación, retry/backoff seguro, dead-letter, correlation IDs, GateGuard y verification loop.
 - **Exabyte ERP Store v6.1.3**: release estable con Security Gate fail-closed, verificación de regresión y separación de auditoría MySQL privilegiada del usuario de aplicación.
 - **Silos / Resinta v3.2.1-stage21**: GateGuard, verificación Docker E2E, importaciones con rollback real, locking/concurrencia segura, idempotencia durable y restore de backup verificado.
@@ -193,6 +182,7 @@ La versión pública estable actual es **OLBROKER 6.6.8**. La rama **6.6.9** se 
 - MFA / TOTP.
 - RLS multi-tenant.
 - BOLA / BFLA.
+- Revisión de accesos privilegiados.
 - Auditoría y trazabilidad.
 - Sesiones revocables.
 - Rate limiting y hardening.
@@ -213,6 +203,7 @@ La versión pública estable actual es **OLBROKER 6.6.8**. La rama **6.6.9** se 
 - Blue/Green y rollback.
 - Imports transaccionales.
 - Verification loop y smoke E2E.
+- Builds reproducibles y rotación de logs.
 
 </td>
 <td width="33%" valign="top">
@@ -221,6 +212,7 @@ La versión pública estable actual es **OLBROKER 6.6.8**. La rama **6.6.9** se 
 
 - Dashboards operativos.
 - Timeline / Vista 360.
+- Portales de Soporte IT.
 - Centros de operaciones.
 - Alertas e incidentes.
 - Health scores.
