@@ -154,6 +154,7 @@ La versión pública estable actual es **OLBROKER 6.6.8**. La rama **6.6.9** se 
 
 | Proyecto | Problema / alcance | Tecnologías y prácticas |
 |---|---|---|
+| **💰 TAU — Tu Administración Unificada** | Finanzas personales, familiares y empresariales en espacios aislados: cuentas, tarjetas, cuotas, OCR, conciliación bancaria, reintegros, auditoría y Control Center | `v0.6.0` `React` `Fastify` `TypeScript` `PostgreSQL` `Prisma` `Redis` |
 | **⚖️ Baudo** | Plataforma jurídica + laboral con clientes, expedientes/asuntos, timeline, documentos, RRHH, morosidad/intimaciones y portal cliente | `v0.13.0` `Node.js` `PostgreSQL 17` `Redis` `Nginx` `ClamAV` |
 | **🎫 ITFlow** | Plataforma integral de soporte y operaciones IT: tickets, activos, usuarios, sucursales, automatizaciones e integraciones | `v0.7.1` `GLPI 11` `Node.js` `MySQL 8.4` `Docker` `Security Gate` |
 | **🤝 CRM Romera** | Operación comercial con Timeline 360, colaboración, scoring y copiloto IA | `CRM` `RBAC` `Automation` `AI` |
@@ -163,9 +164,12 @@ La versión pública estable actual es **OLBROKER 6.6.8**. La rama **6.6.9** se 
 | **🏢 Portal STM** | Afiliados, beneficios, vouchers, validaciones y administración | `RBAC` `BOLA/BFLA` `Rate Limit` `Responsive` |
 | **🧮 EstudioRoza Contable** | Portal de clientes + backoffice contable | `Node.js` `PostgreSQL` `Docker` `MFA` |
 | **🛍️ App Comprar Precios** | Comparación inteligente por precio, peso, volumen y unidad | `Web App` `Data` `Automation` |
+| **✉️ Firma Romera** | Generador web interno de firmas institucionales para Outlook/Gmail y otros clientes de correo | `HTML` `CSS` `JavaScript` `Nginx` `Docker` |
 
 ### Cambios recientes relevantes
 
+- **TAU v0.6.0**: nueva plataforma financiera multiusuario y multi-espacio con privacidad por Membership, cuentas/tarjetas/cuotas, OCR local, conciliación bancaria, reintegros, auditoría encadenada SHA-256, Control Center, health/readiness y backup + restore drill.
+- **Firma Romera**: herramienta interna para generación uniforme de firmas institucionales, con UX responsive y despliegue Docker/Nginx aislado.
 - **Baudo v0.13.0**: cierre verificable del Prompt 13 con IAM/BOLA/BFLA, guards granulares, scheduler idempotente, timeline normalizado con deduplicación, centro de notificaciones durable, búsqueda documental privada con procesamiento/OCR y full-text search, además de updater endurecido y validación Apollo.
 - **WA CRM Sender v3.14.0**: release de reliability operacional con entrega saliente zero-duplicate, DR drill, Security Gate, Trivy, validación RLS/BOLA y Final Release Gate.
 - **Health Turnos — Stage 54**: Pilot / Production Readiness validado con preflight endurecido, backups cifrados y trazables al commit, restore aislado, contratos de recuperación/rollback y preservación de regresiones previas.
@@ -194,6 +198,7 @@ La versión pública estable actual es **OLBROKER 6.6.8**. La rama **6.6.9** se 
 - Rate limiting y hardening.
 - GateGuard / Security Gate.
 - Escaneo de archivos cuando el dominio lo requiere.
+- Privacidad por espacio/membership en sistemas multiusuario.
 
 </td>
 <td width="33%" valign="top">
@@ -219,6 +224,7 @@ La versión pública estable actual es **OLBROKER 6.6.8**. La rama **6.6.9** se 
 - Dashboards operativos.
 - Timeline / Vista 360.
 - Portales de Soporte IT.
+- Control Centers administrativos.
 - Centros de operaciones.
 - Alertas e incidentes.
 - Health scores.
