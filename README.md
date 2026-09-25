@@ -88,7 +88,7 @@ prioridades:
 
 Plataforma para centralizar monitoreo de servidores, servicios y contenedores, disponibilidad, incidentes, evidencia, métricas, alertas, backups y respuesta operativa asistida.
 
-Integra conceptos y herramientas de **Proxmox, Docker, Nginx, Uptime Kuma, Glances, Wazuh, Grafana, Prometheus, Loki, Alertmanager y OpenTelemetry**, con foco en actualización controlada, rollback y postura de seguridad.
+Integra conceptos y herramientas de **Proxmox, Docker, Nginx, Uptime Kuma, Glances, Wazuh, Grafana, Prometheus, Loki, Alertmanager y OpenTelemetry**, con foco en actualización controlada, rollback y postura de seguridad. También dispone de integración con **ControlApp** para correlacionar estado e incidentes sin reemplazar su función especializada de observabilidad.
 
 ![Estado](https://img.shields.io/badge/Estado-Desarrollo_activo-22C55E?style=flat-square)
 ![Área](https://img.shields.io/badge/Área-Observability_·_SecOps-DC2626?style=flat-square)
@@ -155,10 +155,12 @@ La versión pública estable actual es **OLBROKER 6.6.8**. La rama **6.6.9** se 
 | Proyecto | Problema / alcance | Tecnologías y prácticas |
 |---|---|---|
 | **💰 TAU — Tu Administración Unificada** | Finanzas personales, familiares y empresariales en espacios aislados: cuentas, tarjetas, cuotas, OCR, conciliación bancaria, reintegros, auditoría y Control Center | `v0.6.0` `React` `Fastify` `TypeScript` `PostgreSQL` `Prisma` `Redis` |
+| **🧭 ControlApp** | Plano administrativo multiaplicación para clientes, aplicaciones, health/readiness, sesiones, auditoría, backups, incidentes, catálogo de servicios y acciones gobernadas | `v0.4` `React` `Node.js` `PostgreSQL 17` `Redis` `Docker` `MFA` |
+| **🧰 Toolbox** | Suite self-hosted privacy-first de utilidades para PDF, imágenes, OCR, red, datos, QR, X.509, GeoIP y tareas IT | `v1.0.0 estable` `Browser-first` `Workers` `Docker` `PWA` `Security Gate` |
 | **⚖️ Baudo** | Plataforma jurídica + laboral con clientes, expedientes/asuntos, timeline, documentos, RRHH, morosidad/intimaciones y portal cliente | `v0.13.0` `Node.js` `PostgreSQL 17` `Redis` `Nginx` `ClamAV` |
 | **🎫 ITFlow** | Plataforma integral de soporte y operaciones IT: tickets, activos, usuarios, sucursales, automatizaciones e integraciones | `v0.7.1` `GLPI 11` `Node.js` `MySQL 8.4` `Docker` `Security Gate` |
 | **🤝 CRM Romera** | Operación comercial con Timeline 360, colaboración, scoring y copiloto IA | `CRM` `RBAC` `Automation` `AI` |
-| **🛒 Exabyte ERP Store** | ERP + ecommerce: stock, cuentas, presupuestos, pagos, logística, proveedores y service | `v6.1.4` `Node.js` `MySQL` `Docker` `Security Gate` |
+| **🛒 Exabyte ERP Store** | ERP + ecommerce: stock, cuentas, presupuestos, pagos, logística, proveedores, seriales/garantías y service | `6.1.4 estable` `6.2.0-rc.6` `Node.js` `MySQL` `Docker` `Security Gate` |
 | **🌾 Silos / Resinta** | Modernización de software agropecuario legado con concurrencia e idempotencia durable | `v3.2.1-stage21` `Spring Boot` `React` `MySQL` `GateGuard` |
 | **💳 Financiera RM** | Workflow financiero LAB con portal de Soporte IT, revisión de accesos, salud operativa, trazabilidad y controles antifraude consultivos | `0.11.0-LAB` `RBAC` `MFA` `BOLA/BFLA` `Auditoría` `Docker` |
 | **🏢 Portal STM** | Afiliados, beneficios, vouchers, validaciones y administración | `RBAC` `BOLA/BFLA` `Rate Limit` `Responsive` |
@@ -168,14 +170,14 @@ La versión pública estable actual es **OLBROKER 6.6.8**. La rama **6.6.9** se 
 
 ### Cambios recientes relevantes
 
-- **TAU v0.6.0**: nueva plataforma financiera multiusuario y multi-espacio con privacidad por Membership, cuentas/tarjetas/cuotas, OCR local, conciliación bancaria, reintegros, auditoría encadenada SHA-256, Control Center, health/readiness y backup + restore drill.
-- **Firma Romera**: herramienta interna para generación uniforme de firmas institucionales, con UX responsive y despliegue Docker/Nginx aislado.
-- **Baudo v0.13.0**: cierre verificable del Prompt 13 con IAM/BOLA/BFLA, guards granulares, scheduler idempotente, timeline normalizado con deduplicación, centro de notificaciones durable, búsqueda documental privada con procesamiento/OCR y full-text search, además de updater endurecido y validación Apollo.
-- **WA CRM Sender v3.14.0**: release de reliability operacional con entrega saliente zero-duplicate, DR drill, Security Gate, Trivy, validación RLS/BOLA y Final Release Gate.
-- **Health Turnos — Stage 54**: Pilot / Production Readiness validado con preflight endurecido, backups cifrados y trazables al commit, restore aislado, contratos de recuperación/rollback y preservación de regresiones previas.
-- **ITFlow v0.7.1**: release estable con Update Manager, rollback image previo al deploy, Security Gate, backup + restore-test y verification loop, preservando GLPI/MySQL/volúmenes.
-- **Exabyte ERP Store v6.1.4**: release estable con ledger de stock centralizado, Supplier Adapter y continuidad del Security Gate.
-- **Financiera RM 0.11.0-LAB**: hardening de request/correlation logging, BFLA sobre actividad reciente, revisión de accesos privilegiados, MFA para roles sensibles, build reproducible y readiness operativo.
+- **Toolbox v1.0.0 estable**: primera versión estable después de validar production smoke en Apollo, CI reproducible, Trivy/SBOM, browser E2E, backup/restore y rollback. La base estable reúne **78 herramientas**, GeoIP local-first, X.509/CSR, utilidades PDF/imagen/datos, API de integración con scopes y test de velocidad del equipo vía M-Lab NDT7 con consentimiento.
+- **ControlApp v0.4**: nuevo centro de control multiaplicación con adapters read-only, collector normalizado, self-health, evidencia de backup/restore, integración con Apollo WebGuard/Apollo Watch, catálogo de servicios y un Action Registry gobernado. Los executors remotos permanecen deshabilitados y las acciones de riesgo requieren autorización explícita.
+- **Exabyte ERP Store**: **6.1.4 continúa como base estable** y **6.2.0-rc.6** como candidata. La candidata suma catálogo maestro/publicación segura, seriales y garantías, frescura de proveedores, mejoras de importación/UX y alta 2FA mediante QR TOTP generado localmente.
+- **Baudo v0.13.x**: además del cierre IAM/BOLA/BFLA y timeline/notificaciones/documentos, el despliegue quedó más fail-closed: se retiraron credenciales demo hardcodeadas y el seed demo requiere opt-in explícito y queda prohibido en producción.
+- **Apollo WebGuard**: incorpora integración con ControlApp, manteniendo a Apollo como capa especializada de observabilidad/SecOps y a ControlApp como plano administrativo y de correlación.
+- **TAU v0.6.0**: mantiene el modelo multiusuario/multi-espacio, OCR y conciliación bancaria, Control Center, auditoría encadenada y backup/restore; el runtime incorporó límites de memoria persistentes.
+- **Firma Romera**: conserva el generador institucional responsive y sumó límites persistentes de memoria para su despliegue Docker.
+- **WA CRM Sender v3.14.0**, **Health Turnos Stage 54** e **ITFlow v0.7.1** continúan como los últimos cierres verificados de reliability/production-readiness de esos repositorios.
 
 ---
 
@@ -197,6 +199,8 @@ La versión pública estable actual es **OLBROKER 6.6.8**. La rama **6.6.9** se 
 - Sesiones revocables.
 - Rate limiting y hardening.
 - GateGuard / Security Gate.
+- Integraciones read-only con scopes y allowlists.
+- Approval Gate para acciones de riesgo.
 - Escaneo de archivos cuando el dominio lo requiere.
 - Privacidad por espacio/membership en sistemas multiusuario.
 
@@ -213,7 +217,8 @@ La versión pública estable actual es **OLBROKER 6.6.8**. La rama **6.6.9** se 
 - Backup + restore drill.
 - Blue/Green y rollback.
 - Imports transaccionales.
-- Verification loop y smoke E2E.
+- Verification loop, browser E2E y production smoke.
+- SBOM / Trivy / supply-chain gates.
 - Builds reproducibles y rotación de logs.
 
 </td>
@@ -225,6 +230,7 @@ La versión pública estable actual es **OLBROKER 6.6.8**. La rama **6.6.9** se 
 - Timeline / Vista 360.
 - Portales de Soporte IT.
 - Control Centers administrativos.
+- Gobierno multiaplicación y catálogo de servicios.
 - Centros de operaciones.
 - Alertas e incidentes.
 - Health scores.
