@@ -1,406 +1,149 @@
-<div align="center">
+<p align="center">
+  <img src="./assets/banner-profile.svg" alt="Juan Diego Sánchez — Licenciado en Sistemas · Jefe de IT · Software, Infraestructura, Seguridad y Automatización" width="100%">
+</p>
 
-<img width="100%" src="./assets/banner-profile.svg" alt="Juan Diego Sánchez — Licenciado en Sistemas, Jefe de IT, software, infraestructura, seguridad, automatización e IA" />
+<p align="center">
+  <strong>Sistemas reales. Infraestructura real. Automatización con criterio.</strong><br>
+  Software empresarial · SaaS · DevOps/SecOps · Observabilidad · IA asistiva
+</p>
 
-### Sistemas reales. Infraestructura real. Automatización con criterio.
-
-![Argentina](https://img.shields.io/badge/Argentina-75AADB?style=for-the-badge&logo=googlemaps&logoColor=white)
-![Rol](https://img.shields.io/badge/Jefe_de_IT-2563EB?style=for-the-badge)
-![Software](https://img.shields.io/badge/SaaS_·_CRM_·_ERP_·_ITSM_·_LegalTech-7C3AED?style=for-the-badge)
-![Infra](https://img.shields.io/badge/Linux_·_Docker_·_Proxmox-0F766E?style=for-the-badge)
-![Security](https://img.shields.io/badge/SecOps_·_Observability-DC2626?style=for-the-badge)
-
-<br>
-
-[**Perfil**](#perfil) · [**Qué resuelvo**](#que-resuelvo) · [**Destacados**](#destacados) · [**Portfolio**](#portfolio) · [**Arquitecturas**](#arquitecturas) · [**Stack**](#stack) · [**Método**](#metodo)
-
-</div>
-
----
-
-<h2 id="perfil">👨‍💻 Perfil</h2>
-
-<table>
-<tr>
-<td width="62%" valign="top">
-
-Soy **Licenciado en Sistemas** y **Jefe de IT**. Trabajo en el cruce entre desarrollo de software, infraestructura, automatización, operación y seguridad.
-
-Mi foco es transformar procesos manuales, sistemas heredados y herramientas aisladas en **plataformas web integradas, seguras, observables y mantenibles**.
-
-Trabajo especialmente con:
-
-- SaaS multiusuario y multi-tenant.
-- CRM, ERP, ITSM, backoffice, LegalTech y portales.
-- APIs, integraciones, mensajería y workers.
-- Linux, Docker, Nginx, Proxmox y bases de datos.
-- Observabilidad, backups, recuperación e incidentes.
-- RBAC, MFA, auditoría, RLS, BOLA/BFLA y hardening.
-- IA asistiva con control humano.
-
-</td>
-<td width="38%" valign="top">
-
-### 🎯 Enfoque
-
-```yaml
-perfil: Sistemas + Software + Infraestructura
-rol: Jefe de IT
-prioridades:
-  - productos SaaS
-  - sistemas empresariales
-  - automatización
-  - DevOps / SecOps
-  - observabilidad
-  - resiliencia
-  - UX operativa
-```
-
-</td>
-</tr>
-</table>
+<p align="center">
+  <a href="#perfil">Perfil</a> ·
+  <a href="#proyectos-principales">Proyectos principales</a> ·
+  <a href="#otros-proyectos">Portfolio</a> ·
+  <a href="#novedades-verificadas">Actualizaciones</a> ·
+  <a href="#arquitectura-y-practicas">Arquitectura y prácticas</a> ·
+  <a href="#stack-y-metodo">Stack y método</a>
+</p>
 
 ---
 
-<h2 id="que-resuelvo">🧭 Qué problemas resuelvo</h2>
+## Perfil
 
-<table>
-<tr>
-<td width="25%" align="center" valign="top"><h3>🧩 Procesos</h3>Planillas, tareas manuales y circuitos dispersos → sistemas integrados.</td>
-<td width="25%" align="center" valign="top"><h3>🔄 Legacy</h3>Aplicaciones históricas → plataformas web modernas y mantenibles.</td>
-<td width="25%" align="center" valign="top"><h3>🖥️ Operación</h3>Servicios aislados → observabilidad, alertas, backups y recuperación.</td>
-<td width="25%" align="center" valign="top"><h3>🔐 Riesgo</h3>Permisos débiles y poca trazabilidad → controles, auditoría y mínimo privilegio.</td>
-</tr>
-</table>
+Soy **Juan Diego Sánchez**, **Licenciado en Sistemas** y **Jefe de IT**. Diseño, desarrollo y opero soluciones que unen procesos de negocio, software, infraestructura y seguridad.
 
----
+Mi trabajo se concentra en convertir planillas, operaciones manuales y aplicaciones heredadas en **plataformas integradas, auditables, observables y recuperables**. Me interesan tanto la experiencia del usuario como lo que ocurre después del deploy: permisos, datos, incidencias, backups y mantenimiento.
 
-<h2 id="destacados">⭐ Proyectos destacados</h2>
+**Qué abordo:** SaaS multi-tenant · ERP/CRM · portales empresariales · integraciones/API · automatización · modernización legacy · observabilidad · seguridad por diseño.
 
-> Gran parte del código y de la lógica de negocio es privada. Acá muestro únicamente alcance técnico y funcional, sin publicar IPs, credenciales, secretos ni infraestructura sensible.
+> **Sobre el portfolio:** varios productos son privados o de uso interno. Comparto alcance y tecnologías sin publicar código restringido, instalaciones de clientes, IPs, credenciales, datos de negocio ni accesos operativos. Los estados de staging, candidata y producción no son equivalentes.
 
-<table>
-<tr>
-<td width="50%" valign="top">
+## Proyectos principales
 
-### 🛡️ Apollo WebGuard
-**Observabilidad · Diagnóstico · SecOps**
+### 🛡️ Apollo WebGuard — Observabilidad y SecOps
 
-Plataforma para centralizar monitoreo de servidores, servicios y contenedores, disponibilidad, incidentes, evidencia, métricas, alertas, backups y respuesta operativa asistida.
+Monitoreo y diagnóstico de servidores, servicios, contenedores y disponibilidad. Integra señales de Proxmox, Docker, Nginx, Uptime Kuma, Wazuh, Grafana, Prometheus, Loki y Alertmanager; contempla incidentes, evidencia, alertas, backups y recuperación. **Apollo observa infraestructura; ControlApp administra el portfolio de aplicaciones.**
 
-Integra conceptos y herramientas de **Proxmox, Docker, Nginx, Uptime Kuma, Glances, Wazuh, Grafana, Prometheus, Loki, Alertmanager y OpenTelemetry**, con foco en actualización controlada, rollback y postura de seguridad. También dispone de integración con **ControlApp** para correlacionar estado e incidentes sin reemplazar su función especializada de observabilidad.
+`Linux` · `Docker` · `Proxmox` · `Prometheus` · `Grafana` · `SecOps`
 
-![Estado](https://img.shields.io/badge/Estado-Desarrollo_activo-22C55E?style=flat-square)
-![Área](https://img.shields.io/badge/Área-Observability_·_SecOps-DC2626?style=flat-square)
+### 🧭 ControlApp — Gobierno multiaplicación
 
-</td>
-<td width="50%" valign="top">
+Plano administrativo para clientes, aplicaciones, entornos, versiones, sesiones, auditoría, backups e incidentes. Usa **adaptadores de solo lectura**, collectors normalizados, catálogo de servicios y permisos por aplicación. Integra señales de Apollo y conectores de Baudo/Toolbox; las acciones remotas de riesgo no reciben ejecución implícita.
 
-### 🏥 Health Turnos SaaS
-**HealthTech · SaaS multi-tenant**
+`Node.js` · `React` · `PostgreSQL` · `Redis` · `MFA` · `Approval Gate`
 
-Agenda, pacientes, profesionales, sedes, coberturas, pagos, HCE, laboratorio, radiología, booking público, lista de espera, mensajería, facturación y administración SaaS.
+### 🏥 Health Turnos — SaaS sanitario multi-tenant
 
-Incluye **MFA, auditoría encadenada, restore drills, presencia colaborativa, optimistic locking, timeline unificado, privacidad por rol, aislamiento multi-tenant y verificación E2E**.
+Agenda, pacientes, profesionales, sedes, historia clínica electrónica, laboratorios, radiología, cobros, booking público y colaboración. La **etapa 55** incorpora preparación defensiva para VPS, Turnstile y readiness orientado a WebGuard, sobre la base de Stage 54 (preflight, backups cifrados trazables, restore aislado y recuperación). **Preparación para despliegue no significa servicio público ya habilitado.**
 
-La etapa **Stage 54 / Pilot & Production Readiness** agregó preflight de producción, backups cifrados con trazabilidad de commit, restore aislado, contratos de rollback/recuperación y protección contra releases desde un árbol Git sucio. El pruning automático de backups queda deshabilitado.
+`PostgreSQL` · `Prisma` · `Redis` · `Docker` · `RBAC` · `MFA`
 
-`PostgreSQL` `Prisma` `Redis` `Docker` `RBAC` `MFA`
+### 💬 WA CRM Sender — Mensajería y automatización multiempresa
 
-![Tipo](https://img.shields.io/badge/Tipo-SaaS_multi--tenant-7C3AED?style=flat-square)
-![Foco](https://img.shields.io/badge/Foco-Workflow_·_Resiliencia-2563EB?style=flat-square)
+CRM, campañas, bandeja de equipo, API de integraciones y webhooks firmados. Su release **v3.14.0** documenta entrega saliente anti-duplicados, control multi-tenant RLS/BOLA, colas, DLQ, Security Gate y ensayo de recuperación.
 
-</td>
-</tr>
-<tr>
-<td width="50%" valign="top">
+`Node.js` · `PostgreSQL RLS` · `Redis/BullMQ` · `Workers` · `HMAC`
 
-### 💬 WA CRM Sender
-**CRM · Mensajería · Integration Hub**
+### 🧰 Toolbox — Utilidades técnicas privacy-first
 
-Plataforma multiempresa con campañas, contactos, conversaciones, API externa, webhooks firmados, workflows, Team Inbox, omnicanalidad, IA asistiva y centro de operaciones.
+Aplicación autoalojable con herramientas para PDF, imágenes, OCR, QR, certificados X.509/CSR, GeoIP, red, datos y soporte IT. **v1.0.0 estable**; prioriza procesamiento local, servicios externos explícitos, workers aislados y verificación de release. Preparada para integración de solo lectura con ControlApp sin perder independencia.
 
-Arquitectura con **PostgreSQL RLS, Redis/BullMQ, workers, reintentos, DLQ, preflight, Health Score, circuit breaker, backups y rollback de despliegues**.
+`PWA` · `Browser-first` · `Docker` · `Trivy/SBOM` · `E2E`
 
-La release **v3.14.0** consolidó entrega saliente **zero-duplicate**, DR drill, Security Gate, validación RLS/BOLA y un Final Release Gate verificable.
+## Otros proyectos
 
-`v3.14.0` `PostgreSQL` `RLS` `Redis` `BullMQ` `Workers` `Docker`
+| Dominio | Producto | Qué resuelve |
+|:--|:--|:--|
+| Finanzas | **TAU — Tu Administración Unificada** | Espacios personales, familiares y empresariales; cuentas, tarjetas, cuotas, OCR local, conciliación, reintegros y Control Center. |
+| Seguros | **BrokerFlow / OLBROKER** | Clientes, pólizas, producción, siniestros, chat, importación transaccional y despliegues controlados Blue/Green. |
+| LegalTech | **Baudo** | Gestión jurídica/laboral, expedientes, documentos privados, RRHH, morosidad, timeline y portal cliente. |
+| ITSM | **ITFlow / Romera IT Desk** | Portal de tickets y consola técnica con GLPI como fuente de verdad, activos, integraciones y Update Manager. |
+| Comercio | **Exabyte ERP Store** | ERP, ecommerce, stock, cuentas corrientes, catálogo, proveedores, pagos, servicio técnico y garantías. |
+| Agro | **Silos / Resinta** | Modernización de sistema heredado, concurrencia, importaciones seguras e idempotencia durable. |
+| Finanzas | **Financiera RM** | Modernización financiera en entorno LAB, controles por sucursal, auditoría y portal de Soporte IT. |
+| Contabilidad | **EstudioRoza Contable** | Portal de clientes y operación contable con control de acceso, auditoría y despliegue endurecido. |
+| Comercial | **CRM Romera** | Seguimiento comercial, Timeline 360, colaboración y automatizaciones. |
+| Afiliaciones | **Portal STM** | Gestión de afiliados, beneficios y validaciones. |
+| Compras | **App Comprar Precios** | Comparación de precios por artículo, cantidad, peso, volumen y unidad. |
+| Herramientas internas | **Firma Romera** | Generador institucional de firmas HTML para clientes de correo. |
 
-![Tipo](https://img.shields.io/badge/Tipo-Multiempresa_·_Messaging-06B6D4?style=flat-square)
-![Reliability](https://img.shields.io/badge/Reliability-DLQ_·_Health_Score-7C3AED?style=flat-square)
+## Novedades verificadas
 
-</td>
-<td width="50%" valign="top">
+**Septiembre–octubre de 2026**, según las últimas revisiones de los repositorios accesibles:
 
-### 🧾 BrokerFlow / OLBROKER
-**InsurTech · Gestión para brokers**
+- **Health Turnos — Stage 55:** defensa para despliegue en VPS, integración de Turnstile y preparación para WebGuard.
+- **ControlApp + Baudo + Toolbox:** evolución de conectores de observación de solo lectura, contratos de integración, autenticación independiente y correlación operacional. La integración no convierte a ControlApp en una consola de administración remota sin límites.
+- **Baudo:** integración privada con ControlApp; el adaptador no se expone en el frontend público y usa secretos separados. Se preserva el principio *fail-closed* para configuración y datos demo.
+- **TAU:** actualización operativa del despliegue con permisos *non-root* y acceso restringido a backups.
+- **Exabyte ERP Store:** `6.1.4` documentada como base estable y `6.2.0-rc.6` como **candidata**, con catálogo/publicación segura, seriales/garantías, UX e incorporación de QR local para alta TOTP.
 
-Clientes, vehículos, pólizas, producción, siniestros, agenda, tareas, chat, reportes, roles, auditoría, MFA e IA opcional.
+<details>
+<summary><strong>Ver versiones técnicas de otras bases verificadas</strong></summary>
 
-La versión pública estable actual es **OLBROKER 6.6.8**. La rama **6.6.9** se mantiene como candidato/green de evolución, preservando estrategia **Blue/Green**, rollback, datos compartidos y backups validados. Las importaciones XLSX/CSV continúan siendo transaccionales.
+| Sistema | Referencia |
+|:--|:--|
+| Toolbox | `v1.0.0 estable` |
+| ITFlow | `v0.7.1 estable` |
+| WA CRM Sender | `v3.14.0` |
+| TAU | `v0.6.0` |
+| Baudo | `v0.13.0` informado por el runtime documentado; el encabezado histórico de su README conserva una versión anterior |
+| Silos / Resinta | `v3.2.1-stage21` |
+| Financiera RM | `0.11.0-LAB`, sin conexión/escritura en producción real |
 
-`Node.js` `MySQL / MariaDB` `Docker` `Nginx` `Blue/Green` `MFA`
+</details>
 
-![Estado](https://img.shields.io/badge/Estado-Producción-22C55E?style=flat-square)
-![Release](https://img.shields.io/badge/Estable-6.6.8-2563EB?style=flat-square)
+## Arquitectura y prácticas
 
-</td>
-</tr>
-</table>
+No hay una única arquitectura para todos los proyectos. Reutilizo **contratos y controles**, no acoplamiento entre bases de datos ni permisos administrativos compartidos.
 
----
-
-<h2 id="portfolio">🚀 Portfolio</h2>
-
-| Proyecto | Problema / alcance | Tecnologías y prácticas |
-|---|---|---|
-| **💰 TAU — Tu Administración Unificada** | Finanzas personales, familiares y empresariales en espacios aislados: cuentas, tarjetas, cuotas, OCR, conciliación bancaria, reintegros, auditoría y Control Center | `v0.6.0` `React` `Fastify` `TypeScript` `PostgreSQL` `Prisma` `Redis` |
-| **🧭 ControlApp** | Plano administrativo multiaplicación para clientes, aplicaciones, health/readiness, sesiones, auditoría, backups, incidentes, catálogo de servicios y acciones gobernadas | `v0.4` `React` `Node.js` `PostgreSQL 17` `Redis` `Docker` `MFA` |
-| **🧰 Toolbox** | Suite self-hosted privacy-first de utilidades para PDF, imágenes, OCR, red, datos, QR, X.509, GeoIP y tareas IT | `v1.0.0 estable` `Browser-first` `Workers` `Docker` `PWA` `Security Gate` |
-| **⚖️ Baudo** | Plataforma jurídica + laboral con clientes, expedientes/asuntos, timeline, documentos, RRHH, morosidad/intimaciones y portal cliente | `v0.13.0` `Node.js` `PostgreSQL 17` `Redis` `Nginx` `ClamAV` |
-| **🎫 ITFlow** | Plataforma integral de soporte y operaciones IT: tickets, activos, usuarios, sucursales, automatizaciones e integraciones | `v0.7.1` `GLPI 11` `Node.js` `MySQL 8.4` `Docker` `Security Gate` |
-| **🤝 CRM Romera** | Operación comercial con Timeline 360, colaboración, scoring y copiloto IA | `CRM` `RBAC` `Automation` `AI` |
-| **🛒 Exabyte ERP Store** | ERP + ecommerce: stock, cuentas, presupuestos, pagos, logística, proveedores, seriales/garantías y service | `6.1.4 estable` `6.2.0-rc.6` `Node.js` `MySQL` `Docker` `Security Gate` |
-| **🌾 Silos / Resinta** | Modernización de software agropecuario legado con concurrencia e idempotencia durable | `v3.2.1-stage21` `Spring Boot` `React` `MySQL` `GateGuard` |
-| **💳 Financiera RM** | Workflow financiero LAB con portal de Soporte IT, revisión de accesos, salud operativa, trazabilidad y controles antifraude consultivos | `0.11.0-LAB` `RBAC` `MFA` `BOLA/BFLA` `Auditoría` `Docker` |
-| **🏢 Portal STM** | Afiliados, beneficios, vouchers, validaciones y administración | `RBAC` `BOLA/BFLA` `Rate Limit` `Responsive` |
-| **🧮 EstudioRoza Contable** | Portal de clientes + backoffice contable | `Node.js` `PostgreSQL` `Docker` `MFA` |
-| **🛍️ App Comprar Precios** | Comparación inteligente por precio, peso, volumen y unidad | `Web App` `Data` `Automation` |
-| **✉️ Firma Romera** | Generador web interno de firmas institucionales para Outlook/Gmail y otros clientes de correo | `HTML` `CSS` `JavaScript` `Nginx` `Docker` |
-
-### Cambios recientes relevantes
-
-- **Toolbox v1.0.0 estable**: primera versión estable después de validar production smoke en Apollo, CI reproducible, Trivy/SBOM, browser E2E, backup/restore y rollback. La base estable reúne **78 herramientas**, GeoIP local-first, X.509/CSR, utilidades PDF/imagen/datos, API de integración con scopes y test de velocidad del equipo vía M-Lab NDT7 con consentimiento.
-- **ControlApp v0.4**: nuevo centro de control multiaplicación con adapters read-only, collector normalizado, self-health, evidencia de backup/restore, integración con Apollo WebGuard/Apollo Watch, catálogo de servicios y un Action Registry gobernado. Los executors remotos permanecen deshabilitados y las acciones de riesgo requieren autorización explícita.
-- **Exabyte ERP Store**: **6.1.4 continúa como base estable** y **6.2.0-rc.6** como candidata. La candidata suma catálogo maestro/publicación segura, seriales y garantías, frescura de proveedores, mejoras de importación/UX y alta 2FA mediante QR TOTP generado localmente.
-- **Baudo v0.13.x**: además del cierre IAM/BOLA/BFLA y timeline/notificaciones/documentos, el despliegue quedó más fail-closed: se retiraron credenciales demo hardcodeadas y el seed demo requiere opt-in explícito y queda prohibido en producción.
-- **Apollo WebGuard**: incorpora integración con ControlApp, manteniendo a Apollo como capa especializada de observabilidad/SecOps y a ControlApp como plano administrativo y de correlación.
-- **TAU v0.6.0**: mantiene el modelo multiusuario/multi-espacio, OCR y conciliación bancaria, Control Center, auditoría encadenada y backup/restore; el runtime incorporó límites de memoria persistentes.
-- **Firma Romera**: conserva el generador institucional responsive y sumó límites persistentes de memoria para su despliegue Docker.
-- **WA CRM Sender v3.14.0**, **Health Turnos Stage 54** e **ITFlow v0.7.1** continúan como los últimos cierres verificados de reliability/production-readiness de esos repositorios.
-
----
-
-## 🧠 Capacidades que reutilizo entre sistemas
-
-<table>
-<tr>
-<td width="33%" valign="top">
-
-### 🔐 Seguridad
-
-- RBAC y mínimo privilegio.
-- MFA / TOTP.
-- RLS multi-tenant.
-- BOLA / BFLA.
-- Revisión de accesos privilegiados.
-- IAM / guards granulares.
-- Auditoría y trazabilidad.
-- Sesiones revocables.
-- Rate limiting y hardening.
-- GateGuard / Security Gate.
-- Integraciones read-only con scopes y allowlists.
-- Approval Gate para acciones de riesgo.
-- Escaneo de archivos cuando el dominio lo requiere.
-- Privacidad por espacio/membership en sistemas multiusuario.
-
-</td>
-<td width="33%" valign="top">
-
-### ⚙️ Confiabilidad
-
-- Health / readiness.
-- Preflight.
-- Idempotencia durable y zero-duplicate delivery.
-- Reintentos y DLQ.
-- Circuit breakers.
-- Backup + restore drill.
-- Blue/Green y rollback.
-- Imports transaccionales.
-- Verification loop, browser E2E y production smoke.
-- SBOM / Trivy / supply-chain gates.
-- Builds reproducibles y rotación de logs.
-
-</td>
-<td width="33%" valign="top">
-
-### 📊 Operación
-
-- Dashboards operativos.
-- Timeline / Vista 360.
-- Portales de Soporte IT.
-- Control Centers administrativos.
-- Gobierno multiaplicación y catálogo de servicios.
-- Centros de operaciones.
-- Alertas e incidentes.
-- Health scores.
-- Colaboración/presencia.
-- ITSM / CMDB.
-- IA como copiloto.
-- Correlation IDs y logs estructurados.
-- Notificaciones durables y outbox interno.
-
-</td>
-</tr>
-</table>
-
----
-
-<h2 id="arquitecturas">🏗️ Arquitecturas reales que implemento</h2>
-
-<table>
-<tr>
-<td width="33%" valign="top">
-
-### SaaS multi-tenant
-
-```text
-Web / Booking
-      ↓
-API + RBAC
-      ↓
-Tenant isolation
-      ↓
-PostgreSQL / Redis
-      ↓
-Workers + Audit
-```
-
-</td>
-<td width="33%" valign="top">
-
-### Sistemas empresariales
-
-```text
-Usuarios
-   ↓
-Nginx
-   ↓
-Frontend + API
-   ↓
-MySQL/PostgreSQL
-   ↓
-Integraciones
-```
-
-</td>
-<td width="33%" valign="top">
-
-### Observability / SecOps
-
-```text
-Hosts / Containers
-        ↓
-Metrics + Logs
-        ↓
-Correlation
-        ↓
-Alerts / Incidents
-        ↓
-Evidence / Runbooks
-```
-
-</td>
-</tr>
-</table>
-
-### Arquitectura transversal
-
-```mermaid
+~~~mermaid
 flowchart LR
-    U[Usuarios / Sistemas externos] --> RP[Reverse Proxy / Nginx]
-    RP --> WEB[Web Apps / Portales]
-    RP --> API[APIs / Integraciones]
+    U[Usuarios / Integraciones] --> P[HTTPS / Reverse Proxy]
+    P --> A[Portales y APIs]
+    A --> D[(Datos aislados)]
+    A --> Q[Colas / Workers]
+    A --> E[Eventos / Auditoría]
+    S[Hosts / Contenedores] --> O[Apollo WebGuard]
+    A -. Adaptadores read-only .-> C[ControlApp]
+    O -. Estado / Incidentes .-> C
+    E --> C
+~~~
 
-    API --> DB[(PostgreSQL / MySQL / MariaDB)]
-    API --> R[(Redis)]
-    R --> W[Workers / Jobs / Queues]
+| Seguridad | Confiabilidad | Operación |
+|:--|:--|:--|
+| RBAC, MFA, mínimo privilegio, BOLA/BFLA, RLS cuando corresponde | Health/readiness, preflight, idempotencia, retry/DLQ | Metrics, logs, correlation IDs, incidentes |
+| Secretos fuera del repositorio, scopes/allowlists, auditoría | Backup con prueba de restauración, rollback, Blue/Green según el sistema | Catálogo de servicios, dashboards y evidencia |
+| Security Gate, análisis de dependencias/SBOM y revisión humana | CI, tests, E2E, smoke antes de promoción | IA asistiva, sin permisos destructivos implícitos |
 
-    P[Proxmox / Linux] --> D[Docker]
-    D --> WEB
-    D --> API
-    D --> OBS[Observabilidad]
+## Stack y método
 
-    OBS --> M[Metrics / Logs / Health]
-    M --> A[Alertas / Incidentes]
+**Desarrollo:** TypeScript, JavaScript, Node.js, React, Next.js, Java/Spring Boot y Python.
 
-    API --> AUD[Auditoría]
-    API --> BK[Backup / Restore]
-    API --> AI[IA asistiva]
-```
+**Datos:** PostgreSQL, MySQL/MariaDB, Redis, Prisma y colas de trabajo.
 
-<div align="center">
+**Infraestructura y seguridad:** Linux/Ubuntu, Docker Compose, Proxmox, Nginx, GitHub Actions, Grafana, Prometheus, Loki, Wazuh, Uptime Kuma, Trivy y ClamAV.
 
-**Negocio → UX → API → Datos → Automatización → Observabilidad → Seguridad → Recuperación**
+**Forma de trabajo**
 
-</div>
+> **PRESERVAR → REVISAR → CAMBIO MÍNIMO → VALIDAR → PROBAR → DOCUMENTAR**
 
----
-
-<h2 id="stack">🛠️ Stack tecnológico</h2>
-
-<div align="center">
-
-### Desarrollo
-
-<img src="https://skillicons.dev/icons?i=ts,js,nodejs,react,nextjs,java,spring,python,html,css&theme=dark" alt="Stack de desarrollo" />
-
-### Datos · DevOps · Plataforma
-
-<img src="https://skillicons.dev/icons?i=postgres,mysql,redis,linux,ubuntu,docker,nginx,git,github,grafana&theme=dark" alt="Stack de datos e infraestructura" />
-
-<br><br>
-
-![Proxmox](https://img.shields.io/badge/Proxmox-VE-E57000?style=for-the-badge&logo=proxmox&logoColor=white)
-![Wazuh](https://img.shields.io/badge/Wazuh-SecOps-005571?style=for-the-badge)
-![Prometheus](https://img.shields.io/badge/Prometheus-Metrics-E6522C?style=for-the-badge&logo=prometheus&logoColor=white)
-![Grafana](https://img.shields.io/badge/Grafana-Observability-F46800?style=for-the-badge&logo=grafana&logoColor=white)
-![Uptime Kuma](https://img.shields.io/badge/Uptime_Kuma-Uptime-5CDD8B?style=for-the-badge)
-![ClamAV](https://img.shields.io/badge/ClamAV-Document_Security-2563EB?style=for-the-badge)
-
-</div>
+Antes de declarar un cambio como terminado: verificar estado real, preservar datos y módulos estables, ejecutar las pruebas aplicables y documentar evidencia y procedimiento de recuperación.
 
 ---
 
-<h2 id="metodo">🧭 Método de trabajo</h2>
-
-<div align="center">
-
-### PRESERVAR → REVISAR → CAMBIO MÍNIMO → VALIDAR → PROBAR → DOCUMENTAR
-
-</div>
-
-| Principio | Aplicación |
-|---|---|
-| **Preservar** | No romper módulos, datos o flujos estables. |
-| **Revisar** | Auditar estado real antes de modificar. |
-| **Cambio mínimo** | Resolver sin reescrituras innecesarias. |
-| **Validar** | Backend y reglas de negocio como autoridad. |
-| **Probar** | Build, tests, smoke, health y validación funcional. |
-| **Documentar** | Versiones, cambios, backups y procedimientos. |
-
-### Principios transversales
-
-- **No duplicar** funciones que ya existen y funcionan.
-- **Seguridad por diseño**, no como agregado final.
-- **Evidencia antes de declarar PASS**.
-- **Backups que también se prueban restaurando**.
-- **Automatización con control humano** cuando la decisión es sensible.
-- **UX operativa simple**: menos clics, estados claros y acciones visibles.
-
----
-
-<div align="center">
-
-## 🤝 Perfil técnico
-
-**Desarrollo · Infraestructura · Automatización · DevOps · SecOps · IA aplicada**
-
-[![GitHub](https://img.shields.io/badge/GitHub-@poto212-181717?style=for-the-badge&logo=github)](https://github.com/poto212)
-[![Repositorios](https://img.shields.io/badge/Explorar_repositorios-2563EB?style=for-the-badge&logo=github)](https://github.com/poto212?tab=repositories)
-
-<br><br>
-
-<img width="100%" src="https://capsule-render.vercel.app/api?type=waving&height=110&section=footer&color=0:0b1220,42:1d4ed8,100:06b6d4" alt="Footer" />
-
-</div>
+<p align="center">
+  <strong>Software · Infraestructura · Automatización · DevOps · SecOps · IA aplicada</strong><br>
+  <a href="https://github.com/poto212">Perfil GitHub</a> ·
+  <a href="https://github.com/poto212?tab=repositories">Repositorios visibles</a>
+  <br><sub>Banner propio alojado en este repositorio. Sin estadísticas inventadas, fotografía embebida ni widgets de métricas externos.</sub>
+</p>
