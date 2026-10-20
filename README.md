@@ -35,11 +35,11 @@ Soy **Juan Diego Sánchez**, **Licenciado en Sistemas** y **Jefe de IT**. Diseñ
 
 Mi trabajo se concentra en convertir planillas, operaciones manuales y aplicaciones heredadas en **plataformas integradas, auditables, observables y recuperables**. Me interesan tanto la experiencia del usuario como lo que ocurre después del deploy: permisos, datos, incidencias, backups y mantenimiento.
 
-**Qué abordo:** SaaS multi-tenant · ERP/CRM · portales empresariales · integraciones/API · automatización · modernización legacy · observabilidad · seguridad por diseño.
+**Qué abordo:** SaaS multi-tenant · ERP/CRM · ITSM y gobierno IT · portales empresariales · integraciones/API · automatización · modernización legacy · observabilidad · seguridad por diseño.
 
 | 🧩 Software | 🛡️ Seguridad | 📡 Observabilidad | ⚙️ Automatización |
 |:--:|:--:|:--:|:--:|
-| SaaS · ERP · CRM | RBAC · MFA · Auditoría | Métricas · Logs · Alertas | APIs · Workers · Integraciones |
+| SaaS · ERP · CRM · ITSM | RBAC · MFA · Auditoría | Métricas · Logs · Alertas | APIs · Workers · Integraciones |
 
 > **Sobre el portfolio:** varios productos son privados o de uso interno. Comparto alcance y tecnologías sin publicar código restringido, instalaciones de clientes, IPs, credenciales, datos de negocio ni accesos operativos. Los estados de staging, candidata y producción no son equivalentes.
 
@@ -59,7 +59,7 @@ Monitoreo y diagnóstico de servidores, servicios, contenedores y disponibilidad
 
 ![Multiapp](https://img.shields.io/badge/MULTI--APP-7C3AED?style=flat-square) ![Integración](https://img.shields.io/badge/READ--ONLY_FIRST-0F766E?style=flat-square)
 
-Plano administrativo para clientes, aplicaciones, entornos, versiones, sesiones, auditoría, backups e incidentes. Usa **adaptadores de solo lectura**, collectors normalizados, catálogo de servicios y permisos por aplicación. Integra señales de Apollo y conectores de Baudo/Toolbox; las acciones remotas de riesgo no reciben ejecución implícita.
+Plano administrativo para clientes, aplicaciones, entornos, versiones, sesiones, auditoría, backups e incidentes. Usa **adaptadores de solo lectura**, collectors normalizados, catálogo de servicios y permisos por aplicación. El ecosistema ya contempla adapters para **Baudo, Toolbox, Exabyte ERP, Estudio Roza, TAU, Resinta y STM**, además de métricas de negocio saneadas. Las acciones remotas de riesgo no reciben ejecución implícita.
 
 `Node.js` · `React` · `PostgreSQL` · `Redis` · `MFA` · `Approval Gate`
 
@@ -97,41 +97,48 @@ Aplicación autoalojable con herramientas para PDF, imágenes, OCR, QR, certific
 
 | Dominio | Producto | Qué resuelve |
 |:--|:--|:--|
-| Finanzas | **TAU — Tu Administración Unificada** | Espacios personales, familiares y empresariales; cuentas, tarjetas, cuotas, OCR local, conciliación, reintegros y Control Center. |
+| Finanzas | **TAU — Tu Administración Unificada** | Espacios personales, familiares y empresariales; cuentas, tarjetas, cuotas, OCR local, conciliación, reintegros, Control Center y adapter read-only para observación centralizada. |
 | Seguros | **BrokerFlow / OLBROKER** | Clientes, pólizas, producción, siniestros, chat, importación transaccional y despliegues controlados Blue/Green. |
-| LegalTech | **Baudo** | Gestión jurídica/laboral, expedientes, documentos privados, RRHH, morosidad, timeline y portal cliente. |
-| ITSM | **ITFlow / Romera IT Desk** | Portal de tickets y consola técnica con GLPI como fuente de verdad, activos, integraciones y Update Manager. |
-| Comercio | **Exabyte ERP Store** | ERP, ecommerce, stock, cuentas corrientes, catálogo, proveedores, pagos, servicio técnico y garantías. |
-| Agro | **Silos / Resinta** | Modernización de sistema heredado, concurrencia, importaciones seguras e idempotencia durable. |
-| Finanzas | **Financiera RM** | Modernización financiera en entorno LAB, controles por sucursal, auditoría y portal de Soporte IT. |
-| Contabilidad | **EstudioRoza Contable** | Portal de clientes y operación contable con control de acceso, auditoría y despliegue endurecido. |
-| Comercial | **CRM Romera** | Seguimiento comercial, Timeline 360, colaboración y automatizaciones. |
-| Afiliaciones | **Portal STM** | Gestión de afiliados, beneficios y validaciones. |
+| LegalTech | **Baudo v1.0.0** | Gestión jurídica/laboral, expedientes, documentos privados, RRHH, morosidad, importaciones transaccionales y portal cliente. Release de **producción interna** publicado sobre código verificado. |
+| CRM | **Apollo CRM** | CRM multiempresa modular con contactos, leads, oportunidades, Timeline 360, presencia colaborativa, scoring, integraciones y copiloto IA asistivo. |
+| Gobierno IT | **IT Desk Romera** | Centro independiente para aplicaciones, identidades, permisos, sesiones, salud, seguridad y auditoría. **No procesa tickets ni reemplaza ITFlow/GLPI**. |
+| ITSM / CMDB | **ITFlow + GLPI** | Mesa de ayuda, tickets, activos e inventario con GLPI como fuente de verdad, más portal, API, automatizaciones y Update Manager. |
+| Comercio | **Exabyte ERP Store** | ERP + ecommerce: stock, cuentas corrientes, catálogo, proveedores, pagos, seriales/garantías, service e integración read-only con ControlApp. |
+| Agro | **Silos / Resinta** | Modernización de sistema heredado, concurrencia, importaciones seguras, idempotencia durable y adapter read-only para ControlApp. |
+| Finanzas | **Financiera RM** | Modernización financiera en entorno LAB, controles por sucursal, auditoría, antifraude consultivo y portal de Soporte IT. |
+| Sindicatos | **STM** | Portal institucional/afiliado, padrón, importación transaccional, cuotas y pagos, documentos seguros, MFA, auditoría y administración IT local. |
+| Contabilidad | **EstudioRoza Contable** | Sitio institucional, portal cliente y backoffice contable con documentación, vencimientos, auditoría, backups y adapter read-only. |
+| Utilidades | **Toolbox v1.0.0** | Suite self-hosted privacy-first para PDF, imágenes, OCR, datos, certificados, GeoIP, QR y tareas IT. |
 | Compras | **App Comprar Precios** | Comparación de precios por artículo, cantidad, peso, volumen y unidad. |
 | Herramientas internas | **Firma Romera** | Generador institucional de firmas HTML para clientes de correo. |
 
 ## 🗓️ Novedades verificadas
 
-**Septiembre–octubre de 2026**, según las últimas revisiones de los repositorios accesibles:
+**Octubre de 2026**, tomando como referencia el estado actual de los repositorios:
 
-- **Health Turnos — Stage 55:** defensa para despliegue en VPS, integración de Turnstile y preparación para WebGuard.
-- **ControlApp + Baudo + Toolbox:** evolución de conectores de observación de solo lectura, contratos de integración, autenticación independiente y correlación operacional. La integración no convierte a ControlApp en una consola de administración remota sin límites.
-- **Baudo:** integración privada con ControlApp; el adaptador no se expone en el frontend público y usa secretos separados. Se preserva el principio *fail-closed* para configuración y datos demo.
-- **TAU:** actualización operativa del despliegue con permisos *non-root* y acceso restringido a backups.
-- **Exabyte ERP Store:** `6.1.4` documentada como base estable y `6.2.0-rc.6` como **candidata**, con catálogo/publicación segura, seriales/garantías, UX e incorporación de QR local para alta TOTP.
+- **Baudo v1.0.0 — producción interna:** publicación inmutable desde una fuente productiva verificada, con Prisma Migrate formalizado, backup/restore comprobado y release interno fijado al código desplegado. Esto no implica publicación abierta a Internet.
+- **IT Desk Romera v0.13.0-stage:** nuevo repositorio independiente para gobierno tecnológico. Se separó de ITFlow/GLPI y de Financiera RM, con API, interfaz, MySQL propios, MFA, auditoría, CI/E2E/Security Gate y controles anti-SSRF.
+- **Apollo CRM:** nuevo CRM multiempresa con ASP.NET Core, React, TypeScript, PostgreSQL y Docker. Está en desarrollo activo y preparación de piloto; todavía no se declara producción.
+- **STM:** pasó de portal básico a plataforma integral con portal del afiliado, padrón transaccional, cuotas/pagos, documentos con cuarentena/antivirus, MFA, auditoría, backups/restore tests y adapter read-only para ControlApp.
+- **ControlApp:** amplió el onboarding read-only hacia Exabyte, Estudio Roza, TAU y Resinta, sumó STM y una vista genérica de métricas de negocio saneadas, manteniendo el modelo deny-by-default.
+- **Exabyte ERP Store / TAU / Resinta / Estudio Roza:** incorporaron o ampliaron contratos privados de observación para ControlApp sin entregar acceso directo a bases ni superficies de escritura.
 
 <details>
-<summary><strong>Ver versiones técnicas de otras bases verificadas</strong></summary>
+<summary><strong>Ver referencias técnicas verificadas</strong></summary>
 
-| Sistema | Referencia |
+| Sistema | Referencia actual |
 |:--|:--|
+| Baudo | `v1.0.0` · producción interna publicada |
+| IT Desk Romera | `v0.13.0-stage` · staging / validación antes de promoción |
+| Apollo CRM | desarrollo activo · preparación de piloto |
 | Toolbox | `v1.0.0 estable` |
 | ITFlow | `v0.7.1 estable` |
 | WA CRM Sender | `v3.14.0` |
-| TAU | `v0.6.0` |
-| Baudo | `v0.13.0` informado por el runtime documentado; el encabezado histórico de su README conserva una versión anterior |
-| Silos / Resinta | `v3.2.1-stage21` |
-| Financiera RM | `0.11.0-LAB`, sin conexión/escritura en producción real |
+| Health Turnos | Stage 55 · defensa VPS / Turnstile / WebGuard readiness |
+| TAU | `v0.6.0` + adapter read-only |
+| Exabyte ERP Store | `6.2.0-rc.6` en el repositorio; candidata, no declarada estable |
+| Silos / Resinta | `v3.2.1-stage21` + adapter read-only |
+| Financiera RM | `0.11.0-LAB` |
 
 </details>
 
@@ -150,6 +157,7 @@ flowchart LR
     A -. Adaptadores read-only .-> C[ControlApp]
     O -. Estado / Incidentes .-> C
     E --> C
+    I[IT Desk Romera] -. Identidades / Gobierno .-> A
 ~~~
 
 | Seguridad | Confiabilidad | Operación |
@@ -162,7 +170,7 @@ flowchart LR
 
 <p align="center"><strong>Desarrollo</strong></p>
 <p align="center">
-  <img alt="TypeScript, JavaScript, Node.js, React, Next.js, Java, Spring y Python" src="https://skillicons.dev/icons?i=ts,js,nodejs,react,nextjs,java,spring,python&theme=dark">
+  <img alt="TypeScript, JavaScript, Node.js, React, Next.js, .NET, Java, Spring y Python" src="https://skillicons.dev/icons?i=ts,js,nodejs,react,nextjs,dotnet,java,spring,python&theme=dark">
 </p>
 
 <p align="center"><strong>Datos · Infraestructura · DevOps</strong></p>
