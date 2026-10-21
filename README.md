@@ -16,6 +16,7 @@
   <img alt="Infraestructura y DevOps" src="https://img.shields.io/badge/Infraestructura_%7C_DevOps-0E7490?style=flat-square">
   <img alt="SecOps y observabilidad" src="https://img.shields.io/badge/SecOps_%7C_Observability-DC2626?style=flat-square">
   <img alt="Automatización e inteligencia artificial" src="https://img.shields.io/badge/Automation_%7C_AI-9333EA?style=flat-square">
+  <img alt="Portfolio revisado el 21 de octubre de 2026" src="https://img.shields.io/badge/Revisado-21_Oct_2026-334155?style=flat-square">
 </p>
 
 <p align="center">
@@ -93,6 +94,16 @@ Aplicación autoalojable con herramientas para PDF, imágenes, OCR, QR, certific
 
 `PWA` · `Browser-first` · `Docker` · `Trivy/SBOM` · `E2E`
 
+---
+
+### ⚖️ Baudo — LegalTech y gestión jurídica
+
+![Baudo](https://img.shields.io/badge/V1.0.0-INTERNAL_PRODUCTION-16A34A?style=flat-square) ![LegalTech](https://img.shields.io/badge/LEGALTECH-7C3AED?style=flat-square)
+
+Plataforma jurídica y laboral con expedientes, clientes, timeline, tareas, documentos privados, RRHH, morosidad, importaciones transaccionales y portal del cliente. **v1.0.0** fue publicada como release de producción interna desde una fuente productiva verificada, con Prisma Migrate formalizado, backup/restore comprobado y evidencia de release. La publicación interna no implica exposición abierta a Internet.
+
+`Node.js` · `TypeScript` · `PostgreSQL` · `Prisma` · `Redis` · `ClamAV`
+
 ## 🚀 Portfolio completo
 
 | Dominio | Producto | Qué resuelve |
@@ -114,7 +125,7 @@ Aplicación autoalojable con herramientas para PDF, imágenes, OCR, QR, certific
 
 ## 🗓️ Novedades verificadas
 
-**Octubre de 2026**, tomando como referencia el estado actual de los repositorios:
+**Revisión del 21 de octubre de 2026**, tomando como referencia el estado actualmente versionado en los repositorios:
 
 - **Baudo v1.0.0 — producción interna:** publicación inmutable desde una fuente productiva verificada, con Prisma Migrate formalizado, backup/restore comprobado y release interno fijado al código desplegado. Esto no implica publicación abierta a Internet.
 - **IT Desk Romera v0.13.0-stage:** nuevo repositorio independiente para gobierno tecnológico. Se separó de ITFlow/GLPI y de Financiera RM, con API, interfaz, MySQL propios, MFA, auditoría, CI/E2E/Security Gate y controles anti-SSRF.
@@ -122,6 +133,7 @@ Aplicación autoalojable con herramientas para PDF, imágenes, OCR, QR, certific
 - **STM:** pasó de portal básico a plataforma integral con portal del afiliado, padrón transaccional, cuotas/pagos, documentos con cuarentena/antivirus, MFA, auditoría, backups/restore tests y adapter read-only para ControlApp.
 - **ControlApp:** amplió el onboarding read-only hacia Exabyte, Estudio Roza, TAU y Resinta, sumó STM y una vista genérica de métricas de negocio saneadas, manteniendo el modelo deny-by-default.
 - **Exabyte ERP Store / TAU / Resinta / Estudio Roza:** incorporaron o ampliaron contratos privados de observación para ControlApp sin entregar acceso directo a bases ni superficies de escritura.
+- **Estado de revisión:** al 21/10 no hay un commit posterior verificable en Apollo WebGuard, OLBROKER, IT Desk Romera o Exabyte ERP Store respecto de las referencias ya publicadas; los avances que todavía no estén versionados no se presentan como terminados.
 
 <details>
 <summary><strong>Ver referencias técnicas verificadas</strong></summary>
